@@ -84,7 +84,6 @@ public class Main {
             if (j >= 0) {
                 csum = csum + arr2[j];
             }
-            
             k--;
         }
 

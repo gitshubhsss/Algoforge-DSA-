@@ -23,11 +23,8 @@ public class TwoArraySub {
         int borrow = 0;
 
         while (k >= 0) {
-            // int[] arr1 = { 5, 0, 0 };
-            // int[] arr2 = { 2, 5, 0 };
             int digit1 = i >= 0 ? arr1[i] : 0;
             int digit2 = j >= 0 ? arr2[j] : 0;
-
             int curr = digit1 - borrow;
             if (curr < digit2) {
                 curr = curr + 10 - digit2;
