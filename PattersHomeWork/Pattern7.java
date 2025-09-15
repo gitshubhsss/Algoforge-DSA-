@@ -30,6 +30,7 @@ public class Pattern7 {
             current_number_of_lines++;
             System.out.println();
         }
+        sc.close();
     }
 }
 //9

@@ -42,7 +42,6 @@ public class Homework2 {
             current_number_of_line++;
 
         }
+        sc.close();
     }
 }
-
-

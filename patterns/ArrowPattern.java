@@ -43,6 +43,7 @@ public class ArrowPattern {
             current_number_of_line++;
 
         }
+        sc.close();
     }
 }
 

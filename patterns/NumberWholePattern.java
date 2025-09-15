@@ -36,5 +36,6 @@ public class NumberWholePattern {
             current_number_of_line++;
             System.out.println();
         }
+         sc.close();
     }
 }

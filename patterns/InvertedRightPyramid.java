@@ -31,5 +31,6 @@ public class InvertedRightPyramid {
             spaces++;
             row++;
         }
+         sc.close();
     }
 }

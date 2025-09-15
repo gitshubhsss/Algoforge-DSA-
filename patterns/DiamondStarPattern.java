@@ -38,6 +38,7 @@ public class DiamondStarPattern {
             }
             row++;
         }
+         sc.close();
     }
 }
 

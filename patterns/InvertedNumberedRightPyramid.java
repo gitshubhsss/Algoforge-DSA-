@@ -22,6 +22,7 @@ public class InvertedNumberedRightPyramid {
             total_numbers_to_be_print--;
             row++;
         }
+         sc.close();
     }
 }
 

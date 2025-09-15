@@ -25,6 +25,7 @@ public class Stars {
             stars--;
             row++;
         }
+        sc.close();
 
     }
 }

@@ -47,6 +47,7 @@ public class DiagonalPattern {
             }
             current_number_of_line++;
         }
+         sc.close();
 
     }
 }

@@ -18,6 +18,7 @@ public class RectangularStarPattern {
             System.out.println();
             row++;
         }
+         sc.close();
     }
 
 }

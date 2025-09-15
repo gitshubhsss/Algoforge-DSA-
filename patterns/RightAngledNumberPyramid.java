@@ -22,6 +22,7 @@ public class RightAngledNumberPyramid {
             line++;
 
         }
+         sc.close();
 
     }
 }

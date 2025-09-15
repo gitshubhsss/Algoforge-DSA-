@@ -41,6 +41,7 @@ public class NumberPat {
             star++;
             spaces = spaces - 2;
         }
+         sc.close();
     }
 }
 

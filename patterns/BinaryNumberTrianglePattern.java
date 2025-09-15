@@ -21,7 +21,9 @@ public class BinaryNumberTrianglePattern {
             // Prepare for the next line
             row++;
             System.out.println();
+
         }
+         sc.close();
     }
 }
 

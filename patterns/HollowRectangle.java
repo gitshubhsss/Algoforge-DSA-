@@ -25,6 +25,7 @@ public class HollowRectangle {
             row++;
 
         }
+        sc.close();
     }
 }
 

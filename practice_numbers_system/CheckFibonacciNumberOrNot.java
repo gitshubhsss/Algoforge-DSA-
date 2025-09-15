@@ -23,5 +23,6 @@ public class CheckFibonacciNumberOrNot {
             }
         }
         System.out.println(isFibo);
+        sc.close();
     }
 }

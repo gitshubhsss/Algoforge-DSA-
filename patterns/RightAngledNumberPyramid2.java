@@ -19,6 +19,7 @@ public class RightAngledNumberPyramid2 {
             System.out.println();
             line++;
         }
+         sc.close();
     }
 }
 

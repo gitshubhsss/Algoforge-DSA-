@@ -5,8 +5,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int lengthOfTheArray = sc.nextInt();
         int numbers[] = new int[lengthOfTheArray];
-
-       System.out.println(numbers);
+        System.out.println(numbers);
+        sc.close();
 
     }
 }

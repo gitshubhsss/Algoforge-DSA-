@@ -29,6 +29,7 @@ public class Star2 {
             stars++;
             row++;
         }
+        sc.close();
 
     }
 }

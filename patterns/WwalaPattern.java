@@ -18,5 +18,6 @@ public class WwalaPattern {
             }
             System.out.println();
         }
+        sc.close();
     }
 }

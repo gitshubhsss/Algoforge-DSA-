@@ -28,6 +28,7 @@ public class RightAngledTrianglePattern {
             row++;
 
         }
+         sc.close();
     }
 }
 

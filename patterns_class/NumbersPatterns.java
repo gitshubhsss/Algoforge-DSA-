@@ -22,5 +22,6 @@ public class NumbersPatterns {
             System.out.println();
             current_number_of_line++;
         }
+        sc.close();
     }
 }

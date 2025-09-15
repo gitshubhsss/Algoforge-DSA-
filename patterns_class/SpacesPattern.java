@@ -34,5 +34,6 @@ public class SpacesPattern {
             }
             current_number_of_line++;
         }
+        sc.close();
     }
 }

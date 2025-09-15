@@ -35,6 +35,7 @@ public class NumberCrownPattern {
             row++;
 
         }
+         sc.close();
 
     }
 }

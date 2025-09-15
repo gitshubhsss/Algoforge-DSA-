@@ -27,6 +27,7 @@ public class HalfDiamondStarPattern {
             row++;
 
         }
+         sc.close();
     }
 }
 

@@ -43,6 +43,7 @@ public class Pattern3 {
             stars++;
             System.out.println();
         }
+        sc.close();
     }
 }
 

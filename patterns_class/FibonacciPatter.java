@@ -26,6 +26,6 @@ public class FibonacciPatter {
             current_number_of_line++;
             star++;
         }
-
+        sc.close();
     }
 }

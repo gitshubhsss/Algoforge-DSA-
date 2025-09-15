@@ -31,6 +31,7 @@ public class InvertedStarPyramid {
             stars = stars - 2;
             space++;
         }
+         sc.close();
     }
 }
 
