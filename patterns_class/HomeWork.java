@@ -43,5 +43,6 @@ public class HomeWork {
             spaces = spaces - 2;
             current_number_of_line++;
         }
+        sc.close();
     }
 }
