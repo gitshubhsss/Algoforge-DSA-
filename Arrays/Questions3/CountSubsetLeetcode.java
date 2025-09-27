@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution {
+public class CountSubsetLeetcode {
 
     public static List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> setsList = new ArrayList<>();
         int n = nums.length;
-        int total_number_of_subsets = (int) Math.pow(2, n);
-
+        int total_number_of_subsets = (int) Math.pow(2, n);// Total number of subsets
         int set = 0;
         while (set < total_number_of_subsets) {
+
             int currentset = set;
             List<Integer> currentSets = new ArrayList<>();
             for (int idx = n - 1; idx >= 0; idx--) {
@@ -22,7 +22,6 @@ public class Solution {
             setsList.add(currentSets);
             set++;
         }
-
         return setsList;
     }
 

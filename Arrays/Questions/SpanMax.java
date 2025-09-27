@@ -1,4 +1,4 @@
-package Questions;
+package Arrays.Questions;
 
 public class SpanMax {
 

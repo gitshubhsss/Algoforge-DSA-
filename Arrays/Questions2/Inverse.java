@@ -11,7 +11,6 @@ public class Inverse {
         int n = arr.length;
         int[] inverseArray = new int[n];
         for (int i = 0; i < arr.length; i++) {
-
             int pos = arr[i];
             inverseArray[pos] = i;
         }

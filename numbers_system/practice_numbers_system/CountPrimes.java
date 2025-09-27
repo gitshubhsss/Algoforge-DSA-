@@ -1,3 +1,5 @@
+package practice_numbers_system;
+
 public class CountPrimes {
 
     public static int countPrimes(int n) {

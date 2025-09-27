@@ -1,4 +1,4 @@
-package Questions;
+package Arrays.Questions;
 
 public class TwoArraySum {
 
@@ -20,28 +20,21 @@ public class TwoArraySum {
         int i = n1 - 1;
         int j = n2 - 1;
         int k = arrSum.length - 1;
-        int carry = 0;
+        int borrow = 0;
 
         while (k >= 0) {
 
             int csum = 0;
-            // if (i >= 0) {
-            // csum = csum + arr1[i];
-            // }
-
-            // if (j >= 0) {
-            // csum = csum + arr2[j];
-            // }
             csum = i >= 0 ? csum + arr1[i] : 0;
             csum = j >= 0 ? csum + arr2[j] : csum;
-            // adding the carry
-            csum = csum + carry;
+            // adding the borrow
+            csum = csum + borrow;
             if (csum > 9) {
                 int temp = csum;
                 csum = csum % 10;
-                carry = temp / 10;
+                borrow = temp / 10;
             } else {
-                carry = 0;
+                borrow = 0;
             }
             arrSum[k] = csum;
             i--;

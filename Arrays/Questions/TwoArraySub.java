@@ -1,4 +1,4 @@
-package Questions;
+package Arrays.Questions;
 
 public class TwoArraySub {
 
@@ -17,6 +17,7 @@ public class TwoArraySub {
         int n2 = arr2.length;
         int[] arrSum = new int[Math.max(n1, n2)];
 
+        // Initialize the pointers
         int i = n1 - 1;
         int j = n2 - 1;
         int k = arrSum.length - 1;
@@ -25,7 +26,13 @@ public class TwoArraySub {
         while (k >= 0) {
             int digit1 = i >= 0 ? arr1[i] : 0;
             int digit2 = j >= 0 ? arr2[j] : 0;
+            // Subtracting the borrow from the digit 1
             int curr = digit1 - borrow;
+
+            // if digit 1 < dight 2 means
+            // 1
+            // -5
+            // So it beacomes 11-5 and the borrow will be 1
             if (curr < digit2) {
                 curr = curr + 10 - digit2;
                 borrow = 1;

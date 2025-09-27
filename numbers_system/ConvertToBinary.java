@@ -1,10 +1,10 @@
-public class Main {
+public class ConvertToBinary {
 
     public static void convertNumberToBinary(int num) {
         int binary = 0;
         int pow = 0;
         while (num > 0) {
-            int rem = num % 2;
+            int rem = num % 2;// 0,1
             binary = binary + (int) Math.pow(10, pow) * rem;
             num = num / 2;
             pow++;
@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String args[]) {
 
-        convertNumberToBinary(11 );
+        convertNumberToBinary(11);
         // int[] arr = { 1, 3, -2, 4, -3, -8, 9, -3, 13 };
 
         // N^3

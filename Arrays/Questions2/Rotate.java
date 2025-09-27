@@ -32,9 +32,15 @@ public class Rotate {
         if (k < 0) {
             k = k + arr.length;
         }
+        // Inverse of A
         reverseArray(arr, 0, n - k - 1);// reversiong A
+
+        // Inverse of B
         reverseArray(arr, n - k, n - 1);// reversing B
+
+        // AB INVERSE
         reverseArray(arr, 0, n - 1);// reversing whole
+
         printArray(arr);
 
     }

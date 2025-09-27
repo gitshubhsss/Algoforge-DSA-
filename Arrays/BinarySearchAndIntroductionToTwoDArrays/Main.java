@@ -1,3 +1,5 @@
+package Arrays.BinarySearchAndIntroductionToTwoDArrays;
+
 import java.util.Scanner;
 
 public class Main {
@@ -77,17 +79,19 @@ public class Main {
         return -1;
     }
 
+    // Leetcode Question Log n madhe solve karayachat
     public static int[] findFirstAndLastIndex(int arr[], int target) {
-
         int n = arr.length;
         int si = 0;
         int ei = n - 1;
-
+        // 1, 2, 2, 3, 3, 5, 5, 5, 6, 11, 14, 19, 19, 28
+        //target is 5
         int firstIndex = -1;
         while (si <= ei) {
             // find mid
             int mid = (si + ei) / 2;
             if (arr[mid] == target) {
+                //Going towards left cause we want to find the first index 
                 firstIndex = mid;
                 ei = mid - 1;
             } else if (arr[mid] < target) {
@@ -104,6 +108,7 @@ public class Main {
             // find mid
             int mid = (si + ei) / 2;
             if (arr[mid] == target) {
+                //going towards right cause we want to find the last index
                 lastIndex = mid;
                 si = mid + 1;
             } else if (arr[mid] < target) {
