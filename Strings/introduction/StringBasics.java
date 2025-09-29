@@ -21,6 +21,7 @@ public class StringBasics {
         System.out.println(pavan == ashish);
         System.out.println(pavan == shubham);
 
+        // O(n)
         if (pavan.equals(ashish)) {// it first compares the address // if address are not equal then it
             // checks the charcter by character
 
