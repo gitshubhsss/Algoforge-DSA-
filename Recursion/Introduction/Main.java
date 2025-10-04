@@ -87,7 +87,7 @@ public class Main {
     }
 
     public static void printArr(int arr[], int index) {
-        if (index > arr.length-1) {
+        if (index > arr.length - 1) {
             return;
         }
         System.out.println(arr[index]);
