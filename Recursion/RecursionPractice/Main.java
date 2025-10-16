@@ -41,17 +41,30 @@ public class Main {
         return finalAns;
     }
 
+    // 8456
     public static int reverseNum(int n) {
-
-        if (n == 0) {
+        if (n <= 0) {
             return 0;
         }
-        int rem = n % 10;
+        int digitLength = 0;
+        int temp = n;
+        while (temp > 0) {
+            temp = temp / 10;
+            digitLength++;
+        }
         int reverse = 0;
-        int smallrev = reverseNum(n - 1);
-        reverse = reverse * 10 + rem;
-        return smallrev;
+        int smallNum = n % (int) Math.pow(10, digitLength - 1);
+        System.out.println(smallNum);
+        reverseNum(smallNum);
+        while (n > 0) {
+            int rem = n % 10;
+            reverse = reverse * 10 + rem;
+            n = n / 10;
+        }
+        return reverse;
+
     }
+    // 8
 
     public static void main(String[] args) {
         // printNumbersFromNto1(5);
