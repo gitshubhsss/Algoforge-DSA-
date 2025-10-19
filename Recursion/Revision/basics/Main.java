@@ -1,3 +1,5 @@
+package basics;
+
 public class Main {
 
     // print 1 to n numbers
