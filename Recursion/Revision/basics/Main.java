@@ -65,6 +65,19 @@ public class Main {
         return ans;
     }
 
+    public static void printZigZic(int n) {
+
+        if (n <= 0) {
+            return;
+        }
+
+        System.out.print(n);
+        printZigZic(n - 1);
+        System.out.print(n);
+        printZigZic(n - 1);
+        System.out.print(n);
+    }
+
     public static void main(String[] args) {
         // printAsc(5);
         // printDec(5);
@@ -79,6 +92,8 @@ public class Main {
 
         // int ans = findPowWithBinaryOptimization(x, y);
         // System.out.println(ans);
+
+        printZigZic(3);
 
     }
 }

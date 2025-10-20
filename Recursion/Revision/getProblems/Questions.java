@@ -146,7 +146,7 @@ public class Questions {
             for (String path : pathsAfterHJump) {
                 allPaths.add("h" + jump + path);
             }
-        }
+        }   
 
         // vertical jumps
         for (int jump = 1; jump <= dr - sr; jump++) {
