@@ -36,40 +36,66 @@ public class Main {
     }
 
     // DFS
-    public static void floodFill(int row, int col, int[][] mat, boolean[][] visited, int n, int m, String psf) {
+    public static void floodFill(int row, int col, int mat[][], boolean visited[][], int n, int m, String asf) {
 
-        // base case
-        if (row < 0 || col < 0 || row >= n || col >= m || mat[row][col] == 1 || visited[row][col] == true) {
+        if (row < 0 || col < 0) {
             return;
         }
+        if (row >= n || col >= m || mat[row][col] == 1 || visited[row][col] == true) {
+            return;
+        }
+
         if (row == n - 1 && col == m - 1) {
-            System.out.println(psf);
+            System.out.println(asf);
             return;
         }
 
         visited[row][col] = true;
+
         // go top
-        floodFill(row - 1, col, mat, visited, n, m, "t" + psf);
+        floodFill(row - 1, col, mat, visited, n, m, asf + "t");
+
         // go left
-        floodFill(row, col - 1, mat, visited, n, m, "l" + psf);
+        floodFill(row, col - 1, mat, visited, n, m, asf + "l");
+
         // go down
-        floodFill(row + 1, col, mat, visited, n, m, "d" + psf);
+        floodFill(row + 1, col, mat, visited, n, m, asf + "d");
+
         // go right
-        floodFill(row, col + 1, mat, visited, n, m, "d" + psf);
+        floodFill(row, col + 1, mat, visited, n, m, asf + "r");
         visited[row][col] = false;
+    }
+
+    // 123
+    public static void printSubSequece(int arr[], int idx, String asf, int tar) {
+        if (idx == arr.length) {
+            if (tar == 0) {
+                System.out.println(asf);
+                return;
+            }
+            return;
+        }
+        int ele = arr[idx];
+        // first char will say yes
+        printSubSequece(arr, idx + 1, asf + ele, tar - ele);
+        // first char will say no
+        printSubSequece(arr, idx + 1, asf, tar);
+
     }
 
     public static void main(String args[]) {
         // int[][] mat = { { 10, -11, 4 }, { -13, 19, 6 } };
         // System.out.println(maxPathSum(mat, 0, 0));
-        int[][] mat = { { 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, 1, 1, 0 },
-                { 0, 0, 0, 0, 0, 0, }, { 0, 1, 0, 1, 1, 0 },
-                { 0, 1, 0, 1, 1, 0 }, { 0, 0, 0, 1, 1, 0 } };
-        ;
-        int n = mat.length;
-        int m = mat[0].length;
-        boolean visited[][] = new boolean[n][m];
+        // int[][] mat = { { 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, 1, 1, 0 },
+        // { 0, 0, 0, 0, 0, 0, }, { 0, 1, 0, 1, 1, 0 },
+        // { 0, 1, 0, 1, 1, 0 }, { 0, 0, 0, 1, 1, 0 } };
+        // ;
+        // int n = mat.length;
+        // int m = mat[0].length;
+        // boolean visited[][] = new boolean[n][m];
+        // floodFill(0, 0, mat, visited, n, m, "");
 
-        floodFill(0, 0, mat, visited, n, m, "");
+        int arr[] = { 2, 5, 3, 4, -4, 8, 6, -8 };
+        printSubSequece(arr, 0, "", 8);
     }
 }
