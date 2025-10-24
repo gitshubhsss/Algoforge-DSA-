@@ -1,17 +1,29 @@
+import java.util.ArrayList;
+
 public class Nqueens {
 
-    public static void printSolution(boolean[][] board) {
+    public static ArrayList<ArrayList<String>> printSolution(boolean[][] board) {
+
+        ArrayList<ArrayList<String>> ansList = new ArrayList<>();
 
         for (int i = 0; i < board.length; i++) {
+
+            ArrayList<String> ans = new ArrayList<>();
+
             for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j] == true) {
                     System.out.print("Q ");
+                    ans.add("Q");
+
                 } else {
                     System.out.print(". ");
+                    ans.add(". ");
                 }
             }
+            ansList.add(ans);
             System.out.println();
         }
+        return ansList;
 
     }
 
@@ -35,22 +47,26 @@ public class Nqueens {
 
     }
 
-    public static void nQueens(boolean[][] board, int n, int row) {
+    public static ArrayList<ArrayList<String>> nQueens(boolean[][] board, int n, int row) {
 
         if (row == n) {
             // print th solution
-            printSolution(board);
             System.out.println("==================");
-            return;
+            ArrayList<ArrayList<String>> baseAns = printSolution(board);
+            return baseAns;
         }
-
+        ArrayList<ArrayList<String>> myAns = new ArrayList<>();
         for (int col = 0; col < n; col++) {
             if (isSafeToPlaceHere(board, row, col, n)) {
                 board[row][col] = true;
-                nQueens(board, n, row + 1);
+                ArrayList<ArrayList<String>> smallAns = nQueens(board, n, row + 1);
+                for (ArrayList<String> ans : smallAns) {
+                    myAns.add(ans);
+                }
                 board[row][col] = false;
             }
         }
+        return myAns;
 
     }
 
@@ -58,6 +74,8 @@ public class Nqueens {
         int n = 4;
         boolean[][] board = new boolean[n][n];
         nQueens(board, n, 0);
+        System.out.println("printint the nquesns problem");
+        System.out.println(nQueens(board, n, 0));
 
     }
 }
