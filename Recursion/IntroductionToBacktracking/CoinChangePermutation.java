@@ -35,7 +35,8 @@ public class CoinChangePermutation {
         }
     }
 
-    public static void coinChangePermutationSingle(int coins[], int tar, String asf) {
+    // coinChangePermutationSingle is similar to printTargetSubsequecce
+    public static void coinChangePermutationSingle(int coins[], int tar, int idx, String asf) {
         if (tar < 0) {
             return;
         }
@@ -45,9 +46,27 @@ public class CoinChangePermutation {
             return;
         }
 
-        for (int j = 0; j < coins.length; j++) {
-            coinChangePermutationSingle(coins, tar - coins[j], asf + coins[j] + ",");
+        for (int j = idx; j < coins.length; j++) {
+            coinChangePermutationSingle(coins, tar - coins[j], idx + 1, asf + coins[j] + ",");
         }
+    }
+
+    public static void printTargetSubsequecce(int arr[], int tar, int idx, String asf) {
+        if (tar < 0) {
+            return;
+        }
+        if (idx == arr.length) {
+            if (tar == 0) {
+                System.out.println(asf);
+            }
+            return;
+        }
+
+        // yes call
+        printTargetSubsequecce(arr, tar - arr[idx], idx + 1, asf + arr[idx]);
+
+        // no call
+        printTargetSubsequecce(arr, tar, idx + 1, asf);
     }
 
     public static void main(String[] args) {
@@ -57,7 +76,7 @@ public class CoinChangePermutation {
         // coinChangePermutationsWithoutBoolean(arr, 10, "");
         boolean vis[] = new boolean[arr.length];
         // coinChangePermutation(arr, vis, tar, "");
-        // coinChangePermutationSingle(arr, tar, "");
-        coinChangePermutation(arr, vis, tar, "");
+        coinChangePermutationSingle(arr, tar, 0, "");
+        // coinChangePermutation(arr, vis, tar, "");
     }
 }
