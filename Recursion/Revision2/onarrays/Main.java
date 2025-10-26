@@ -2,6 +2,8 @@ package onarrays;
 
 public class Main {
 
+    // int arr[] = { 2, 5, 8, 4, 6, 4 };
+    // on the way up
     public static void printArray(int arr[], int idx) {
 
         if (idx == arr.length) {
@@ -13,6 +15,8 @@ public class Main {
         printArray(arr, idx + 1);
     }
 
+    // int arr[] = { 2, 5, 8, 4, 6, 4 };
+    // on the way down
     public static void printArrayReverse(int arr[], int idx) {
 
         if (idx == arr.length) {
@@ -38,6 +42,7 @@ public class Main {
         return max;
     }
 
+    // on the way down
     public static int findFtarIdx(int arr[], int idx, int tar) {
 
         if (idx == arr.length) {
@@ -53,6 +58,7 @@ public class Main {
         }
     }
 
+    // on the way down
     public static int findLtarIdx(int arr[], int tar, int idx) {
         if (idx == arr.length) {
             return -1;
@@ -67,6 +73,7 @@ public class Main {
         }
     }
 
+    // on the way down
     public static int[] findAllTarElements(int arr[], int tar, int idx, int csf) {
 
         if (idx == arr.length) {
