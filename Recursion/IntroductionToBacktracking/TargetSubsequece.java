@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class TargetSubsequece {
 
     public static void printTargetSubsequecce(int arr[], int tar, int idx, String asf) {

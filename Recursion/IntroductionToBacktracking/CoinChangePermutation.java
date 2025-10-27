@@ -1,6 +1,7 @@
 public class CoinChangePermutation {
 
     // One coin can be used:one coin one time
+
     public static void coinChangePermutation(int coins[], boolean[] vis, int tar, String asf) {
         if (tar < 0) {
             return;
@@ -21,6 +22,7 @@ public class CoinChangePermutation {
 
     // multiple coins can be used
     public static void coinChangePermutationsMultiple(int coins[], int tar, String asf) {
+
         if (tar < 0) {
             return;
         }
@@ -37,6 +39,7 @@ public class CoinChangePermutation {
 
     // coinChangePermutationSingle is similar to printTargetSubsequecce
     public static void coinChangePermutationSingle(int coins[], int tar, int idx, String asf) {
+
         if (tar < 0) {
             return;
         }
@@ -52,6 +55,7 @@ public class CoinChangePermutation {
     }
 
     public static void printTargetSubsequecce(int arr[], int tar, int idx, String asf) {
+
         if (tar < 0) {
             return;
         }
@@ -69,14 +73,40 @@ public class CoinChangePermutation {
         printTargetSubsequecce(arr, tar, idx + 1, asf);
     }
 
+    // one coin can be use mulitple times
+    public static void coinChangeCombinationMultiple(int coins[], int tar, int idx, String asf) {
+        if (tar < 0) {
+            return;
+        }
+
+        if (tar == 0) {
+            System.out.println(asf);
+            return;
+        }
+
+        if (idx == coins.length) {
+            return;
+        }
+
+        // coins[idx] said yes and we can use it again
+        coinChangeCombinationMultiple(coins, tar - coins[idx], idx, asf + coins[idx] + ",");
+
+        // coints[idx] said no and all the times coins[idx] could've said yes is done
+        coinChangeCombinationMultiple(coins, tar, idx + 1, asf);
+
+    }
+
     public static void main(String[] args) {
-        int arr[] = { 2, 3, 4, 5, 6 };
+        int coins[] = { 2, 3, 4, 5, 6 };
         int tar = 10;
 
         // coinChangePermutationsWithoutBoolean(arr, 10, "");
-        boolean vis[] = new boolean[arr.length];
+        boolean vis[] = new boolean[coins.length];
         // coinChangePermutation(arr, vis, tar, "");
-        coinChangePermutationSingle(arr, tar, 0, "");
+        // coinChangePermutationSingle(arr, tar, 0, "");
         // coinChangePermutation(arr, vis, tar, "");
+
+        coinChangeCombinationMultiple(coins, tar, 0, "");
+
     }
 }

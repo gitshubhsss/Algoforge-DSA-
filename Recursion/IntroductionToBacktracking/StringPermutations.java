@@ -40,16 +40,8 @@ public class StringPermutations {
     public static void main(String[] args) {
         String str = "abc";
 
-       permutations(str, "");
-       // System.out.println(permutationsStr(str));
+        permutations(str, "");
+        // System.out.println(permutationsStr(str));
 
     }
 }
-
-//[abc, acb, bac, bca, cab, cba]
-// abc
-// acb
-// bac
-// bca
-// cab
-// cba
