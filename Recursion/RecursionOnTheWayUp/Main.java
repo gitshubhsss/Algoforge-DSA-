@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class Main {
 
@@ -98,12 +97,40 @@ public class Main {
 
     }
 
+    // Yes no call
+    public static void printTargetSumSubsets(int arr[], int idx, int tar, String asf) {
+        // negative target found
+        if (tar < 0) {
+            return;
+        }
+
+        // target has become 0 that means we have got the path
+        if (idx == arr.length) {
+            if (tar == 0) {
+                System.out.println(asf);
+            }
+            return;
+        }
+
+        // yes call
+        printTargetSumSubsets(arr, idx + 1, tar - arr[idx], asf + arr[idx]);
+
+        // no call
+        printTargetSumSubsets(arr, idx + 1, tar, asf);
+    }
+
     public static void main(String args[]) {
         // printSubSequences("abc", "");
         // printKeypadCombinations("84", "");
 
         // printStairPath(4, "");
         // printMazePathWithJumps(0, 0, 2, 2, "");
+
+        int arr[] = { 2, 5, 3, 1, 4, 6, -8 };
+
+        int tar = 8;
+
+        printTargetSumSubsets(arr, 0, tar, "");
 
     }
 }
