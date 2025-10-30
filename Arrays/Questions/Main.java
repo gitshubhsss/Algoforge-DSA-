@@ -1,7 +1,5 @@
 package Arrays.Questions;
 
-
-
 public class Main {
 
     public static int elementsGreaterThanX(int[] arr, int x) {

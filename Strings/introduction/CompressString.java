@@ -6,7 +6,7 @@ public class CompressString {
         // prev will be the first charcater of the string
         char prev = str.charAt(0);
         ans = ans + prev;
-     
+
         // the initial anser will look like a only a now will have a loop from the
         // the first index and will compare the current char with prev if they are not
         // equal

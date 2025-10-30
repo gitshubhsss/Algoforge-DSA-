@@ -50,7 +50,7 @@ public class Main {
             char currChar = str.charAt(i);
 
             if (currChar >= 'A' && currChar <= 'Z') {// Upper case
-              
+
             } else if (currChar >= 'a' && currChar <= 'z') {// lower case
                 subString.append((char) (currChar + 32));
             }

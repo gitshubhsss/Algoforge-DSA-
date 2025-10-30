@@ -1,3 +1,5 @@
+package Arrays.HomeWork;
+
 public class PairsInArray {
     public static void main(String[] args) {
         int arr[] = { 8, 12, 16, 4, 0 };

@@ -1,4 +1,5 @@
 package Arrays.Questions;
+
 public class CalculateTwoArraySum {
 
     public static String calc_Sum(int arr1[], int arr2[]) {
@@ -15,12 +16,12 @@ public class CalculateTwoArraySum {
         int j = n2 - 1;
         int k = ans.length - 1;
 
-        //Means initially the borrow will be zero
+        // Means initially the borrow will be zero
         int borrow = 0;
         String sumStr = "";
         while (k >= 0) {
             int sum = 0;
-            //making sure that the array out of bound exception will not be their
+            // making sure that the array out of bound exception will not be their
             if (i >= 0) {
                 sum = sum + arr1[i];
             }
@@ -40,11 +41,11 @@ public class CalculateTwoArraySum {
             }
             System.out.println("k = " + k + " borrow =" + borrow);
             ans[k] = sum;
-            //Avoiding the leading zero
+            // Avoiding the leading zero
             if (k != 0 || ans[k] != 0) {
                 sumStr = sum + "" + sumStr;
             }
-            //Going towards left
+            // Going towards left
             i--;
             j--;
             k--;

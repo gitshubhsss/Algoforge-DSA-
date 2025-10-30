@@ -1,4 +1,4 @@
-public class LeetCode443 {
+public class StringCompress {
 
     public static int compress(char[] chars) {
         int length = -1;

@@ -1,8 +1,11 @@
+package Arrays.Questions3;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CountSubsetLeetcode {
 
+    // https://leetcode.com/problems/subsets/description/ Leetcode 78
     public static List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> setsList = new ArrayList<>();
         int n = nums.length;
