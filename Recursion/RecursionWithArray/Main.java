@@ -84,7 +84,7 @@ public class Main {
     public static void main(String args[]) {
 
         int arr[] = { 10, 19, 4, 4, 53, 6, 4 };
-        int idx = 0;
+        // int idx = 0;
         // printReverse(arr, idx);
 
         // System.out.println(findLastIndex(arr, 4, 0));

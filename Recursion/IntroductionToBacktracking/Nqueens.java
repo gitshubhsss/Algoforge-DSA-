@@ -147,12 +147,12 @@ public class Nqueens {
     // letcode 52
 
     public static void main(String[] args) {
-        int n = 4;
+        // int n = 4;
         // boolean[][] board = new boolean[n][n];
 
-        boolean colVis[] = new boolean[n];
-        boolean diaVis[] = new boolean[(2 * n) - 1];
-        boolean antiDiaVis[] = new boolean[(2 * n) - 1];
+        // boolean colVis[] = new boolean[n];
+        // boolean diaVis[] = new boolean[(2 * n) - 1];
+        // boolean antiDiaVis[] = new boolean[(2 * n) - 1];
         // nQueens(board, n, 0);
 
         // System.out.println(nQueensOptimized(colVis, diaVis, antiDiaVis, n, 0));

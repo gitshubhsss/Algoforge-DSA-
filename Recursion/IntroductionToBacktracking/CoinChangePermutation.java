@@ -101,7 +101,7 @@ public class CoinChangePermutation {
         int tar = 10;
 
         // coinChangePermutationsWithoutBoolean(arr, 10, "");
-        boolean vis[] = new boolean[coins.length];
+        // boolean vis[] = new boolean[coins.length];
         // coinChangePermutation(arr, vis, tar, "");
         // coinChangePermutationSingle(arr, tar, 0, "");
         // coinChangePermutation(arr, vis, tar, "");
