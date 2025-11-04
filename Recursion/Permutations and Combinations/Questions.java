@@ -41,22 +41,36 @@ public class Questions {
 
     // 2,3,5
     // 4,6
-    public static void coinChangeCombination(int coins[], int tar, String asf, int idx) {
+    public static void coinChangeCombinationSingle(int coins[], int tar, String asf, int idx) {
 
         if (tar < 0) {
-            System.out.println("target is less than  "+tar+" " + idx);
             return;
         }
 
-        if (idx == coins.length) {
-            if (tar == 0) {
-                System.out.println(asf);
-
-            }
+        if (tar == 0) {
+            System.out.println(asf);
             return;
         }
-        for (int j = idx; j <coins.length; j++) {
-            coinChangeCombination(coins, tar - coins[j], asf + coins[j], j + 1);
+
+        for (int j = idx; j < coins.length; j++) {
+            coinChangeCombinationSingle(coins, tar - coins[j], asf + coins[j], j + 1);
+        }
+
+    }
+
+    public static void coinChangeCombinationMultiple(int coins[], int tar, String asf, int idx) {
+
+        if (tar < 0) {
+            return;
+        }
+
+        if (tar == 0) {
+            System.out.println(asf);
+            return;
+        }
+
+        for (int j = idx; j < coins.length; j++) {
+            coinChangeCombinationMultiple(coins, tar - coins[j], asf + coins[j], j);
         }
     }
 
@@ -67,6 +81,7 @@ public class Questions {
 
         // coinChangePermutationOneCoinSingleTime(coins, vis, tar, "");
         // coinChangePermutationOneCoinMultipleTime(coins, tar, "");
-        coinChangeCombination(coins, tar, "", 0);
+        // coinChangeCombinationSingle(coins, tar, "", 0);
+        coinChangeCombinationMultiple(coins, tar, "", 0);
     }
 }
