@@ -1,3 +1,4 @@
+package Questions;
 public class SubsetOfArray {
 
     public static int convertNumberToBinary(int num) {

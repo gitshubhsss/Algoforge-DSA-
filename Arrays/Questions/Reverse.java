@@ -1,4 +1,5 @@
-import java.util.Scanner;
+package Questions;
+
 
 public class Reverse {
     public static void main(String[] args) {

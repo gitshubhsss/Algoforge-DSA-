@@ -1,4 +1,4 @@
-package Arrays.BinarySearchAndIntroductionToTwoDArrays;
+package BinarySearchAndIntroductionToTwoDArrays;
 
 import java.util.Scanner;
 

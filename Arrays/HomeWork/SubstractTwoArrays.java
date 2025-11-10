@@ -1,3 +1,5 @@
+package HomeWork;
+
 public class SubstractTwoArrays {
 
     public static void printArray(int arr[]) {

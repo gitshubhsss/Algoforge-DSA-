@@ -1,4 +1,4 @@
-package Arrays.Questions;
+package Questions;
 
 public class TwoArrayMul {
 

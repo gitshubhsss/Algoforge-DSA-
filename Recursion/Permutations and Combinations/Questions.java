@@ -2,6 +2,7 @@
 public class Questions {
 
     // one coin used single time
+    // int coins[] = { 2, 3, 4, 6, 5 };//
     public static void coinChangePermutationOneCoinSingleTime(int coins[], boolean vis[], int tar, String asf) {
         if (tar < 0) {
             return;
@@ -10,9 +11,9 @@ public class Questions {
             System.out.println(asf);
             return;
         }
-
+        // idx is alwasys starting with 0
         for (int idx = 0; idx < coins.length; idx++) {
-            if (vis[idx] == false) {
+            if (vis[idx] == false) {// 2,3,4
                 vis[idx] = true;
                 coinChangePermutationOneCoinSingleTime(coins, vis, tar - coins[idx], asf + coins[idx]);
                 vis[idx] = false;
@@ -79,9 +80,9 @@ public class Questions {
         boolean vis[] = new boolean[coins.length];
         int tar = 10;
 
-        // coinChangePermutationOneCoinSingleTime(coins, vis, tar, "");
+        coinChangePermutationOneCoinSingleTime(coins, vis, tar, "");
         // coinChangePermutationOneCoinMultipleTime(coins, tar, "");
         // coinChangeCombinationSingle(coins, tar, "", 0);
-        coinChangeCombinationMultiple(coins, tar, "", 0);
+        // coinChangeCombinationMultiple(coins, tar, "", 0);
     }
 }

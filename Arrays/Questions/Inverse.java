@@ -1,3 +1,4 @@
+package Questions;
 public class Inverse {
 
     public static void printArray(int arr[]) {

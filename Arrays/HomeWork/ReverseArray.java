@@ -1,4 +1,4 @@
-package Arrays.HomeWork;
+package HomeWork;
 
 public class ReverseArray {
 
