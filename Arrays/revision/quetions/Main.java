@@ -644,9 +644,95 @@ public class Main {
         return smallAns;
     }
 
+    /// find first and the last positiion from the sorted array
+    ///
+    /// https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
 
+    // 5,7,7,8,8,10
+    public static int[] searchRange(int[] nums, int target) {
 
+        int n = nums.length;
 
+        int firstIndex = -1;
+
+        int start = 0;
+        int end = n - 1;
+
+        while (start <= end) {
+            int mid = (start + end) / 2;
+
+            // 8<7
+            if (target < nums[mid]) {
+                end = mid - 1;
+
+            } else if (target == nums[mid]) {
+                end = mid - 1;
+                firstIndex = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        start = 0;
+        end = n - 1;
+
+        // 5,7,7,8,8,10
+        int lastIndex = -1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+
+            // 8<7
+            if (target < nums[mid]) {
+                end = mid - 1;
+
+            }
+            if (target == nums[mid]) {
+                start = mid + 1;
+                lastIndex = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return new int[] { firstIndex, lastIndex };
+
+    }
+
+    // matrix multiplication
+
+    public ArrayList<ArrayList<Integer>> multiplyMatrix(int[][] mat1, int[][] mat2) {
+        // code here
+
+        int r1 = mat1.length;
+        int c1 = mat1[0].length;
+
+        int r2 = mat2.length;
+
+        ArrayList<ArrayList<Integer>> ansMat = new ArrayList<>();
+
+        for (int i = 0; i < r1; i++) {
+
+            ArrayList<Integer> ans = new ArrayList<>();
+
+            for (int j = 0; j < c1; j++) {
+
+                int mul = 0;
+
+                for (int k = 0; k < r2; k++) {
+
+                    mul = mul + (mat1[i][k] * mat2[k][j]);
+
+                }
+
+                ans.add(mul);
+            }
+            ansMat.add(ans);
+
+        }
+
+        return ansMat;
+
+    }
 
     public static void main(String args[]) {
 
