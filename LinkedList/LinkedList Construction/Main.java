@@ -11,9 +11,9 @@ class Node {
 }
 
 class LinkedList {
-    Node head;
-    Node tail;
-    int size;
+    Node head;// pointing to the first node
+    Node tail;// pointing to the last node
+    int size;// maintaining the size
 
     public LinkedList() {
         this.head = null;
@@ -21,12 +21,15 @@ class LinkedList {
         this.size = 0;
     }
 
+    // https://www.geeksforgeeks.org/problems/linked-list-insertion-1587115620/1
+
     public void addLast(int value) {
         Node newNode = new Node(value);
 
         // Head will remains the same the tail will be update as we are creating the new
         // objects
 
+        // head will remains the constant
         if (head == null) {// size =0
             head = newNode;
             tail = newNode;
@@ -40,6 +43,8 @@ class LinkedList {
 
         this.size++;
     }
+
+    // https://www.geeksforgeeks.org/problems/linked-list-insertion-at-beginning/1
 
     public void addFirst(int value) {
 
@@ -64,19 +69,15 @@ class LinkedList {
         Node temp = head;// access the first elemt
 
         while (temp != null) {
-
             System.out.print(temp.data + " ");
-
-            Node tempKaNext = temp.next;
-
-            temp = tempKaNext;// going to the next address
+            temp = temp.next;
 
         }
 
         System.out.println();
     }
 
-    public void removeLast() {
+    public void removeLastWithTail() {
         if (head == null && tail == null) {// 0 element
             return;
         }
@@ -91,12 +92,39 @@ class LinkedList {
         while (temp.next != tail) {
             temp = temp.next;
         }
+
         temp.next = null;
         tail = temp;//
 
         size--;
         return;
     }
+
+    // https://www.geeksforgeeks.org/problems/deletion-at-the-end-of-a-linked-list/1
+
+    public void removeLastWithoutTail() {
+        if (head == null) {// invalid index
+            System.out.println("Index out of bound");
+            return;
+        }
+
+        if (head.next == null) {
+            removeFirst();
+            return;
+        }
+
+        Node temp = head;
+
+        // access the second last element
+        while (temp.next.next != null) {
+            temp = temp.next;
+        }
+
+        tail = temp;// shifting tail to second last element
+        temp.next = null;// making the next of the tail as null
+    }
+
+    // https://www.geeksforgeeks.org/problems/delete-head-of-linked-list/1
 
     public void removeFirst() {
         if (head == null) { /// sise 0
@@ -129,6 +157,7 @@ class LinkedList {
         return temp;
     }
 
+    // https://www.geeksforgeeks.org/problems/insertion-at-a-given-position-in-a-linked-list/1
     public void addNodeAt(int idx, int value) {
         if (idx < 0 || idx > this.size) {
             System.out.println("galat index");
@@ -145,18 +174,18 @@ class LinkedList {
         }
 
         Node newNode = new Node(value);// new node
-
         Node prevNode = getNodeAt(idx - 1);// getting the previes node
+        Node nextNode = prevNode.next; // getting the next of the prev node
 
-        Node nextOfprevNode = prevNode.next; // getting the next of the prev node
-
-        prevNode.next = newNode; // previos ke next mein new node
-
-        newNode.next = nextOfprevNode; // new node ke next me next of prev
+        prevNode.next = null; // disconnecting prev node with the rest of the LL
+        prevNode.next = newNode; // connecting prev node with newNode
+        newNode.next = nextNode; // connecting newNode with rest of linkedList
 
         size++;
 
     }
+
+    // https://www.geeksforgeeks.org/problems/delete-a-node-in-single-linked-list/1
 
     public void removeNodeAt(int idx) {
         if (idx < 0 || idx > this.size) {
@@ -164,37 +193,39 @@ class LinkedList {
             return;
         }
 
-        Node currNode = getNodeAt(idx);// 9k
+        Node prevNode = getNodeAt(idx - 1);
+        Node nodeToDelete = prevNode.next;
+        Node nextNode = nodeToDelete.next;
 
-        Node nextNode = currNode.next;// 8k
+        prevNode.next = null;// breaking connection of prev node with the rest of the LinkedList
 
-        Node prevNode = getNodeAt(idx - 1);// 7k
-
-        prevNode.next = null;// disconnect
-
-        prevNode.next = nextNode;// 7k.next=8k
-
-        size--;
+        prevNode.next = nextNode;// attaching prevNode with next of deletedNode
 
     }
 
-    public void reverseLinkedList() {
+    public void reverseLinkedListDataIteratively() {
         if (head == null) {
             System.out.println("cant reverse");
             return;
         }
-        int start = 0;// start
-        int end = size / 2;
-        while (start < end) {
-            Node firstNode = getNodeAt(start);
-            Node lastNode = getNodeAt(size - 1 - start);
+        int i = 0;// start
 
-            // swap the data only
-            int temp = firstNode.data;
-            firstNode.data = lastNode.data;
-            lastNode.data = temp;
-            start++;
+        int j = size - 1;
+
+        while (i < j) {// O(N)
+            Node nodeAtI = getNodeAt(i); // O(N)
+            Node nodeAtJ = getNodeAt(j);// O(N)
+
+            int dataAtI = nodeAtI.data;
+            int dataAtJ = nodeAtJ.data;
+
+            nodeAtI.data = dataAtJ;
+            nodeAtJ.data = dataAtI;
+
+            i++;
+            j--;
         }
+
     }
 
 }
@@ -208,11 +239,9 @@ class Main {
         ll.addLast(43);
         ll.addLast(13);
 
-        System.out.println("printing the oute");
-
         ll.display();
 
-        ll.reverseLinkedList();
+        ll.removeLastWithoutTail();
 
         ll.display();
 
