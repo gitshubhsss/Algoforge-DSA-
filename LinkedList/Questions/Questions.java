@@ -1,5 +1,15 @@
 package Questions;
 
+class Node {
+    int data;
+    Node next;
+
+    Node(int x) {
+        data = x;
+        next = null;
+    }
+}
+
 class ListNode {
     int val;
     ListNode next;
@@ -20,7 +30,7 @@ class ListNode {
 public class Questions {
 
     // leetcode 206 (Reverse LL) ======================================
-    public ListNode reverseList(ListNode head) {
+    public static ListNode reverseList(ListNode head) {
 
         ListNode prev = null;
 
@@ -107,7 +117,7 @@ public class Questions {
 
     // https://leetcode.com/problems/middle-of-the-linked-list/description/
 
-    public ListNode middleNode(ListNode head) {
+    public static ListNode middleNode(ListNode head) {
 
         ListNode slow = head;
         ListNode fast = head;
@@ -121,7 +131,7 @@ public class Questions {
     }
 
     // generic middle of the linked list in case of even
-    public ListNode middleNodeGeneric(ListNode head) {
+    public static ListNode middleNodeGeneric(ListNode head) {
 
         ListNode slow = head;
         ListNode fast = head;
@@ -135,8 +145,7 @@ public class Questions {
 
     }
 
-
-    //https://leetcode.com/problems/palindrome-linked-list/F
+    // https://leetcode.com/problems/palindrome-linked-list/F
     public boolean isPalindrome(ListNode head) {
 
         ListNode middleNode = middleNodeGeneric(head);
@@ -160,6 +169,166 @@ public class Questions {
 
         return true;
 
+    }
+
+    // https://leetcode.com/problems/merge-two-sorted-lists/?envType=problem-list-v2&envId=linked-list
+
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+
+        ListNode dummy = new ListNode(-1);
+
+        ListNode currDummy = dummy;
+
+        ListNode firstHead = list1;
+
+        ListNode seconHead = list2;
+
+        while (firstHead != null && seconHead != null) {
+
+            if (firstHead.val > seconHead.val) {
+                ListNode secondHeadKaNext = seconHead.next;
+                seconHead.next = null;
+                currDummy.next = seconHead;
+                currDummy = seconHead;
+                seconHead = secondHeadKaNext;
+
+            } else {
+                ListNode firstNodeKaNext = firstHead.next;
+                firstHead.next = null;
+                currDummy.next = firstHead;
+                currDummy = firstHead;
+                firstHead = firstNodeKaNext;
+            }
+
+        }
+
+        if (firstHead == null) {
+            currDummy.next = seconHead;
+        }
+
+        if (seconHead == null) {
+            currDummy.next = firstHead;
+        }
+
+        return dummy.next;
+    }
+
+    // https://leetcode.com/problems/reorder-list/
+    public void reorderList(ListNode head) {
+
+        ListNode dummy = new ListNode(-1);
+
+        ListNode currDummy = dummy;
+
+        ListNode firstHead = head;
+
+        ListNode mid = middleNodeGeneric(head);
+
+        ListNode secondHead = mid.next;
+
+        secondHead = reverseList(secondHead);
+
+        mid.next = null;
+
+        while (firstHead != null && secondHead != null) {
+            ListNode firstHeadKaNext = firstHead.next;
+            firstHead.next = null;
+
+            currDummy.next = firstHead;
+            currDummy = firstHead;// 1K
+            firstHead = firstHeadKaNext;
+
+            ListNode secondHeadKaNext = secondHead.next;
+            secondHead.next = null;
+            currDummy.next = secondHead;
+            currDummy = secondHead;
+            secondHead = secondHeadKaNext;
+        }
+
+        if (secondHead == null) {
+            currDummy.next = firstHead;
+        }
+
+    }
+
+    // https://leetcode.com/problems/odd-even-linked-list/submissions/1840517437/
+    public ListNode oddEvenList(ListNode head) {
+
+        // create the dummy nodes
+        ListNode oddDummy = new ListNode(-1);
+        ListNode evenDummy = new ListNode(-1);
+
+        // initialize the pointers
+        ListNode curr = head;
+        ListNode oddCurr = oddDummy;
+        ListNode evenCurr = evenDummy;
+        int pos = 1;
+
+        while (curr != null) {
+
+            ListNode currKaNext = curr.next;
+            curr.next = null;
+
+            if (pos % 2 == 0) {
+                evenCurr.next = curr;
+                evenCurr = curr;
+
+            } else {
+                oddCurr.next = curr;
+                oddCurr = curr;
+            }
+
+            curr = currKaNext;
+
+            pos++;
+
+        }
+
+        ListNode oddListHead = oddDummy.next;
+
+        ListNode evenListHead = evenDummy.next;
+
+        oddCurr.next = evenListHead;
+
+        return oddListHead;
+
+    }
+
+    // https://www.geeksforgeeks.org/problems/segregate-even-and-odd-nodes-in-a-linked-list5035/1
+    Node divide(Node head) {
+        // code here
+
+        Node oddDummy = new Node(-1);
+        Node evenDummy = new Node(-1);
+
+        Node curr = head;
+
+        Node oddCurr = oddDummy;
+
+        Node evenCurr = evenDummy;
+
+        while (curr != null) {
+
+            Node currKaNext = curr.next;
+
+            curr.next = null;
+
+            if (curr.data % 2 == 0) {
+                evenCurr.next = curr;
+                evenCurr = curr;
+            } else {
+                oddCurr.next = curr;
+                oddCurr = curr;
+            }
+            curr = currKaNext;
+        }
+
+        Node evenKaHead = evenDummy.next;
+        Node oddKaHead = oddDummy.next;
+
+        evenCurr.next = oddKaHead;
+
+        return evenKaHead;
     }
 
     public static void main(String[] args) {
