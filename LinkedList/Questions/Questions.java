@@ -233,9 +233,8 @@ public class Questions {
         while (firstHead != null && secondHead != null) {
             ListNode firstHeadKaNext = firstHead.next;
             firstHead.next = null;
-
             currDummy.next = firstHead;
-            currDummy = firstHead;// 1K
+            currDummy = firstHead;
             firstHead = firstHeadKaNext;
 
             ListNode secondHeadKaNext = secondHead.next;
@@ -329,6 +328,127 @@ public class Questions {
         evenCurr.next = oddKaHead;
 
         return evenKaHead;
+    }
+
+    /// https://leetcode.com/problems/copy-list-with-random-pointer/
+    public Node addCopyNodes(Node head) {
+        Node curr = head;
+
+        while (curr != null) {
+            Node currKaNext = curr.next;
+
+            Node copyNode = new Node(curr.data);
+
+            // inserting in between
+            curr.next = copyNode;
+            copyNode.next = currKaNext;
+
+            // move curr
+            curr = currKaNext;
+        }
+
+        return head;
+    }
+
+    public void assignRandom(Node head) {
+        Node curr = head;
+
+        while (curr != null) {
+            // Node copyNode = curr.next;
+
+            // if (curr.random != null) {
+            // copyNode.random = curr.random.next;
+            // }
+
+            curr = curr.next.next;
+        }
+    }
+
+    public Node removeCopyList(Node head) {
+        Node dummy = new Node(-1);
+        Node curr = head;
+        Node copyCurr = dummy;
+
+        while (curr != null) {
+            Node copyNode = curr.next;
+            Node currKaNext = curr.next.next;
+
+            copyCurr.next = copyNode;
+            curr.next = currKaNext;
+
+            curr = currKaNext;
+            copyCurr = copyCurr.next;
+        }
+
+        return dummy.next;
+    }
+
+    public Node copyRandomList(Node head) {
+        head = addCopyNodes(head);
+        assignRandom(head);
+        return removeCopyList(head);
+
+    }
+
+    //// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+    public ListNode deleteDuplicates(ListNode head) {
+
+        ListNode curr = head;
+
+        while (curr != null && curr.next != null) {
+
+            if (curr.val == curr.next.val) {
+                curr.next = curr.next.next;
+            } else {
+                curr = curr.next;
+            }
+
+        }
+
+        return head;
+
+    }
+
+    /// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+    public ListNode deleteDuplicates2(ListNode head) {
+
+        if (head == null) {
+            return head;
+        }
+        if (head.next == null) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(-1);
+
+        ListNode currDummy = dummy;
+
+        currDummy.next = head;
+
+        ListNode curr = currDummy;
+
+        while (curr.next != null && curr.next.next != null) {
+
+            if (curr.next.val == curr.next.next.val) {
+
+                ListNode temp = curr.next;
+
+                int duplicateElement = curr.next.val;
+
+                while (temp != null && temp.val == duplicateElement) {
+
+                    temp = temp.next;
+                }
+                curr.next = temp;
+
+            } else {
+                curr = curr.next;
+            }
+
+        }
+
+        return dummy.next;
+
     }
 
     public static void main(String[] args) {
