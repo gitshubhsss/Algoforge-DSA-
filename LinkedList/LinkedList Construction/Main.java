@@ -203,6 +203,25 @@ class LinkedList {
 
     }
 
+    // https://www.geeksforgeeks.org/problems/node-at-a-given-index-in-linked-list/1
+
+    public int GetNth(Node head, int index) {
+
+        Node temp = head;
+
+        while (index > 1) {
+
+            if (temp == null) {
+                return -1;
+            }
+
+            temp = temp.next;
+
+            index--;
+        }
+        return temp.data;
+    }
+
     public void reverseLinkedListDataIteratively() {
         if (head == null) {
             System.out.println("cant reverse");
