@@ -8,6 +8,17 @@ public class Main {
 
         st.push(1);
         st.push(2);
-        st.push(4);
+        st.push(4);// at at the top
+
+        System.out.println(st);
+        st.pop();
+        st.pop();
+        st.pop();
+
+        if (!st.isEmpty()) {
+            System.out.println(st.peek());
+        } else {
+            System.out.println("stack is empty");
+        }
     }
 }

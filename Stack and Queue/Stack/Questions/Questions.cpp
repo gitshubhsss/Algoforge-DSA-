@@ -77,6 +77,8 @@ vector<int> nextLargerElement(vector<int> &arr)
 
 /// moving from left to right in a reverse direction(https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1)
 // starting from 0th index
+
+// we use the monotiic stack to store the indexes and we get the value on the basic of indexes
 public:
 vector<int> nextLargerElement(vector<int> &arr)
 {

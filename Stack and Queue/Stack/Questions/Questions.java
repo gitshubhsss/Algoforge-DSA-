@@ -1,10 +1,12 @@
 package Stack.Questions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 public class Questions {
 
+    // String exp = "((a+B)+((a+c))";
     public static boolean isDuplicate(String exp) {
 
         Stack<Character> stack = new Stack<>();
@@ -28,6 +30,7 @@ public class Questions {
                 stack.pop();// poping the opening bracket as well '('
 
             } else {
+                // if their is hte openig brackets will push them
                 stack.push(ch);
             }
         }
@@ -92,12 +95,16 @@ public class Questions {
 
             for (int j = i + 1; j < arr.length; j++) {
                 if (arr[i] < arr[j]) {
+                    // onnce we got the element store it in the ArrayList and and make the
+                    // hasRightGreater =true and break the loop
+
                     ans.add(arr[j]);
                     hasRightGreater = true;
                     break;
                 }
 
             }
+            // if no element greater in the right add -1
             if (hasRightGreater == false) {
                 ans.add(-1);
             }
@@ -150,6 +157,34 @@ public class Questions {
 
     }
 
+    public ArrayList<Integer> nextLargerElementWithOutArray(int[] arr) {
+
+        Stack<Integer> stack = new Stack<>();
+
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+
+        int n = arr.length;
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            int currEle = arr[i];
+
+            while (stack.size() > 0 && stack.peek() <= currEle) {
+                stack.pop();
+            }
+
+            if (stack.size() == 0) {
+                ans.add(-1);
+            } else {
+                ans.add(stack.peek());
+            }
+            stack.push(arr[i]);
+        }
+
+        Collections.reverse(ans);
+        return ans;
+    }
+
     /// left to right apoch for the same problem
     public static ArrayList<Integer> nextLargerElementLeftToRight(int arr[]) {
 
@@ -184,6 +219,93 @@ public class Questions {
 
     }
 
+    // ========================>O(N^2);
+    public ArrayList<Integer> calculateSpan(int[] arr) {
+        // code here
+        ArrayList<Integer> ansList = new ArrayList<>();
+
+        Stack<Integer> stack = new Stack<>();
+
+        int n = arr.length;
+
+        int ans[] = new int[n];
+
+        for (int i = 0; i < arr.length; i++) {
+            int count = 1;
+            int curr = arr[i];
+
+            while (stack.size() > 0 && stack.peek() <= curr) {
+                count++;// 2//3//4
+                stack.pop();
+            }
+
+            ans[i] = count;
+            while (!stack.isEmpty()) {
+                stack.pop();
+            }
+            fillStack(stack, 0, i, arr);
+        }
+
+        for (int i = 0; i < ans.length; i++) {
+            ansList.add(ans[i]);
+        }
+
+        return ansList;
+    }
+
+    public void fillStack(Stack<Integer> stack, int s, int e, int arr[]) {
+        while (s <= e) {
+            stack.push(arr[s]);
+            s++;
+        }
+    }
+
+    // push at the bottom of the stack
+
+    public static String reverseString(String str) {
+
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            stack.push(ch);
+        }
+        // create the String builder
+
+        StringBuilder ans = new StringBuilder("");
+
+        while (!stack.isEmpty()) {
+            char ch = stack.pop();
+            ans.append(ch);
+        }
+
+        return ans.toString();
+    }
+
+    public static void pushAtBottom(Stack<Integer> st, int ele) {
+        if (st.isEmpty()) {
+            st.push(ele);
+            return;
+        }
+        int num = st.peek();
+        st.pop();
+        pushAtBottom(st, ele);
+        st.push(num);
+    }
+
+    public static void reverseStack(Stack<Integer> st) {
+
+        if (st.empty()) {
+            return;
+        }
+
+        int ele = st.pop();// 3//2//1
+        reverseStack(st);
+        pushAtBottom(st, ele);
+
+    }
+
+    // 17700-->842
     public static void main(String[] args) {
 
         String exp = "((a+B)+((a+c))";
@@ -192,7 +314,20 @@ public class Questions {
 
         int arr[] = { 15, 10, 20, 12, 17, 18, 10, 9, 8, 39, 11 };
 
-        System.out.println(nextLargerElementRightToLeft(arr));
-        System.out.println(nextLargerElementLeftToRight(arr));
+        // System.out.println(nextLargerElementRightToLeft(arr));
+        // System.out.println(nextLargerElementLeftToRight(arr));
+
+        Stack<Integer> st = new Stack<>();
+        st.push(1);
+        st.push(2);
+        st.push(3);
+
+        // pushAtBottom(st, 4);
+
+        // System.out.println(st);
+
+        reverseStack(st);
+        System.out.println(st);
+
     }
 }
