@@ -6,328 +6,575 @@ import java.util.Stack;
 
 public class Questions {
 
-    // String exp = "((a+B)+((a+c))";
-    public static boolean isDuplicate(String exp) {
+    public static boolean isDuplicateBracket(String ex) {
 
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> st = new Stack<>();
 
-        for (int i = 0; i < exp.length(); i++) {
-
-            char ch = exp.charAt(i);
+        for (int i = 0; i < ex.length(); i++) {
+            char ch = ex.charAt(i);
 
             if (ch == ')') {
 
-                // this means ( ) their is nothing inside this
-                if (stack.peek() == '(') {
+                // If st.peek()==( then we have duplicate brackets
+                if (st.peek() == '(') {
                     return true;
                 }
-
-                // pop everything till '('
-                while (stack.peek() != '(') {
-                    stack.pop();
+                while (st.peek() != '(') {
+                    st.pop();
                 }
-
-                stack.pop();// poping the opening bracket as well '('
-
+                st.pop();// popping ='(';
             } else {
-                // if their is hte openig brackets will push them
-                stack.push(ch);
+                st.push(ch);
             }
         }
 
-        return false;
+        return st.size() != 0;
     }
 
-    /// LeetCode 20 Valid Parentheses
+    // Leetcode 20
 
     public static boolean isValid(String s) {
 
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> st = new Stack<>();
 
         for (int i = 0; i < s.length(); i++) {
-
             char ch = s.charAt(i);
 
-            if (ch == ')') {
-
-                if (stack.size() == 0 || stack.peek() != '(') {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                st.push(ch);
+            } else if (ch == ')') {
+                if (st.size() == 0 || st.peek() != '(') {
                     return false;
                 }
-                stack.pop();
 
+                st.pop();
             } else if (ch == ']') {
-
-                if (stack.size() == 0 || stack.peek() != '[') {
+                if (st.size() == 0 || st.peek() != '[') {
                     return false;
                 }
 
-                stack.pop();
-
+                st.pop();
             } else if (ch == '}') {
-
-                if (stack.size() == 0 || stack.peek() != '{') {
+                if (st.size() == 0 || st.peek() != '{') {
                     return false;
                 }
 
-                stack.pop();
-
-            } else {
-                stack.push(ch);
+                st.pop();
             }
-
         }
 
-        if (stack.size() != 0) {// making sure every opening bracket had one closing bracket
-            return false;
-        }
-        return true;
+        return st.size() == 0;
 
     }
 
-    // https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1
-    public static ArrayList<Integer> nextLargerElementBruit(int[] arr) {// ==============?O(n^2)
-        // code here
+    // next greater on right moving from right----> to left
 
-        ArrayList<Integer> ans = new ArrayList<>();
+    public static ArrayList<Integer> nextLargerElement(int arr[]) {
 
-        for (int i = 0; i < arr.length; i++) {
-            boolean hasRightGreater = false;
+        int n = arr.length;
 
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] < arr[j]) {
-                    // onnce we got the element store it in the ArrayList and and make the
-                    // hasRightGreater =true and break the loop
-
-                    ans.add(arr[j]);
-                    hasRightGreater = true;
-                    break;
-                }
-
-            }
-            // if no element greater in the right add -1
-            if (hasRightGreater == false) {
-                ans.add(-1);
-            }
-
-        }
-
-        return ans;
-
-    }
-
-    //// https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1
-
-    public static ArrayList<Integer> nextLargerElementRightToLeft(int[] arr) {// right to left ====>method 1
-        // code here
-        ArrayList<Integer> ans = new ArrayList<>();
+        int ngr[] = new int[n];// to store the ansers
 
         Stack<Integer> st = new Stack<>();
 
-        int n = arr.length;
+        st.push(-1);// intial value
 
-        int ansArr[] = new int[n];
+        // traverse from n-1 to 0
+        for (int i = n - 1; i >= 0; i--) {
+            int curr = arr[i];
 
-        int i = n - 1;
-
-        while (i >= 0) {
-            int currEle = arr[i];
-
-            /// hadeling the size expection
-            while (st.size() > 0 && st.peek() <= currEle) {
-                st.pop();//
+            // will keep only the bada wala element
+            while (st.peek() != -1 && st.peek() <= curr) {
+                st.pop();
             }
 
-            // if the stack size is empty
-            if (st.size() == 0) {
-                ansArr[i] = -1;
-
-            } else {
-                ansArr[i] = st.peek();
-            }
-            // every time push the curr Elemet
-            st.push(currEle);
-            i--;
+            ngr[i] = st.peek();
+            // every time dont forget to push the element
+            st.push(arr[i]);
         }
 
-        for (int j = 0; j < n; j++) {
-            ans.add(ansArr[j]);
+        // create the answer
+        ArrayList<Integer> ansList = new ArrayList<>();
+
+        for (int i = 0; i < ngr.length; i++) {
+            ansList.add(ngr[i]);
+        }
+
+        return ansList;
+    }
+
+    // next greater on right moving from left <-------- to right
+
+    // [15,10,20,12,17,18,10,9,8,39,11]
+    public static ArrayList<Integer> nextLargerElement2(int arr[]) {
+
+        int n = arr.length;
+
+        int ngr[] = new int[n];// to store the ansers
+
+        for (int i = 0; i < ngr.length; i++) {
+            ngr[i] = -1;// initializing it with -1
+        }
+
+        Stack<Integer> st = new Stack<>();
+
+        // traverse from 0 to n
+
+        for (int i = 0; i < n; i++) {
+
+            int curr = arr[i];
+            while (st.size() > 0 && arr[st.peek()] <= curr) {
+                ngr[st.pop()] = curr;
+            }
+            st.push(i);// storing the indexes
+        }
+
+        // creating the answer
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < ngr.length; i++) {
+            ans.add(ngr[i]);
         }
 
         return ans;
 
     }
 
-    public ArrayList<Integer> nextLargerElementWithOutArray(int[] arr) {
+    /// Homework 1 ===========Next greater left usign right to left
 
-        Stack<Integer> stack = new Stack<>();
-
-        ArrayList<Integer> ans = new ArrayList<Integer>();
+    public static ArrayList<Integer> nglUsingRL(int arr[]) {
 
         int n = arr.length;
+
+        int ngl[] = new int[n];
+
+        // fil the values with -1
+        for (int i = 0; i < n; i++) {
+            ngl[i] = -1;
+        }
+
+        Stack<Integer> st = new Stack<>();
+
+        // traverse it from the right to left
 
         for (int i = n - 1; i >= 0; i--) {
 
-            int currEle = arr[i];
+            int curr = arr[i];
 
-            while (stack.size() > 0 && stack.peek() <= currEle) {
-                stack.pop();
+            while (st.size() > 0 && arr[st.peek()] < curr) {
+                ngl[st.pop()] = curr;
             }
 
-            if (stack.size() == 0) {
-                ans.add(-1);
-            } else {
-                ans.add(stack.peek());
-            }
-            stack.push(arr[i]);
+            st.push(i);
+
         }
 
-        Collections.reverse(ans);
+        // create the answer
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < ngl.length; i++) {
+            ans.add(ngl[i]);
+        }
+
         return ans;
     }
 
-    /// left to right apoch for the same problem
-    public static ArrayList<Integer> nextLargerElementLeftToRight(int arr[]) {
+    /// Homework 2 ===========Next greater left usign left to right
 
-        ArrayList<Integer> ansList = new ArrayList<>();
+    public static ArrayList<Integer> nglUsingLR(int arr[]) {
 
         int n = arr.length;
 
-        int ans[] = new int[n];
-
-        // initially feeling with -1
-        for (int i = 0; i < ans.length; i++) {
-            ans[i] = -1;
-        }
-
-        Stack<Integer> stack = new Stack<>();
+        int ngl[] = new int[n];
 
         for (int i = 0; i < n; i++) {
-            int currEle = arr[i];
-
-            while (stack.size() > 0 && arr[stack.peek()] <= currEle) {
-                ans[stack.peek()] = currEle;
-                stack.pop();
-            }
-            stack.push(i);
+            ngl[i] = -1;
         }
 
-        for (int i = 0; i < ans.length; i++) {
-            ansList.add(ans[i]);
-        }
+        Stack<Integer> st = new Stack<>();
 
-        return ansList;
+        // traverse from 0 to n
 
-    }
-
-    // ========================>O(N^2);
-    public ArrayList<Integer> calculateSpan(int[] arr) {
-        // code here
-        ArrayList<Integer> ansList = new ArrayList<>();
-
-        Stack<Integer> stack = new Stack<>();
-
-        int n = arr.length;
-
-        int ans[] = new int[n];
-
-        for (int i = 0; i < arr.length; i++) {
-            int count = 1;
+        for (int i = 0; i < n; i++) {
             int curr = arr[i];
 
-            while (stack.size() > 0 && stack.peek() <= curr) {
-                count++;// 2//3//4
-                stack.pop();
+            while (st.size() > 0 && arr[st.peek()] < curr) {
+                st.pop();
             }
 
-            ans[i] = count;
-            while (!stack.isEmpty()) {
-                stack.pop();
+            if (st.size() > 0) {
+                ngl[i] = arr[st.peek()];
             }
-            fillStack(stack, 0, i, arr);
+            st.push(i);
         }
 
-        for (int i = 0; i < ans.length; i++) {
-            ansList.add(ans[i]);
+        // create the answer
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            ans.add(ngl[i]);
         }
 
-        return ansList;
+        return ans;
     }
 
-    public void fillStack(Stack<Integer> stack, int s, int e, int arr[]) {
-        while (s <= e) {
-            stack.push(arr[s]);
-            s++;
+    // https://www.geeksforgeeks.org/problems/stock-span-problem-1587115621/1
+
+    public ArrayList<Integer> calculateSpan(int[] arr) {
+        // code here
+        int n = arr.length;
+
+        Stack<Integer> st = new Stack<>();
+
+        st.push(-1);
+
+        int ngl[] = new int[n];// find the next greater on left
+
+        for (int i = 0; i < n; i++) {
+
+            int curr = arr[i];
+
+            while (st.peek() != -1 && arr[st.peek()] <= curr) {
+                st.pop();
+            }
+
+            ngl[i] = i - st.peek();
+            st.push(i);
+        }
+
+        // create the answer
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < ngl.length; i++) {
+            ans.add(ngl[i]);
+        }
+
+        return ans;
+    }
+
+    /// https://www.geeksforgeeks.org/problems/smallest-number-on-left3403/1
+    /// LEFT TO RIGHT
+    public static int[] leftSmallerLR(int[] arr) {
+        // code here
+
+        int n = arr.length;
+        int nsl[] = new int[n];
+
+        Stack<Integer> st = new Stack<>();
+
+        st.push(-1);
+
+        for (int i = 0; i < n; i++) {
+
+            int curr = arr[i];
+
+            while (st.peek() != -1 && st.peek() >= curr) {
+                st.pop();
+            }
+
+            nsl[i] = st.peek();
+
+            st.push(curr);
+        }
+
+        return nsl;
+    }
+
+    /// https://www.geeksforgeeks.org/problems/smallest-number-on-left3403/1
+    /// RIGHT TO LEFT
+    public int[] leftSmallerRL(int[] arr) {
+        // code here
+
+        int n = arr.length;
+        int nsl[] = new int[n];
+
+        // fill the array
+
+        for (int i = 0; i < n; i++) {
+            nsl[i] = -1;
+        }
+
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            int curr = arr[i];
+
+            while (st.size() > 0 && arr[st.peek()] > curr) {
+
+                nsl[st.pop()] = curr;
+            }
+
+            st.push(i);
+        }
+
+        return nsl;
+    }
+
+    // https://www.geeksforgeeks.org/dsa/next-smaller-element/
+
+    // Input: arr[] = [4, 8, 5, 2, 25]
+    // Output: [2, 5, 2, -1, -1]
+
+    // LEFT TO RIGHT
+
+    public static ArrayList<Integer> nextSmallerEleOnRight(int[] arr) {
+
+        int n = arr.length;
+        // finding the next smaller right
+        int nsr[] = new int[n];
+
+        // fill the array
+
+        for (int i = 0; i < n; i++) {
+            nsr[i] = -1;
+        }
+
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = 0; i < n; i++) {
+
+            int curr = arr[i];
+
+            while (st.size() > 0 && arr[st.peek()] > curr) {
+                nsr[st.pop()] = curr;
+            }
+
+            st.push(i);
+        }
+
+        // create the answer list
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            ans.add(nsr[i]);
+        }
+
+        return ans;
+
+    }
+
+    // https://www.geeksforgeeks.org/dsa/next-smaller-element/
+
+    // Input: arr[] = [4, 8, 5, 2, 25]
+    // Output: [2, 5, 2, -1, -1]
+
+    // RIGHT TO LEFT
+
+    public static ArrayList<Integer> nextSmallerEleOnRight2(int[] arr) {
+
+        int n = arr.length;
+        // finding the next smaller right
+        int nsr[] = new int[n];
+
+        // fill the array
+
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            int curr = arr[i];
+
+            while (st.peek() != -1 && st.peek() > curr) {
+                st.pop();
+            }
+
+            nsr[i] = st.peek();
+
+            st.push(curr);
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            ans.add(nsr[i]);
+        }
+
+        return ans;
+
+    }
+
+    /// ===========================================================84. Largest
+    /// Rectangle in Histogram
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+
+        int[] nsl = new int[n];
+        int[] nsr = new int[n];
+
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+
+        for (int i = 0; i < n; i++) {
+            while (st.peek() != -1 && heights[st.peek()] >= heights[i]) {
+                st.pop();
+            }
+
+            nsl[i] = st.peek();
+
+            st.push(i);
+        }
+
+        st = new Stack<>(); // emptying stack
+        st.push(n);
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (st.peek() != n && heights[st.peek()] >= heights[i]) {
+                st.pop();
+            }
+
+            nsr[i] = st.peek();
+
+            st.push(i);
+        }
+
+        int maxArea = 0;
+
+        for (int i = 0; i < n; i++) {
+            int h = heights[i];
+            int w = nsr[i] - nsl[i] - 1;
+
+            maxArea = Math.max(maxArea, h * w);
+        }
+
+        return maxArea;
+    }
+
+    /// ===========================================================84. Largest
+    /// Rectangle in Histogram
+    public int largestRectangleAreaWithOptimized(int[] heights) {
+        int n = heights.length;
+
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+
+        int maxArea = 0;
+
+        for (int i = 0; i < n; i++) {
+            while (st.peek() != -1 && heights[st.peek()] > heights[i]) {
+                int poppedIndex = st.pop();
+                int h = heights[poppedIndex];
+                int nsr = i;
+                int nsl = st.peek();
+
+                maxArea = Math.max(maxArea, h * (nsr - nsl - 1));
+            }
+            st.push(i);
+        }
+
+        while (st.peek() != -1) {
+            int poppedIndex = st.pop();
+            int h = heights[poppedIndex];
+            int nsr = n;
+            int nsl = st.peek();
+
+            maxArea = Math.max(maxArea, h * (nsr - nsl - 1));
+        }
+
+        return maxArea;
+
+    }
+
+    /// ===========================Questions ON POSTFIX INFIX PREFIX
+    /// EXPRESSION===========================================
+
+    public static int precedence(char ch) {
+        if (ch == '+' || ch == '-') {
+            return 1;
+        } else if (ch == '*' || ch == '/') {
+            return 2;
+        } else {
+            return 0;
         }
     }
 
-    // push at the bottom of the stack
+    public static int evaluate(int v1, int v2, char op) {
 
-    public static String reverseString(String str) {
-
-        Stack<Character> stack = new Stack<>();
-
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            stack.push(ch);
-        }
-        // create the String builder
-
-        StringBuilder ans = new StringBuilder("");
-
-        while (!stack.isEmpty()) {
-            char ch = stack.pop();
-            ans.append(ch);
+        if (op == '+') {
+            return v1 + v2;
+        } else if (op == '-') {
+            return v2 - v1;
+        } else if (op == '*') {
+            return v2 * v1;
+        } else if (op == '/') {
+            return v2 / v1;
         }
 
-        return ans.toString();
+        return 0;
     }
 
-    public static void pushAtBottom(Stack<Integer> st, int ele) {
-        if (st.isEmpty()) {
-            st.push(ele);
-            return;
+    public static int evealutateInfixExp(String ex) {
+        Stack<Integer> operands = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for (int i = 0; i < ex.length(); i++) {
+
+            char ch = ex.charAt(i);
+
+            if (ch >= '0' && ch <= '9') {
+                operands.push(ch - '0');
+            } else if (ch == '(') {
+                operators.push(ch);
+            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+
+                while (operators.size() > 0 && precedence(operators.peek()) >= precedence(ch)) {
+                    char operation = operators.pop();
+                    int value1 = operands.pop();
+                    int value2 = operands.pop();
+
+                    int ans = evaluate(value1, value2, operation);
+                    operands.push(ans);
+                }
+
+                operators.push(ch);
+            } else if (ch == ')') {
+                while (operators.peek() != '(') {
+                    char operation = operators.pop();
+                    int value1 = operands.pop();
+                    int value2 = operands.pop();
+
+                    int ans = evaluate(value1, value2, operation);
+                    operands.push(ans);
+                }
+                operators.pop();
+            }
         }
-        int num = st.peek();
-        st.pop();
-        pushAtBottom(st, ele);
-        st.push(num);
-    }
 
-    public static void reverseStack(Stack<Integer> st) {
-
-        if (st.empty()) {
-            return;
-        }
-
-        int ele = st.pop();// 3//2//1
-        reverseStack(st);
-        pushAtBottom(st, ele);
-
+        return operands.peek();
     }
 
     // 17700-->842
     public static void main(String[] args) {
 
-        String exp = "((a+B)+((a+c))";
+        // String exp = "((a+B)+((a+c))";
 
         // System.out.println(isDuplicate(exp));
 
-        int arr[] = { 15, 10, 20, 12, 17, 18, 10, 9, 8, 39, 11 };
+        // int arr[] = { 15, 10, 20, 12, 17, 18, 10, 9, 8, 39, 11 };
 
         // System.out.println(nextLargerElementRightToLeft(arr));
         // System.out.println(nextLargerElementLeftToRight(arr));
 
-        Stack<Integer> st = new Stack<>();
-        st.push(1);
-        st.push(2);
-        st.push(3);
+        // Stack<Integer> st = new Stack<>();
+        // st.push(1);
+        // st.push(2);
+        // st.push(3);
 
         // pushAtBottom(st, 4);
 
         // System.out.println(st);
 
-        reverseStack(st);
-        System.out.println(st);
+        // reverseStack(st);
+        // System.out.println(st);
+
+        String ex = "(4+3)";
+
+        System.out.println(evealutateInfixExp(ex));
 
     }
 }
