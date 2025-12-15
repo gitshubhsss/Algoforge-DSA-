@@ -399,47 +399,63 @@ public class Questions {
 
     }
 
-    /// ===========================================================84. Largest
-    /// Rectangle in Histogram
-    public int largestRectangleArea(int[] heights) {
+    /// Leetcode 84. Largest
+    /// (https://leetcode.com/problems/largest-rectangle-in-histogram/)
+
+    public static int largestRectangleAreaWithoutOptimized(int[] heights) {
+
         int n = heights.length;
 
-        int[] nsl = new int[n];
-        int[] nsr = new int[n];
+        // store the next smaller left
 
-        Stack<Integer> st = new Stack<>();
-        st.push(-1);
+        int nsl[] = new int[n];
+
+        // fill the array with the -1
 
         for (int i = 0; i < n; i++) {
-            while (st.peek() != -1 && heights[st.peek()] >= heights[i]) {
+            nsl[i] = -1;
+        }
+
+        Stack<Integer> st = new Stack<>();
+
+        st.push(-1);
+
+        /// find the next smaller on left
+        for (int i = 0; i < n; i++) {
+            int curr = heights[i];
+            while (st.peek() != -1 && heights[st.peek()] > curr) {
                 st.pop();
             }
-
             nsl[i] = st.peek();
-
             st.push(i);
         }
 
-        st = new Stack<>(); // emptying stack
-        st.push(n);
+        // empty the stack
+        st = new Stack<>();
 
-        for (int i = n - 1; i >= 0; i--) {
-            while (st.peek() != n && heights[st.peek()] >= heights[i]) {
-                st.pop();
+        // create the next smaller on right array
+        int nsr[] = new int[n];
+
+        // fill the array with n
+        for (int i = 0; i < n; i++) {
+            nsr[i] = n;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int curr = heights[i];
+            while (st.size() > 0 && heights[st.peek()] > curr) {
+                nsr[st.pop()] = i;
             }
-
-            nsr[i] = st.peek();
-
             st.push(i);
         }
 
         int maxArea = 0;
 
         for (int i = 0; i < n; i++) {
-            int h = heights[i];
-            int w = nsr[i] - nsl[i] - 1;
+            int height = heights[i];
+            int width = nsr[i] - nsl[i] - 1;
 
-            maxArea = Math.max(maxArea, h * w);
+            maxArea = Math.max(maxArea, height * width);
         }
 
         return maxArea;
@@ -447,37 +463,37 @@ public class Questions {
 
     /// ===========================================================84. Largest
     /// Rectangle in Histogram
-    public int largestRectangleAreaWithOptimized(int[] heights) {
-        int n = heights.length;
 
+    // [8, 2, 3, 1, 5, 6, 5, 4, 3, 6]
+    public static int largestRectangleArea(int heights[]) {
+
+        int n = heights.length;
         Stack<Integer> st = new Stack<>();
+
         st.push(-1);
 
-        int maxArea = 0;
+        int maxHeight = 0;
 
         for (int i = 0; i < n; i++) {
-            while (st.peek() != -1 && heights[st.peek()] > heights[i]) {
-                int poppedIndex = st.pop();
-                int h = heights[poppedIndex];
-                int nsr = i;
+            int curr = heights[i];
+            while (st.peek() != -1 && heights[st.peek()] > curr) {
+                int height = heights[st.pop()];
                 int nsl = st.peek();
+                int nsr = i;
+                maxHeight = Math.max(maxHeight, height * (nsr - nsl - 1));
 
-                maxArea = Math.max(maxArea, h * (nsr - nsl - 1));
             }
             st.push(i);
         }
 
         while (st.peek() != -1) {
-            int poppedIndex = st.pop();
-            int h = heights[poppedIndex];
-            int nsr = n;
+            int height = heights[st.pop()];
             int nsl = st.peek();
-
-            maxArea = Math.max(maxArea, h * (nsr - nsl - 1));
+            int nsr = n;
+            maxHeight = Math.max(maxHeight, height * (nsr - nsl - 1));
         }
 
-        return maxArea;
-
+        return maxHeight;
     }
 
     /// ===========================Questions ON POSTFIX INFIX PREFIX
@@ -572,9 +588,13 @@ public class Questions {
         // reverseStack(st);
         // System.out.println(st);
 
-        String ex = "(4+3)";
+        // String ex = "(4+3)";
 
-        System.out.println(evealutateInfixExp(ex));
+        // System.out.println(evealutateInfixExp(ex));
+
+        int heights[] = { 8, 2, 3, 1, 5, 6, 5, 4, 3, 6 };
+
+        System.out.println(largestRectangleArea(heights));
 
     }
 }
