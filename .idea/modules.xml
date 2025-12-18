@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Arrays/Arrays.iml" filepath="$PROJECT_DIR$/Arrays/Arrays.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Recursion And Backtracking/Backtracking/Backtracking.iml" filepath="$PROJECT_DIR$/Recursion And Backtracking/Backtracking/Backtracking.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LinkedList/LinkedList.iml" filepath="$PROJECT_DIR$/LinkedList/LinkedList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Opps/Opps.iml" filepath="$PROJECT_DIR$/Opps/Opps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Recursion And Backtracking/Recursion/Recursion.iml" filepath="$PROJECT_DIR$/Recursion And Backtracking/Recursion/Recursion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Recursion And Backtracking/Recursion And Backtracking.iml" filepath="$PROJECT_DIR$/Recursion And Backtracking/Recursion And Backtracking.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Recursion And Backtracking/Revision/Revision.iml" filepath="$PROJECT_DIR$/Recursion And Backtracking/Revision/Revision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Strings/Strings.iml" filepath="$PROJECT_DIR$/Strings/Strings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/algoforge.iml" filepath="$PROJECT_DIR$/algoforge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Arrays/revision/revision.iml" filepath="$PROJECT_DIR$/Arrays/revision/revision.iml" />
+    </modules>
+  </component>
+</project>

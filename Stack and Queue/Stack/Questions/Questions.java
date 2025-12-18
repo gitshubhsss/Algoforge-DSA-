@@ -496,10 +496,13 @@ public class Questions {
         return maxHeight;
     }
 
+    // ===========>Homework=======================>
+    // https://leetcode.com/problems/maximal-rectangle/description/
+
     /// ===========================Questions ON POSTFIX INFIX PREFIX
     /// EXPRESSION===========================================
 
-    public static int precedence(char ch) {
+    public static int checkPrecedence(char ch) {
         if (ch == '+' || ch == '-') {
             return 1;
         } else if (ch == '*' || ch == '/') {
@@ -509,56 +512,69 @@ public class Questions {
         }
     }
 
-    public static int evaluate(int v1, int v2, char op) {
+    public static int evalute(char op, int val1, int val2) {
 
         if (op == '+') {
-            return v1 + v2;
+            return val1 + val2;
         } else if (op == '-') {
-            return v2 - v1;
+            return val2 - val1;
         } else if (op == '*') {
-            return v2 * v1;
+            return val1 * val2;
         } else if (op == '/') {
-            return v2 / v1;
+            return val1 / val2;
         }
-
-        return 0;
+        return -1;
     }
 
-    public static int evealutateInfixExp(String ex) {
+    // 2+3*5-8+(4/7+5)*9
+    public static int evaluateExpression(String expression) {
+
+        int n = expression.length();
+
         Stack<Integer> operands = new Stack<>();
+
         Stack<Character> operators = new Stack<>();
 
-        for (int i = 0; i < ex.length(); i++) {
+        for (int i = 0; i < n; i++) {
+            char ch = expression.charAt(i);
 
-            char ch = ex.charAt(i);
+            if (ch == ')') {
 
-            if (ch >= '0' && ch <= '9') {
-                operands.push(ch - '0');
-            } else if (ch == '(') {
-                operators.push(ch);
-            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-
-                while (operators.size() > 0 && precedence(operators.peek()) >= precedence(ch)) {
-                    char operation = operators.pop();
-                    int value1 = operands.pop();
-                    int value2 = operands.pop();
-
-                    int ans = evaluate(value1, value2, operation);
-                    operands.push(ans);
-                }
-
-                operators.push(ch);
-            } else if (ch == ')') {
                 while (operators.peek() != '(') {
-                    char operation = operators.pop();
-                    int value1 = operands.pop();
-                    int value2 = operands.pop();
+                    char op = operators.pop();
 
-                    int ans = evaluate(value1, value2, operation);
+                    int ans = evalute(op, operands.pop(), operands.pop());
                     operands.push(ans);
                 }
                 operators.pop();
+            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+
+                while (operators.size() > 0 && checkPrecedence(operators.peek()) >= checkPrecedence(ch)) {
+
+                    char op = operators.pop();
+
+                    int ans = evalute(op, operands.pop(), operands.pop());
+
+                    System.out.println(ans);
+
+                    operands.push(ans);
+                }
+
+                operators.push(ch);
+
+            } else if (ch == '(') {
+
+                operators.push(ch);
+
+            } else {
+                operands.push(ch - '0');
             }
+        }
+
+        while (operators.size() > 0) {
+            char op = operators.pop();
+            int ans = evalute(op, operands.pop(), operands.pop());
+            operands.push(ans);
         }
 
         return operands.peek();
@@ -592,9 +608,12 @@ public class Questions {
 
         // System.out.println(evealutateInfixExp(ex));
 
-        int heights[] = { 8, 2, 3, 1, 5, 6, 5, 4, 3, 6 };
+        // int heights[] = { 8, 2, 3, 1, 5, 6, 5, 4, 3, 6 };
 
-        System.out.println(largestRectangleArea(heights));
+        // System.out.println(largestRectangleArea(heights));
+
+        String expression = "2+3*5-8+(4/7+5)*9";
+        System.out.println(evaluateExpression(expression));
 
     }
 }
