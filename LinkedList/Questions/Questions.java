@@ -3,698 +3,663 @@ package Questions;
 import java.util.ArrayList;
 
 class Node {
-    int data;
-    Node next;
 
-    Node(int x) {
-        data = x;
-        next = null;
-    }
+  int data;
+  Node next;
+
+  Node(int x) {
+    data = x;
+    next = null;
+  }
 }
 
 class ListNode {
-    int val;
-    ListNode next;
 
-    ListNode() {
-    }
+  int val;
+  ListNode next;
 
-    ListNode(int val) {
-        this.val = val;
-    }
+  ListNode() {}
 
-    ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
-    }
+  ListNode(int val) {
+    this.val = val;
+  }
+
+  ListNode(int val, ListNode next) {
+    this.val = val;
+    this.next = next;
+  }
 }
 
 public class Questions {
 
-    // leetcode 206 (Reverse LL) ======================================
-    public static ListNode reverseList(ListNode head) {
+  // leetcode 206 (Reverse LL) ======================================
+  public static ListNode reverseList(ListNode head) {
+    ListNode prev = null;
 
-        ListNode prev = null;
+    ListNode curr = head;
 
-        ListNode curr = head;
+    while (curr != null) { // O(N)
+      // find curr ka next
+      ListNode nextNode = curr.next;
 
-        while (curr != null) {// O(N)
-            // find curr ka next
-            ListNode nextNode = curr.next;
+      // change connections----> point to prev node
+      curr.next = prev;
 
-            // change connections----> point to prev node
-            curr.next = prev;
-
-            // move the pointers next iteration
-            prev = curr;
-            curr = nextNode;
-        }
-
-        // prev pointer is at the new head so return that point
-        return prev;
+      // move the pointers next iteration
+      prev = curr;
+      curr = nextNode;
     }
 
-    // Bruit force approach -->find size -->find size-k th node -->retur the data
-    // https://www.geeksforgeeks.org/problems/nth-node-from-end-of-linked-list/1
-    int getKthFromLastBruitForce(ListNode head, int k) {
+    // prev pointer is at the new head so return that point
+    return prev;
+  }
 
-        if (head == null) {
-            return -1;
-        }
-
-        int size = 1;
-
-        ListNode temp = head;
-
-        while (temp.next != null) {
-            size++;
-            temp = temp.next;
-        }
-
-        if (k > size) {
-            return -1;
-        }
-
-        int i = 0;
-        int j = size - k;
-
-        temp = head;
-
-        while (i < j) {
-            temp = temp.next;
-            i++;
-        }
-
-        return temp.val;
-
+  // Bruit force approach -->find size -->find size-k th node -->retur the data
+  // https://www.geeksforgeeks.org/problems/nth-node-from-end-of-linked-list/1
+  int getKthFromLastBruitForce(ListNode head, int k) {
+    if (head == null) {
+      return -1;
     }
 
-    // Slow and fast algorithm
+    int size = 1;
 
-    int getKthFromLast(ListNode head, int k) {
+    ListNode temp = head;
 
-        // slow ptr
-        ListNode slow = head;
-
-        // fast ptr
-        ListNode fast = head;
-
-        // moving fast k steps ahead of slow
-        while (k > 0) {
-            if (fast == null) {/// moving k steps is not possible --> list size is smaller than k
-                return -1;
-            }
-            fast = fast.next;
-            k--;
-        }
-
-        // moving the slow and fast together until fast is at null
-        while (fast != null) {
-
-            slow = slow.next;
-            fast = fast.next;
-        }
-        return slow.val;
+    while (temp.next != null) {
+      size++;
+      temp = temp.next;
     }
 
-    // https://leetcode.com/problems/middle-of-the-linked-list/description/
-
-    public static ListNode middleNode(ListNode head) {
-
-        ListNode slow = head;
-        ListNode fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        return slow;
+    if (k > size) {
+      return -1;
     }
 
-    // generic middle of the linked list in case of even
-    public static ListNode middleNodeGeneric(ListNode head) {
+    int i = 0;
+    int j = size - k;
 
-        ListNode slow = head;
-        ListNode fast = head;
+    temp = head;
 
-        while (fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next;
-        }
-
-        return slow;
-
+    while (i < j) {
+      temp = temp.next;
+      i++;
     }
 
-    // https://leetcode.com/problems/palindrome-linked-list/F
-    public boolean isPalindrome(ListNode head) {
+    return temp.val;
+  }
 
-        ListNode middleNode = middleNodeGeneric(head);
+  // Slow and fast algorithm
 
-        ListNode secondHead = middleNode.next;
+  int getKthFromLast(ListNode head, int k) {
+    // slow ptr
+    ListNode slow = head;
 
-        middleNode.next = null;
+    // fast ptr
+    ListNode fast = head;
 
-        secondHead = reverseList(secondHead);
+    // moving fast k steps ahead of slow
+    while (k > 0) {
+      if (fast == null) { /// moving k steps is not possible --> list size is smaller than k
+        return -1;
+      }
+      fast = fast.next;
+      k--;
+    }
 
-        ListNode ptr1 = head, ptr2 = secondHead;
+    // moving the slow and fast together until fast is at null
+    while (fast != null) {
+      slow = slow.next;
+      fast = fast.next;
+    }
+    return slow.val;
+  }
 
-        while (ptr1 != null && ptr2 != null) {
-            if (ptr1.val != ptr2.val) {
-                return false;
-            }
+  // https://leetcode.com/problems/middle-of-the-linked-list/description/
 
-            ptr1 = ptr1.next;
-            ptr2 = ptr2.next;
+  public static ListNode middleNode(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
+
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    return slow;
+  }
+
+  // generic middle of the linked list in case of even
+  public static ListNode middleNodeGeneric(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
+
+    while (fast.next != null && fast.next.next != null) {
+      slow = slow.next;
+      fast = fast.next;
+    }
+
+    return slow;
+  }
+
+  // https://leetcode.com/problems/palindrome-linked-list/F
+  public boolean isPalindrome(ListNode head) {
+    ListNode middleNode = middleNodeGeneric(head);
+
+    ListNode secondHead = middleNode.next;
+
+    middleNode.next = null;
+
+    secondHead = reverseList(secondHead);
+
+    ListNode ptr1 = head, ptr2 = secondHead;
+
+    while (ptr1 != null && ptr2 != null) {
+      if (ptr1.val != ptr2.val) {
+        return false;
+      }
+
+      ptr1 = ptr1.next;
+      ptr2 = ptr2.next;
+    }
+
+    return true;
+  }
+
+  // https://leetcode.com/problems/reorder-list/
+  public void reorderList(ListNode head) {
+    ListNode dummy = new ListNode(-1);
+
+    ListNode currDummy = dummy;
+
+    ListNode firstHead = head;
+
+    ListNode mid = middleNodeGeneric(head);
+
+    ListNode secondHead = mid.next;
+
+    secondHead = reverseList(secondHead);
+
+    mid.next = null;
+
+    while (firstHead != null && secondHead != null) {
+      ListNode firstHeadKaNext = firstHead.next;
+      firstHead.next = null;
+      currDummy.next = firstHead;
+      currDummy = firstHead;
+      firstHead = firstHeadKaNext;
+
+      ListNode secondHeadKaNext = secondHead.next;
+      secondHead.next = null;
+      currDummy.next = secondHead;
+      currDummy = secondHead;
+      secondHead = secondHeadKaNext;
+    }
+
+    if (secondHead == null) {
+      currDummy.next = firstHead;
+    }
+  }
+
+  // https://leetcode.com/problems/odd-even-linked-list/submissions/1840517437/
+  public ListNode oddEvenList(ListNode head) {
+    // create the dummy nodes
+    ListNode oddDummy = new ListNode(-1);
+    ListNode evenDummy = new ListNode(-1);
+
+    // initialize the pointers
+    ListNode curr = head;
+    ListNode oddCurr = oddDummy;
+    ListNode evenCurr = evenDummy;
+    int pos = 1;
+
+    while (curr != null) {
+      ListNode currKaNext = curr.next;
+      curr.next = null;
+
+      if (pos % 2 == 0) {
+        evenCurr.next = curr;
+        evenCurr = curr;
+      } else {
+        oddCurr.next = curr;
+        oddCurr = curr;
+      }
+
+      curr = currKaNext;
+
+      pos++;
+    }
+
+    ListNode oddListHead = oddDummy.next;
+
+    ListNode evenListHead = evenDummy.next;
+
+    oddCurr.next = evenListHead;
+
+    return oddListHead;
+  }
+
+  // https://www.geeksforgeeks.org/problems/segregate-even-and-odd-nodes-in-a-linked-list5035/1
+  Node divide(Node head) {
+    // code here
+
+    Node oddDummy = new Node(-1);
+    Node evenDummy = new Node(-1);
+
+    Node curr = head;
+
+    Node oddCurr = oddDummy;
+
+    Node evenCurr = evenDummy;
+
+    while (curr != null) {
+      Node currKaNext = curr.next;
+
+      curr.next = null;
+
+      if (curr.data % 2 == 0) {
+        evenCurr.next = curr;
+        evenCurr = curr;
+      } else {
+        oddCurr.next = curr;
+        oddCurr = curr;
+      }
+      curr = currKaNext;
+    }
+
+    Node evenKaHead = evenDummy.next;
+    Node oddKaHead = oddDummy.next;
+
+    evenCurr.next = oddKaHead;
+
+    return evenKaHead;
+  }
+
+  /// https://leetcode.com/problems/copy-list-with-random-pointer/
+  public Node addCopyNodes(Node head) {
+    Node curr = head;
+
+    while (curr != null) {
+      Node currKaNext = curr.next;
+
+      Node copyNode = new Node(curr.data);
+
+      // inserting in between
+      curr.next = copyNode;
+      copyNode.next = currKaNext;
+
+      // move curr
+      curr = currKaNext;
+    }
+
+    return head;
+  }
+
+  public void assignRandom(Node head) {
+    Node curr = head;
+
+    while (curr != null) {
+      // Node copyNode = curr.next;
+
+      // if (curr.random != null) {
+      // copyNode.random = curr.random.next;
+      // }
+
+      curr = curr.next.next;
+    }
+  }
+
+  public Node removeCopyList(Node head) {
+
+    Node dummy = new Node(-1);
+    Node copyCurr = dummy;
+
+    Node curr = head;
+    
+
+    while (curr != null) {
+
+      Node copyNode = curr.next;
+      Node currKaNext = curr.next.next;
+
+      copyCurr.next = copyNode;
+      curr.next = currKaNext;
+
+      curr = currKaNext;
+      copyCurr = copyCurr.next;
+    }
+
+    return dummy.next;
+  }
+
+  public Node copyRandomList(Node head) {
+    head = addCopyNodes(head);
+    assignRandom(head);
+    return removeCopyList(head);
+  }
+
+  //// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+  public ListNode deleteDuplicates(ListNode head) {
+    ListNode curr = head;
+
+    while (curr != null && curr.next != null) {
+      if (curr.val == curr.next.val) {
+        curr.next = curr.next.next;
+      } else {
+        curr = curr.next;
+      }
+    }
+
+    return head;
+  }
+
+  /// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+  public ListNode deleteDuplicates2(ListNode head) {
+    if (head == null) {
+      return head;
+    }
+    if (head.next == null) {
+      return head;
+    }
+
+    ListNode dummy = new ListNode(-1);
+
+    ListNode currDummy = dummy;
+
+    currDummy.next = head;
+
+    ListNode curr = currDummy;
+
+    while (curr.next != null && curr.next.next != null) {
+      if (curr.next.val == curr.next.next.val) {
+        ListNode temp = curr.next;
+
+        int duplicateElement = curr.next.val;
+
+        while (temp != null && temp.val == duplicateElement) {
+          temp = temp.next;
         }
+        curr.next = temp;
+      } else {
+        curr = curr.next;
+      }
+    }
 
+    return dummy.next;
+  }
+
+  /// https://leetcode.com/problems/linked-list-cycle/
+  // broot forcce my initial approch
+  public boolean hasCycleBruit(ListNode head) {
+    ListNode curr = head;
+    ArrayList<ListNode> nodes = new ArrayList<ListNode>();
+    while (curr != null) {
+      if (!nodes.contains(curr)) {
+        nodes.add(curr);
+      } else {
         return true;
+      }
+      curr = curr.next;
+    }
+    return false;
+  }
 
+  // https://leetcode.com/problems/linked-list-cycle/ with Floyd–Warshall
+  public boolean hasCycle(ListNode head) {
+    if (head == null && head.next == null) {
+      return false;
     }
 
-    // https://leetcode.com/problems/reorder-list/
-    public void reorderList(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
 
-        ListNode dummy = new ListNode(-1);
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
 
-        ListNode currDummy = dummy;
+      if (slow == fast) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-        ListNode firstHead = head;
-
-        ListNode mid = middleNodeGeneric(head);
-
-        ListNode secondHead = mid.next;
-
-        secondHead = reverseList(secondHead);
-
-        mid.next = null;
-
-        while (firstHead != null && secondHead != null) {
-            ListNode firstHeadKaNext = firstHead.next;
-            firstHead.next = null;
-            currDummy.next = firstHead;
-            currDummy = firstHead;
-            firstHead = firstHeadKaNext;
-
-            ListNode secondHeadKaNext = secondHead.next;
-            secondHead.next = null;
-            currDummy.next = secondHead;
-            currDummy = secondHead;
-            secondHead = secondHeadKaNext;
-        }
-
-        if (secondHead == null) {
-            currDummy.next = firstHead;
-        }
-
+  /// https://leetcode.com/problems/linked-list-cycle-ii/ Floyd–Warshall
+  public ListNode detectCycle(ListNode head) {
+    if (head == null || head.next == null) {
+      return null;
     }
 
-    // https://leetcode.com/problems/odd-even-linked-list/submissions/1840517437/
-    public ListNode oddEvenList(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
 
-        // create the dummy nodes
-        ListNode oddDummy = new ListNode(-1);
-        ListNode evenDummy = new ListNode(-1);
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
 
-        // initialize the pointers
-        ListNode curr = head;
-        ListNode oddCurr = oddDummy;
-        ListNode evenCurr = evenDummy;
-        int pos = 1;
-
-        while (curr != null) {
-
-            ListNode currKaNext = curr.next;
-            curr.next = null;
-
-            if (pos % 2 == 0) {
-                evenCurr.next = curr;
-                evenCurr = curr;
-
-            } else {
-                oddCurr.next = curr;
-                oddCurr = curr;
-            }
-
-            curr = currKaNext;
-
-            pos++;
-
-        }
-
-        ListNode oddListHead = oddDummy.next;
-
-        ListNode evenListHead = evenDummy.next;
-
-        oddCurr.next = evenListHead;
-
-        return oddListHead;
-
+      if (slow == fast) {
+        break;
+      }
     }
 
-    // https://www.geeksforgeeks.org/problems/segregate-even-and-odd-nodes-in-a-linked-list5035/1
-    Node divide(Node head) {
-        // code here
-
-        Node oddDummy = new Node(-1);
-        Node evenDummy = new Node(-1);
-
-        Node curr = head;
-
-        Node oddCurr = oddDummy;
-
-        Node evenCurr = evenDummy;
-
-        while (curr != null) {
-
-            Node currKaNext = curr.next;
-
-            curr.next = null;
-
-            if (curr.data % 2 == 0) {
-                evenCurr.next = curr;
-                evenCurr = curr;
-            } else {
-                oddCurr.next = curr;
-                oddCurr = curr;
-            }
-            curr = currKaNext;
-        }
-
-        Node evenKaHead = evenDummy.next;
-        Node oddKaHead = oddDummy.next;
-
-        evenCurr.next = oddKaHead;
-
-        return evenKaHead;
+    if (slow != fast) {
+      return null;
     }
 
-    /// https://leetcode.com/problems/copy-list-with-random-pointer/
-    public Node addCopyNodes(Node head) {
-        Node curr = head;
+    slow = head;
 
-        while (curr != null) {
-            Node currKaNext = curr.next;
+    while (slow != fast) {
+      // moving one pointers at a time
+      slow = slow.next;
+      fast = fast.next;
+    }
+    return slow;
+  }
 
-            Node copyNode = new Node(curr.data);
+  // https://leetcode.com/problems/delete-node-in-a-linked-list/
+  public void deleteNode(ListNode node) {
+    ListNode nodeKaNext = node.next;
+    node.next = node.next.next;
+    node.val = nodeKaNext.val;
+  }
 
-            // inserting in between
-            curr.next = copyNode;
-            copyNode.next = currKaNext;
+  /// https://leetcode.com/problems/intersection-of-two-linked-lists/
 
-            // move curr
-            curr = currKaNext;
-        }
-
-        return head;
+  public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    ListNode temp = headB;
+    while (temp.next != null) {
+      temp = temp.next;
     }
 
-    public void assignRandom(Node head) {
-        Node curr = head;
+    ListNode tailB = temp;
 
-        while (curr != null) {
-            // Node copyNode = curr.next;
+    tailB.next = headB; // or Head A
 
-            // if (curr.random != null) {
-            // copyNode.random = curr.random.next;
-            // }
+    ListNode intersectionNode = detectCycle(headA); // if the tail is connected to headA here then send head B
 
-            curr = curr.next.next;
-        }
+    tailB.next = null; // Fixing the list again
+
+    return intersectionNode;
+  }
+
+  // https://leetcode.com/problems/merge-two-sorted-lists/?envType=problem-list-v2&envId=linked-list
+  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+    ListNode dummy = new ListNode(-15565);
+
+    ListNode currDummy = dummy;
+
+    while (list1 != null && list2 != null) {
+      if (list1.val > list2.val) {
+        currDummy.next = list2;
+        list2 = list2.next;
+      } else {
+        currDummy.next = list1;
+        list1 = list1.next;
+      }
+
+      currDummy = currDummy.next;
     }
 
-    public Node removeCopyList(Node head) {
-        Node dummy = new Node(-1);
-        Node curr = head;
-        Node copyCurr = dummy;
-
-        while (curr != null) {
-            Node copyNode = curr.next;
-            Node currKaNext = curr.next.next;
-
-            copyCurr.next = copyNode;
-            curr.next = currKaNext;
-
-            curr = currKaNext;
-            copyCurr = copyCurr.next;
-        }
-
-        return dummy.next;
+    if (list2 == null) {
+      currDummy.next = list1;
     }
 
-    public Node copyRandomList(Node head) {
-        head = addCopyNodes(head);
-        assignRandom(head);
-        return removeCopyList(head);
-
+    if (list1 == null) {
+      currDummy.next = list2;
     }
 
-    //// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
-    public ListNode deleteDuplicates(ListNode head) {
+    return dummy.next;
+  }
 
-        ListNode curr = head;
+  // Leetcode 25 (Reverse nodes in k-group)
+  class Solution {
 
-        while (curr != null && curr.next != null) {
+    public int getSize(ListNode head) {
+      ListNode temp = head;
+      int size = 0;
 
-            if (curr.val == curr.next.val) {
-                curr.next = curr.next.next;
-            } else {
-                curr = curr.next;
-            }
+      while (temp != null) {
+        size++;
+        temp = temp.next;
+      }
 
-        }
-
-        return head;
-
+      return size;
     }
 
-    /// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
-    public ListNode deleteDuplicates2(ListNode head) {
+    ListNode tHead;
+    ListNode tTail;
 
-        if (head == null) {
-            return head;
-        }
-        if (head.next == null) {
-            return head;
-        }
-
-        ListNode dummy = new ListNode(-1);
-
-        ListNode currDummy = dummy;
-
-        currDummy.next = head;
-
-        ListNode curr = currDummy;
-
-        while (curr.next != null && curr.next.next != null) {
-
-            if (curr.next.val == curr.next.next.val) {
-
-                ListNode temp = curr.next;
-
-                int duplicateElement = curr.next.val;
-
-                while (temp != null && temp.val == duplicateElement) {
-
-                    temp = temp.next;
-                }
-                curr.next = temp;
-
-            } else {
-                curr = curr.next;
-            }
-
-        }
-
-        return dummy.next;
-
+    public void addFirst(ListNode node) {
+      if (tHead == null) {
+        tHead = node;
+        tTail = node;
+      } else {
+        node.next = tHead;
+        tHead = node;
+      }
     }
 
-    /// https://leetcode.com/problems/linked-list-cycle/
-    // broot forcce my initial approch
-    public boolean hasCycleBruit(ListNode head) {
-        ListNode curr = head;
-        ArrayList<ListNode> nodes = new ArrayList<ListNode>();
-        while (curr != null) {
-            if (!nodes.contains(curr)) {
-                nodes.add(curr);
-            } else {
-                return true;
-            }
-            curr = curr.next;
+    public ListNode reverseKGroup(ListNode head, int k) {
+      ListNode oHead = null;
+      ListNode oTail = null;
+      tHead = null;
+      tTail = null;
+
+      int size = getSize(head);
+      ListNode curr = head;
+
+      while (size >= k) {
+        int K = k;
+
+        // remove next K nodes and make smaller list
+        while (K-- > 0) {
+          ListNode currKaNext = curr.next;
+          curr.next = null;
+
+          addFirst(curr);
+
+          curr = currKaNext;
+          size--;
         }
-        return false;
+
+        // attach smaller (temp) list to original list
+        if (oHead == null) {
+          oHead = tHead;
+          oTail = tTail;
+        } else {
+          oTail.next = tHead;
+          oTail = tTail;
+        }
+
+        tHead = null;
+        tTail = null;
+      }
+
+      oTail.next = curr;
+      return oHead;
+    }
+  }
+
+  class Node2 {
+
+    String url;
+    Node2 next;
+    Node2 prev;
+
+    public Node2(String url) {
+      this.url = url;
+    }
+  }
+
+  // https://leetcode.com/problems/design-browser-history/
+
+  class BrowserHistory {
+
+    Node2 curr;
+
+    public BrowserHistory(String homepage) {
+      curr = new Node2(homepage);
     }
 
-    // https://leetcode.com/problems/linked-list-cycle/ with Floyd–Warshall
-    public boolean hasCycle(ListNode head) {
-        if (head == null && head.next == null) {
-            return false;
-        }
-
-        ListNode slow = head;
-        ListNode fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-
-            if (slow == fast) {
-                return true;
-            }
-        }
-        return false;
+    public void visit(String url) {
+      Node2 newNode = new Node2(url);
+      curr.next = newNode;
+      newNode.prev = curr;
+      curr = curr.next;
     }
 
-    /// https://leetcode.com/problems/linked-list-cycle-ii/ Floyd–Warshall
-    public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return null;
-        }
-
-        ListNode slow = head;
-        ListNode fast = head;
-
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-
-            if (slow == fast) {
-
-                break;
-            }
-        }
-
-        if (slow != fast) {
-            return null;
-        }
-
-        slow = head;
-
-        while (slow != fast) {
-            // moving one pointers at a time
-            slow = slow.next;
-            fast = fast.next;
-
-        }
-        return slow;
+    public String back(int steps) {
+      while (curr.prev != null && steps > 0) {
+        curr = curr.prev;
+        steps--;
+      }
+      return curr.url;
     }
 
-    // https://leetcode.com/problems/delete-node-in-a-linked-list/
-    public void deleteNode(ListNode node) {
-        ListNode nodeKaNext = node.next;
-        node.next = node.next.next;
-        node.val = nodeKaNext.val;
+    public String forward(int steps) {
+      int i = 0;
+
+      while (curr.next != null && i < steps) {
+        curr = curr.next;
+        i++;
+      }
+
+      return curr.url;
     }
+  }
 
-    /// https://leetcode.com/problems/intersection-of-two-linked-lists/
+  public ListNode getKthElement(ListNode head, int idx) {
+    ListNode curr = head;
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-
-        ListNode temp = headB;
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-
-        ListNode tailB = temp;
-
-        tailB.next = headB;// or Head A
-
-        ListNode intersectionNode = detectCycle(headA);// if the tail is connected to headA here then send head B
-
-        tailB.next = null;// Fixing the list again
-
-        return intersectionNode;
-
+    while (idx > 1) {
+      curr = curr.next;
+      idx--;
     }
+    return curr;
+  }
 
-    // https://leetcode.com/problems/merge-two-sorted-lists/?envType=problem-list-v2&envId=linked-list
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+  /// https://leetcode.com/problems/reverse-linked-list-ii/
+  public ListNode reverseBetween(ListNode head, int left, int right) {
+    ListNode dummy = new ListNode(-1);
 
-        ListNode dummy = new ListNode(-15565);
+    dummy.next = head;
 
-        ListNode currDummy = dummy;
+    ListNode leftPrev = getKthElement(dummy, left);
 
-        while (list1 != null && list2 != null) {
-            if (list1.val > list2.val) {
-                currDummy.next = list2;
-                list2 = list2.next;
-            } else {
-                currDummy.next = list1;
-                list1 = list1.next;
-            }
+    ListNode rightPrev = getKthElement(dummy, right + 1);
 
-            currDummy = currDummy.next;
-        }
+    ListNode leftNext = leftPrev.next;
 
-        if (list2 == null) {
-            currDummy.next = list1;
-        }
+    ListNode rightNext = rightPrev.next;
 
-        if (list1 == null) {
-            currDummy.next = list2;
-        }
+    leftPrev.next = null;
+    rightPrev.next = null;
 
-        return dummy.next;
-    }
+    ListNode leftSideKaHead = reverseList(leftNext);
 
-    // Leetcode 25 (Reverse nodes in k-group)
-    class Solution {
-        public int getSize(ListNode head) {
-            ListNode temp = head;
-            int size = 0;
+    leftPrev.next = leftSideKaHead;
+    leftNext.next = rightNext;
 
-            while (temp != null) {
-                size++;
-                temp = temp.next;
-            }
+    return dummy.next;
+  }
 
-            return size;
-        }
-
-        ListNode tHead;
-        ListNode tTail;
-
-        public void addFirst(ListNode node) {
-            if (tHead == null) {
-                tHead = node;
-                tTail = node;
-            } else {
-                node.next = tHead;
-                tHead = node;
-            }
-        }
-
-        public ListNode reverseKGroup(ListNode head, int k) {
-            ListNode oHead = null;
-            ListNode oTail = null;
-            tHead = null;
-            tTail = null;
-
-            int size = getSize(head);
-            ListNode curr = head;
-
-            while (size >= k) {
-                int K = k;
-
-                // remove next K nodes and make smaller list
-                while (K-- > 0) {
-                    ListNode currKaNext = curr.next;
-                    curr.next = null;
-
-                    addFirst(curr);
-
-                    curr = currKaNext;
-                    size--;
-                }
-
-                // attach smaller (temp) list to original list
-                if (oHead == null) {
-                    oHead = tHead;
-                    oTail = tTail;
-                } else {
-                    oTail.next = tHead;
-                    oTail = tTail;
-                }
-
-                tHead = null;
-                tTail = null;
-            }
-
-            oTail.next = curr;
-            return oHead;
-        }
-    }
-
-    class Node2 {
-        String url;
-        Node2 next;
-        Node2 prev;
-
-        public Node2(String url) {
-            this.url = url;
-        }
-    }
-
-    // https://leetcode.com/problems/design-browser-history/
-
-    class BrowserHistory {
-
-        Node2 curr;
-
-        public BrowserHistory(String homepage) {
-            curr = new Node2(homepage);
-        }
-
-        public void visit(String url) {
-            Node2 newNode = new Node2(url);
-            curr.next = newNode;
-            newNode.prev = curr;
-            curr = curr.next;
-        }
-
-        public String back(int steps) {
-
-            while (curr.prev != null && steps > 0) {
-                curr = curr.prev;
-                steps--;
-            }
-            return curr.url;
-        }
-
-        public String forward(int steps) {
-
-            int i = 0;
-
-            while (curr.next != null && i < steps) {
-                curr = curr.next;
-                i++;
-            }
-
-            return curr.url;
-        }
-    }
-
-    public ListNode getKthElement(ListNode head, int idx) {
-
-        ListNode curr = head;
-
-        while (idx > 1) {
-            curr = curr.next;
-            idx--;
-        }
-        return curr;
-    }
-
-    /// https://leetcode.com/problems/reverse-linked-list-ii/
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-
-        ListNode dummy = new ListNode(-1);
-
-        dummy.next = head;
-
-        ListNode leftPrev = getKthElement(dummy, left);
-
-        ListNode rightPrev = getKthElement(dummy, right + 1);
-
-        ListNode leftNext = leftPrev.next;
-
-        ListNode rightNext = rightPrev.next;
-
-        leftPrev.next = null;
-        rightPrev.next = null;
-
-        ListNode leftSideKaHead = reverseList(leftNext);
-
-        leftPrev.next = leftSideKaHead;
-        leftNext.next = rightNext;
-
-        return dummy.next;
-
-    }
-
-    public static void main(String[] args) {
-
-    }
+  public static void main(String[] args) {}
 }

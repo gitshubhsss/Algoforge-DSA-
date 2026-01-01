@@ -550,6 +550,443 @@ public class Questions {
     return operands.peek();
   }
 
+  //https://leetcode.com/problems/merge-intervals/
+  class Pair {
+
+    int startTime;
+
+    int endTime;
+
+    public Pair(int startTime, int endTime) {
+      this.startTime = startTime;
+      this.endTime = endTime;
+    }
+  }
+
+  //{{1,3},{2,5},{4,5},{9,10},{11,15},{4,13}}
+  public int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, (int[] a, int[] b) -> {
+      if (a[0] == b[0]) {}
+
+      return a[0] - b[0]; // increasing order on the basis of 0th index, for decreasing b[0] - a[0];
+    });
+
+    int n = intervals.length;
+
+    Pair[] timeIntervals = new Pair[n];
+
+    //loop on the sorted array
+    for (int i = 0; i < n; i++) {
+      timeIntervals[i] = new Pair(intervals[i][0], intervals[i][1]);
+    }
+
+    Stack<Pair> st = new Stack<>();
+
+    for (int i = 0; i < timeIntervals.length; i++) {
+      Pair curr = timeIntervals[i];
+
+      if (st.size() > 0 && st.peek().endTime >= curr.startTime) {
+        Pair prev = st.pop();
+        curr.startTime = prev.startTime;
+        curr.endTime = Math.max(curr.endTime, prev.endTime);
+      }
+      st.push(curr);
+    }
+
+    int ans[][] = new int[st.size()][2];
+
+    for (int i = 0; i < ans.length; i++) {
+      ans[i][0] = st.peek().startTime;
+      ans[i][1] = st.peek().endTime;
+
+      st.pop();
+    }
+
+    return ans;
+  }
+
+  ///https://leetcode.com/problems/min-stack/
+  class MinStack {
+
+    Stack<Integer> ogStack;
+    Stack<Integer> minStack;
+
+    public MinStack() {
+      ogStack = new Stack<>();
+      minStack = new Stack<>();
+    }
+
+    public void push(int val) {
+      if (minStack.size() == 0 || val <= minStack.peek()) {
+        minStack.push(val);
+      }
+      ogStack.push(val);
+    }
+
+    public void pop() {
+      if (minStack.peek().equals(ogStack.peek())) {
+        minStack.pop();
+      }
+
+      ogStack.pop();
+    }
+
+    public int top() {
+      if (ogStack.size() > 0) {
+        return ogStack.peek();
+      }
+      return -1;
+    }
+
+    public int getMin() {
+      if (minStack.size() > 0) {
+        return minStack.peek();
+      }
+      return -1;
+    }
+  }
+
+  ///Leetcode 503
+  public int[] nextGreaterElements(int[] nums) {
+    int n = nums.length;
+
+    int ngr[] = new int[n];
+
+    Arrays.fill(ngr, -1);
+
+    Stack<Integer> st = new Stack<>();
+
+    for (int i = 0; i < 2 * n; i++) {
+      int curr = nums[i % n];
+
+      while (st.size() > 0 && nums[st.peek()] < curr) {
+        ngr[st.pop()] = curr;
+      }
+      if (i < n) {
+        st.push(i);
+      }
+    }
+
+    return ngr;
+  }
+
+  //Leetcode 921
+  public int minAddToMakeValid(String s) {
+    int extra_opening_bracket = 0;
+    int opening_bracket_req = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+      char ch = s.charAt(i);
+
+      if (ch == '(') {
+        extra_opening_bracket++;
+      } else {
+        if (extra_opening_bracket == 0) {
+          opening_bracket_req++;
+        } else {
+          extra_opening_bracket--;
+        }
+      }
+    }
+
+    return extra_opening_bracket + opening_bracket_req;
+  }
+
+  //letcoe 946,1021,1541===>Homework
+
+  //Leetcode 678
+  public boolean checkValidString(String s) {
+    int min = 0;
+    int max = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+      char ch = s.charAt(i);
+
+      if (ch == '(') {
+        max++;
+        min++;
+      } else if (ch == ')') {
+        max--;
+        min--;
+      } else if (ch == '*') {
+        max++; //consider star as opening
+        min--; //consider star as closing
+      }
+
+      if (max < 0) {
+        return false;
+      }
+
+      if (min < 0) {
+        min = 0;
+      }
+    }
+
+    return min == 0;
+  }
+
+  //Leetcode 856
+
+  public int scoreOfParentheses(String s) {}
+
+  //Leetcode 456.
+  public boolean find132pattern(int[] nums) {
+    int n = nums.length;
+
+    int minSoFar[] = new int[n];
+
+    minSoFar[0] = nums[0];
+    int min = nums[0];
+
+    for (int i = 1; i < n; i++) {
+      min = Math.min(min, nums[i]);
+      minSoFar[i] = min;
+    }
+
+    Stack<Integer> possibleValues = new Stack<>();
+    possibleValues.push(nums[n - 1]); //pushing the last eleent
+
+    for (int j = n - 2; j >= 0; j--) {
+      min = minSoFar[j];
+
+      //remove lesser that equal to minimum values
+
+      while (possibleValues.size() > 0 && min >= possibleValues.peek()) {
+        possibleValues.pop();
+      }
+
+      if (possibleValues.size() > 0 && nums[j] > possibleValues.peek()) {
+        return true;
+      }
+
+      possibleValues.push(nums[j]);
+    }
+
+    return false;
+  }
+
+  //HomeWork
+  //Leetcode 735
+  //3,5,-6,2,-1,4
+  public int[] asteroidCollision(int[] asteroids) {
+    Stack<Integer> st = new Stack<>();
+
+    for (int i = 0; i < asteroids.length; i++) {
+      int val = asteroids[i];
+
+      if (val > 0) {
+        st.push(val); //3-6,2
+      } else {
+        boolean pushNegative = true;
+
+        while (st.size() > 0 && st.peek() > 0) {
+          if (st.peek() > -(val)) {
+            //push nahi karenge
+            pushNegative = false;
+            break;
+          } else if (st.peek() < -(val)) {
+            st.pop(); //3
+          } else {
+            //equal case
+            st.pop();
+            pushNegative = false; //push nahi karenge
+            break;
+          }
+        }
+        if (pushNegative) {
+          st.push(val);
+        }
+      }
+    }
+    int ans[] = new int[st.size()];
+
+    for (int i = ans.length - 1; i >= 0; i--) {
+      ans[i] = st.pop();
+    }
+
+    return ans;
+  }
+
+  ///Leetcode 402. Remove K Digits
+  public String removeKdigits(String num, int k) {
+    // StringBuilder ans = new StringBuilder();
+
+    Stack<Integer> st = new Stack<>();
+
+    for (int i = 0; i < num.length(); i++) {
+      int digit = num.charAt(i) - '0';
+
+      while (k > 0 && st.size() > 0 && st.peek() > digit) {
+        st.pop();
+        k--;
+      }
+
+      st.push(digit);
+    }
+
+    while (k > 0) {
+      st.pop();
+      k--;
+    }
+
+    StringBuilder sb = new StringBuilder();
+    while (st.size() > 0) {
+      sb.append(st.pop());
+    }
+
+    int j = sb.length() - 1;
+
+    while (j >= 0 && sb.charAt(j) == '0') {
+      sb.deleteCharAt(j);
+      j--;
+    }
+    sb.reverse();
+
+    return sb.length() == 0 ? "0" : sb.toString();
+  }
+
+  ///Bruit force approch Leetcode 42. Trapping Rain Water
+  public int trap(int[] height) {
+    int n = height.length;
+
+    int lmax[] = new int[n];
+    int rmax[] = new int[n];
+
+    for (int i = 1; i < n; i++) {
+      lmax[i] = Math.max(lmax[i - 1], height[i - 1]);
+    }
+
+    for (int i = n - 2; i >= 0; i--) {
+      rmax[i] = Math.max(rmax[i + 1], height[i + 1]);
+    }
+
+    int totalWater = 0;
+
+    for (int i = 1; i <= n - 2; i++) {
+      int maxWaterAllowed = Math.min(rmax[i], lmax[i]);
+
+      int currentWaterUnit = Math.max(maxWaterAllowed - height[i], 0);
+
+      totalWater = totalWater + currentWaterUnit;
+    }
+
+    return totalWater;
+  }
+
+  ///Using stack
+  public int trap(int[] height) {
+    Stack<Integer> st = new Stack<>();
+
+    int totalWater = 0;
+
+    for (int i = 0; i < height.length; i++) {
+      while (st.size() > 0 && height[st.peek()] < height[i]) {
+        int right = i;
+        int poppedIdx = st.pop();
+        if (st.size() == 0) {
+          break;
+        }
+        int left = st.peek();
+
+        int maxWaterAllowed = Math.min(height[left], height[right]);
+        int waterHeight = maxWaterAllowed - height[poppedIdx];
+
+        int width = right - left - 1;
+
+        totalWater += (waterHeight * width);
+      }
+
+      st.push(i);
+    }
+
+    return totalWater;
+  }
+
+
+  //O 1 SPACE
+  public int trap(int[] height) {
+    int n = height.length;
+
+    int totalWater = 0;
+
+    int left = 0;
+    int right = n - 1;
+
+    int lMax = height[0];
+    int rMax = height[n - 1];
+
+    while (left < right) {
+      if (lMax <= rMax) {
+        totalWater += lMax - height[left];
+        left++;
+        lMax = Math.max(lMax, height[left]);
+      } else {
+        totalWater += rMax - height[right];
+        right--;
+        rMax = Math.max(rMax, height[right]);
+      }
+    }
+
+    return totalWater;
+  }
+
+
+//HOMEWORK
+   public int[] maxSlidingWindow(int[] nums, int k) {
+
+        int n = nums.length;
+
+        int ansSize = n - (k - 1);
+
+        int ngr[] = new int[ansSize];
+
+        Stack<Integer> stack = new Stack<>();
+
+        //[1,3,-1,-3,5,3,6,7]
+
+        for (int i = 0; i < n; i++) {
+            int currEle = arr[i];
+            while (stack.size() > 0 && arr[stack.peek()] < currEle) {
+                ngr[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
+
+        while(stack.size()>0){
+            ngr.push(n);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // 17700-->842
   public static void main(String[] args) {
     // String exp = "((a+B)+((a+c))";

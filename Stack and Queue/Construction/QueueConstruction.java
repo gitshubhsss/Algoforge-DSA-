@@ -12,6 +12,7 @@ class MyQueue {
     front = 0;
   }
 
+
   public void add(int value) {
     if (size >= maxSize) {
       System.out.println("Queue overflow");
@@ -33,6 +34,7 @@ class MyQueue {
 
     int firstEle = data[front];
 
+    //making the circular front
     front = (front + 1) % data.length;
 
     size--;
