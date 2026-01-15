@@ -72,14 +72,17 @@ public class Questions {
     ///making the hashmap
     HashMap<Integer, Integer> map = new HashMap<>();
 
-    for (int num : nums1) { //O(N)
+    for (int num : nums1) {
+      //O(N)
       map.put(num, 1);
     }
 
     ArrayList<Integer> ans = new ArrayList<>();
 
-    for (int num : nums2) { //O(N)
-      if (map.containsKey(num) == true) { //O(1)
+    for (int num : nums2) {
+      //O(N)
+      if (map.containsKey(num) == true) {
+        //O(1)
         ans.add(num);
         map.remove(num);
       }
@@ -328,6 +331,216 @@ public class Questions {
 
     return maxLength;
   }
+
+  //https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
+  //Dryrun-Done
+  public static int maxLength(int arr[]) {
+    // code here
+     int maxLength(int arr[]) {
+        // code here
+        
+        HashMap<Integer,Integer>map=new HashMap<>();
+        
+        map.put(0,-1);
+        
+        int ans=0;
+        
+        int currSum=0;
+        
+        for(int i=0;i<arr.length;i++){
+            
+            currSum=currSum+arr[i];//1
+            
+            if(map.containsKey(currSum)==false){
+        
+                map.put(currSum,i);
+        
+            }else{
+                
+                int len=i-map.get(currSum);
+                
+                ans=Math.max(ans,len);
+            }
+        }
+        
+        return ans;
+        
+    }
+  }
+//https://www.geeksforgeeks.org/problems/zero-sum-subarrays1825/1
+//Dryrun-Done
+    public int findSubarray(int[] arr) {
+        
+        HashMap<Integer,Integer>map=new HashMap<>();
+        
+        int cSum=0;
+        
+        map.put(cSum,1);
+        
+        int ans=0;
+        
+        for(int i=0;i<arr.length;i++){
+            
+            cSum=cSum+arr[i];
+            
+            if(map.containsKey(cSum)){
+                int oldFreq=map.get(cSum);
+                map.put(cSum,oldFreq+1);
+                ans=ans+oldFreq;
+            }else{
+                map.put(cSum,1);
+            }
+        }
+        
+        return ans;
+        
+    }
+//https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1
+//Dryrun-DONE
+     public int longestSubarray(int[] arr, int k) {
+        // code here
+        
+        HashMap<Integer,Integer>map=new HashMap<>();
+        
+        int cSum=0;
+        
+        map.put(cSum,-1);
+        
+        int ans=0;
+        
+        for(int i=0;i<arr.length;i++){
+            
+            cSum=cSum+arr[i];
+            
+            if(map.containsKey(cSum-k)){
+          
+                ans=Math.max(ans,i-map.get(cSum-k));
+                
+            }
+            
+            if(map.containsKey(cSum)==false){
+                 map.put(cSum,i);
+            }
+    
+        }
+        
+        return ans;
+    }
+
+    //https://leetcode.com/problems/subarray-sum-equals-k/
+    //Code pending
+
+     public int subarraySum(int[] nums, int k) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        int cSum = 0;
+
+        map.put(cSum, 1);
+
+        int ans = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+
+            cSum = cSum + nums[i];
+
+            if (map.containsKey(cSum - k)) {
+                int oldFreq = map.get(cSum - k);
+                map.put(cSum, oldFreq + 1);
+                ans = ans + oldFreq;
+            } else {
+                map.put(cSum, 1);
+            }
+        }
+
+        return ans;
+
+    }
+
+//https://leetcode.com/problems/subarray-sums-divisible-by-k/
+//DryRun - Pending
+     public int subarraysDivByK(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int cSum = 0;
+        map.put(cSum, 1);
+
+        int count = 0;
+
+        for (int e : nums) {
+
+            cSum += e;
+            int rem = cSum % k;
+            if (rem < 0) {
+                rem += k;
+            }
+
+            count += map.getOrDefault(rem, 0);
+
+            map.put(rem, map.getOrDefault(rem, 0) + 1);
+
+        }
+
+        return count;
+    }
+
+    //https://leetcode.com/problems/contiguous-array/description/
+
+    public int findMaxLength(int[] nums) {
+        
+    }
+
+
+    //https://leetcode.com/problems/insert-delete-getrandom-o1/description/
+
+class RandomizedSet {
+
+    ArrayList<Integer> data;
+    HashMap<Integer, Integer> map;
+
+    public RandomizedSet() {
+        data = new ArrayList<>();
+        map = new HashMap<>();
+    }
+
+    public boolean insert(int val) {
+        
+        if (map.containsKey(val) == true) {
+            return false;
+        }
+
+        map.put(val, data.size());
+        data.add(val);
+
+        return true;
+
+    }
+
+    public boolean remove(int val) {
+        if (map.containsKey(val) == false) {
+            return false;
+        }
+
+        int valIndex = map.get(val);
+
+        int lastIndexValue = data.get(data.size() - 1);
+
+        data.set(valIndex, lastIndexValue);
+
+        map.put(lastIndexValue, valIndex);
+
+        map.remove(val);
+
+        data.remove(data.size() - 1);
+
+        return true;
+    }
+
+    public int getRandom() {
+        int randomIdx = (int) (Math.random() * data.size());
+        return data.get(randomIdx);
+    }
+}
+
 
   public static void main(String args) {}
 }
