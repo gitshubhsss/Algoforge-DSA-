@@ -661,5 +661,112 @@ public class Questions {
     return dummy.next;
   }
 
+  import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+
+
+
+class ListNode{
+    int data;
+    ListNode prev;
+    ListNode next;
+    
+    ListNode(int data){
+        this.data=data;
+        prev=null;
+        next=null;
+    }
+    
+    
+}
+
+///Test 1
+public class Solution {
+    
+    ListNode head;
+    ListNode tail;
+    
+    public void addLast(int val){
+        
+        ListNode newNode=new ListNode(val);
+        
+        ///size=0
+        if(head==null){
+            head=newNode;
+            tail=newNode;
+            return;
+        }
+        
+        tail.next=newNode;
+        newNode.prev=tail;
+        tail=newNode;
+    }
+    
+ 
+    
+    public void reorderList() {
+        if (head == null || head.next == null){
+            return ;
+        }
+
+        ListNode left = head;
+        ListNode right = tail;
+
+        while (left != right && left.prev != right) {
+            ListNode leftKaNext = left.next;
+            ListNode rightKaPrev = right.prev;
+
+            left.next = right;
+            right.prev = left;
+
+            if (leftKaNext != right) {
+                right.next = leftKaNext;
+                leftKaNext.prev = right;
+            }
+
+            left = leftKaNext;
+            right = rightKaPrev;
+        }
+
+        left.next = null;
+        tail = left;
+    }
+    
+    public void display(){
+        ListNode temp=head;
+        
+        while(temp!=null){
+            System.out.println(temp.data);
+            temp=temp.next;
+        }
+    }
+    
+    
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        
+        Scanner sc = new Scanner(System.in);
+        
+        Solution solution=new Solution();
+        
+        int n=sc.nextInt();
+        
+        for(int i=1;i<=n;i++){
+            solution.addLast(i);
+        }
+        solution.reorderList();
+       solution. display();
+        
+        
+        
+        
+    }
+}
+
   public static void main(String[] args) {}
 }

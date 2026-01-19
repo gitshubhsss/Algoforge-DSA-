@@ -541,6 +541,118 @@ class RandomizedSet {
     }
 }
 
+//https://leetcode.com/problems/lru-cache/
+class LRUCache {
+    class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    public void addLast(Node nn) {
+        if (head == null) {
+            head = tail = nn;
+        } else {
+            tail.next = nn;
+            nn.prev = tail;
+            tail = nn;
+        }
+        size++;
+    }
+
+    public void removeFirst() { // assuming it will be called only when size > maxCapactiy => size will be atleast 2
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.next;
+            head.prev = null;
+        }
+
+        size--;
+    }
+
+    public void removeNode(Node toRemove) {
+        if (head == tail) {
+            head = null;
+            tail = null;
+        } else if (head == toRemove) {
+            head = head.next;
+            head.prev = null;
+        } else if (tail == toRemove) {
+            tail = tail.prev;
+            tail.next = null;
+        } else {
+            Node toRemoveKaPrev = toRemove.prev;
+            Node toRemoveKanext = toRemove.next;
+
+            toRemoveKaPrev.next = toRemoveKanext;
+            toRemoveKanext.prev = toRemoveKaPrev;
+        }
+
+        size--;
+    }
+
+    Node head;
+    Node tail;
+    HashMap<Integer, Node> map; // keyVsNode
+    int size;
+    int maxCapacity;
+
+    public LRUCache(int capacity) {
+        head = null;
+        tail = null;
+        map = new HashMap<>();
+        size = 0;
+        maxCapacity = capacity;
+    }
+
+    public int get(int key) {
+        if (map.containsKey(key) == false) {
+            return -1;
+        }
+
+        Node nodeWithKey = map.get(key);
+
+        removeNode(nodeWithKey);
+
+        addLast(nodeWithKey);
+
+        return nodeWithKey.value;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {//update value
+
+            Node nodeWithKey = map.get(key);
+            nodeWithKey.value = value;
+            get(key);
+
+        } else {
+            Node nn = new Node(key, value);
+
+            addLast(nn);
+
+            map.put(key, nn);
+
+            if (size > maxCapacity) {
+                int headKey = head.key;
+                removeNode(head);
+                map.remove(headKey);
+            }
+        }
+    }
+}
+
+
+
+//https://leetcode.com/problems/lfu-cache/description/
 
   public static void main(String args) {}
 }
