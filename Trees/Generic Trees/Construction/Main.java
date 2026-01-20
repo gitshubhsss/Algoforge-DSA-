@@ -22,6 +22,7 @@ public class Main {
     for (int i = 0; i < dataArray.length; i++) {
       int data = dataArray[i];
 
+      //-1 agar aaya to pop karo
       if (data == -1) {
         st.pop();
       } else {
@@ -34,7 +35,6 @@ public class Main {
         } else {
           st.peek().children.add(newNode);
         }
-
         st.push(newNode);
       }
     }
@@ -99,7 +99,7 @@ public class Main {
     //data array
     int dataArray[] = {
       10,
-      20, 
+      20,
       50,
       -1,
       60,
