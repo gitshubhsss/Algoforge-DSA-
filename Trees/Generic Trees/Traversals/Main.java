@@ -56,6 +56,22 @@ class Main {
     System.out.println("Postorder -> " + root.data);
   }
 
+  public static void display(TreeNode root) {
+    System.out.print(root.data + " ---> ");
+
+    //Loop is for printing the data
+    for (TreeNode child : root.children) {
+      System.out.print(child.data + " ");
+    }
+    //printing the new line
+    System.out.println();
+
+    //making hte recursinve call
+    for (TreeNode child : root.children) {
+      display(child);
+    }
+  }
+
   // Level order traversal
   public static void levelOrderTraversal(TreeNode root) {
     LinkedList<TreeNode> queue = new LinkedList<>();
@@ -222,6 +238,114 @@ class Main {
     }
   }
 
+  ///code pending
+  public static TreeNode makeMirror(TreeNode root) {
+    int childrenSize = root.children.size();
+
+    int left = 0;
+    int right = childrenSize - 1;
+
+    while (left <= right) {
+      TreeNode leftNode = root.children.get(left);
+      TreeNode leftMirror = makeMirror(leftNode);
+
+      TreeNode rightNode = root.children.get(right);
+      TreeNode rightMirror = left != right ? makeMirror(rightNode) : rightNode;
+
+      root.children.set(left, rightMirror);
+
+      root.children.set(right, leftMirror);
+
+      left++;
+      right--;
+    }
+
+    return root;
+  }
+
+  //Dryrun pending why inorder
+  public static void removeLeafNode(TreeNode root) {
+    //remove leaf nodes
+
+    for (int i = root.children.size() - 1; i >= 0; i--) {
+      TreeNode child = root.children.get(i);
+
+      if (child.children.size() == 0) {
+        root.children.remove(i);
+      }
+    }
+
+    for (TreeNode child : root.children) {
+      removeLeafNode(child);
+    }
+  }
+
+  ///why not post order
+  // public static void removeLeafNode(TreeNode root) {
+  //   for (TreeNode child : root.children) {
+  //     removeLeafNode(child);
+  //   }
+  //   //remove leaf nodes
+  //   for (int i = root.children.size() - 1; i >= 0; i--) {
+  //     TreeNode child = root.children.get(i);
+  //     //agar woh leaf node hai
+  //     if (child.children.size() == 0) {
+  //       root.children.remove(i);
+  //     }
+  //   }
+  // }
+
+  public static TreeNode findTail(TreeNode root) {
+    TreeNode temp = root;
+
+    while (temp.children.size() > 0) {
+      temp = temp.children.get(temp.children.size() - 1);
+    }
+    return temp;
+  }
+
+  public static TreeNode linearizeGT(TreeNode root) {
+    for (TreeNode child : root.children) {
+      linearizeGT(child);
+    }
+
+    while (root.children.size() > 1) {
+      int childrenSize = root.children.size();
+
+      TreeNode lastChild = root.children.get(childrenSize - 1);
+      TreeNode secondLastChild = root.children.get(childrenSize - 2);
+
+      TreeNode tail = findTail(secondLastChild);
+
+      root.children.remove(lastChild); //remove the last child
+      tail.children.add(lastChild); //add last child to the tail of second last
+    }
+
+    return root;
+  }
+
+  public static TreeNode lineariseGT_better(TreeNode root) {
+    //base case
+    if (root.children.size() == 0) {
+      return root;
+    }
+
+    TreeNode lastChildTail = lineariseGT_better(
+      root.children.get(root.children.size() - 1)
+    );
+
+    while (root.children.size() > 1) {
+      int childrenSize = root.children.size();
+      TreeNode lastChild = root.children.get(childrenSize - 1);
+      TreeNode secondLastChild = root.children.get(childrenSize - 2);
+      TreeNode secondLastChildTail = lineariseGT_better(secondLastChild);
+      root.children.remove(childrenSize - 1);
+      secondLastChildTail.children.add(lastChild);
+    }
+
+    return lastChildTail;
+  }
+
   public static void main(String[] args) {
     System.out.println("Everything is fine");
     // int[] dataArray1 = {10,20,50,-1,60,-1,-1,30,-1,40,80,-1,90,-1,100,-1,-1,-1};
@@ -236,34 +360,30 @@ class Main {
       30,
       70,
       -1,
-      -1,
-      40,
       80,
+      100,
       -1,
-      90,
       110,
       -1,
+      -1,
+      90,
+      -1,
+      -1,
+      40,
       120,
-      -1,
-      -1,
-      100,
       -1,
       -1,
       -1,
     };
 
-    // TreeNode root = constructTree(dataArray1);
     TreeNode root2 = constructTree(dataArray2);
 
-    //  traverse(root2);
+    display(root2);
 
-    // levelOrderTraversal(root2);
+    System.out.println("After removing the  leaf nodes");
 
-    // levelOrderTraversal(root2);
-    // levelOrderLineWise(root2);
-    // levelOrderLineWise2(root2);
-    // levelOrderLineWiseWithSingleQueue(root2);
-    // levelOrderLineWiseUsingQueSize(root2);
-    printZicZac(root2);
+    removeLeafNode(root2);
+
+    display(root2);
   }
 }

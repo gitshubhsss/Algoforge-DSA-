@@ -14,12 +14,11 @@ class TreeNode {
 
 public class Main {
 
-  //construct tree function
-
+  //constuct the tree
   public static TreeNode constructTree(int dataArray[]) {
-    Stack<TreeNode> st = new Stack<>();
+    TreeNode root = null; //declaring the root element which is initianlly null
 
-    TreeNode root = null;
+    Stack<TreeNode> st = new Stack<>();
 
     for (int i = 0; i < dataArray.length; i++) {
       int data = dataArray[i];
@@ -27,29 +26,27 @@ public class Main {
       if (data == -1) {
         st.pop();
       } else {
-        //create the new node
-
         TreeNode newNode = new TreeNode(data);
-
         if (st.size() == 0) {
           root = newNode;
         } else {
-          st.peek().children.add(newNode);
+          TreeNode frontNode = st.peek();
+          frontNode.children.add(newNode);
         }
-
         st.push(newNode);
       }
     }
-
     return root;
   }
 
+  //display the tree
   public static void display(TreeNode root) {
-    System.out.print(root.data + "---> ");
+    System.out.println(root.data + "---> ");
 
     for (TreeNode child : root.children) {
       System.out.print(child.data + " ");
     }
+
     System.out.println();
 
     for (TreeNode child : root.children) {
@@ -57,20 +54,31 @@ public class Main {
     }
   }
 
+  //get the size of the tree
+  public static int getSize(TreeNode root) {
+    int size = 1;
+
+    for (TreeNode child : root.children) {
+      size = size + getSize(child);
+    }
+
+    return size;
+  }
+
+  //get maximum from the tree
   public static int getMaximum(TreeNode root) {
     int treeMax = root.data;
 
     for (TreeNode child : root.children) {
-      treeMax = Math.max(getMaximum(child), treeMax);
+      int childMax = getMaximum(child);
+      treeMax = Math.max(treeMax, childMax);
     }
 
     return treeMax;
   }
 
+  //get the maximum height of the tree
   public static int getMaxHeight(TreeNode root) {
-    if (root == null) {
-      return -1;
-    }
     int treeMaxHeight = -1;
 
     for (TreeNode child : root.children) {
@@ -82,7 +90,7 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    int dataArray[] = {
+    int[] dataArray1 = {
       10,
       20,
       50,
@@ -109,10 +117,18 @@ public class Main {
       -1,
     };
 
-    TreeNode root = constructTree(dataArray);
-    display(root);
+    TreeNode node = constructTree(dataArray1);
 
-    System.out.println("Maximum : " + getMaximum(root));
-    System.out.println("Tree max height : " + getMaxHeight(root));
+    display(node);
+
+    // System.out.println("Displaying the size of the tree");
+
+    //System.out.println(getSize(node));
+
+    // System.out.println("Displaying the maximum from the node");
+
+    // System.out.println(getMaximum(node));
+
+    System.out.println("Maximum height of the tree is " + getMaxHeight(node));
   }
 }

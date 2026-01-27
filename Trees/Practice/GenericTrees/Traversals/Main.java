@@ -59,123 +59,163 @@ public class Main {
     }
   }
 
+  //traversing on the tree recursively Preoder //inorder //postorder
+  //Approach 1
   public static void traverse(TreeNode root) {
     System.out.println("PreOrder ----> " + root.data);
 
     for (TreeNode child : root.children) {
       System.out.println(
-        "Traversing on the edge from " + root.data + " to " + child.data
+        "Traversing on edge from " + root.data + " --> " + child.data
       );
+
       traverse(child);
+
       System.out.println(
-        "Traversing on the edge from " + child.data + " to " + root.data
+        "Traversing on edge from " + child.data + " --> " + root.data
       );
     }
-    System.out.println("Post order ----->" + root.data);
+
+    System.out.println("PostOrder " + root.data);
   }
 
-  ///Approch 1
-  public static void levelOrderTraversal(TreeNode node) {
-    LinkedList<TreeNode> queue = new LinkedList<>();
-    queue.add(node);
+  //Approach 2
+  public static void levelOrderTraversal(TreeNode root) {
+    LinkedList<TreeNode> que = new LinkedList<>();
 
-    while (queue.size() > 0) {
-      //remove node
-      TreeNode frontNode = queue.removeFirst();
+    que.add(root);
 
-      //print node ka data
+    while (que.size() > 0) {
+      //remove the frontNode
+      TreeNode frontNode = que.removeFirst();
+
+      //print the data
+
       System.out.print(frontNode.data + " ");
 
       //add children
+
       for (TreeNode child : frontNode.children) {
-        queue.add(child);
+        que.add(child);
       }
+
       System.out.println();
     }
   }
 
-  //Approch 2
-  //Using 2 queue
-  public static void levelOrderTraverselLineWise(TreeNode root) {
-    LinkedList<TreeNode> mainQ = new LinkedList<>();
-    mainQ.add(root);
-
-    while (mainQ.size() > 0) {
-      LinkedList<TreeNode> childQ = new LinkedList<TreeNode>();
-
-      while (mainQ.size() > 0) {
-        //remove first node
-        TreeNode frontNode = mainQ.removeFirst();
-
-        //print node
-        System.out.print(frontNode.data + " ");
-
-        //add children to child queue
-        for (TreeNode child : frontNode.children) {
-          childQ.add(child); //20,30,40
-        }
-      }
-
-      mainQ = childQ;
-      System.out.println();
-    }
-  }
-
-  public static void levelOrderTraverselLineWise2(TreeNode root) {
-    //Maintain 2 queue
-
+  public static void levelOrderTraversalUsingTwoQue(TreeNode root) {
     LinkedList<TreeNode> mainQ = new LinkedList<>();
     LinkedList<TreeNode> childQ = new LinkedList<>();
-    mainQ.add(root);
     int level = 1;
+    mainQ.add(root);
 
     while (mainQ.size() > 0) {
-      //remove front node
-      TreeNode frontNode = mainQ.removeFirst();
-      //print the node
-      System.out.print(frontNode.data + " ");
+      //remove the front node
+      TreeNode parent = mainQ.removeFirst();
 
-      for (TreeNode child : frontNode.children) {
+      //print the data
+      System.out.print(parent.data + " ");
+
+      //add children to the childQ
+      for (TreeNode child : parent.children) {
         childQ.add(child);
       }
 
-      ///agar kisi din mainQ khali ho gaya
       if (mainQ.size() == 0) {
         level++;
-        System.out.println();
         mainQ = childQ;
         childQ = new LinkedList<>();
+        System.out.println();
       }
     }
   }
 
-  ///using the marker
-  public static void levelOrderTraverselUsingMarker(TreeNode root) {
-    LinkedList<TreeNode> queue = new LinkedList<>();
-    queue.add(root);
-    queue.add(null); //marker
+  //using marker
+  public static void levelOrderTraversalUsingSingleQue(TreeNode root) {
+    LinkedList<TreeNode> que = new LinkedList<>();
+    que.add(root);
+    que.add(null);
 
-    //10,null,20,30,40,null
-    //=>10,
-    while (queue.size() > 0) {
-      TreeNode frontNode = queue.removeFirst();
+    while (que.size() > 0) {
+      TreeNode frontNode = que.removeFirst();
 
       if (frontNode == null) {
-        if (queue.size() > 0) {
-          queue.add(null);
-          System.out.println();
+        System.out.println();
+        if (que.size() > 0) {
+          que.add(null);
         }
       } else {
         //print the data
         System.out.print(frontNode.data + " ");
+        //add the children
         for (TreeNode child : frontNode.children) {
-          queue.add(child); //20,30,40
+          que.add(child);
         }
       }
     }
   }
 
-  //usint the currrent size
+  public static void levelOrderTraversalUsingSize(TreeNode root) {
+    LinkedList<TreeNode> que = new LinkedList<>();
+    que.add(root);
+
+    while (que.size() > 0) {
+      int currentLevelSize = que.size();
+
+      while (currentLevelSize > 0) {
+        //remove the frontNode
+        TreeNode frontNode = que.removeFirst();
+
+        //print the data
+
+        System.out.print(frontNode.data + " ");
+
+        //add the children
+
+        for (TreeNode child : frontNode.children) {
+          que.add(child);
+        }
+        currentLevelSize--;
+      }
+
+      System.out.println();
+    }
+  }
+
+  public static void printZicZac(TreeNode root) {
+    Stack<TreeNode> mainSt = new Stack<>();
+    int level = 1;
+    mainSt.push(root);
+
+    while (mainSt.size() > 0) {
+      Stack<TreeNode> childSt = new Stack<>();
+
+      while (mainSt.size() > 0) {
+        //remove the top node
+        TreeNode topNode = mainSt.pop();
+
+        //print the data
+        System.out.print(topNode.data + " ");
+
+        //add the children
+
+        if (level % 2 == 1) {
+          for (TreeNode child : topNode.children) {
+            childSt.push(child);
+          }
+        } else {
+          for (int i = topNode.children.size() - 1; i >= 0; i--) {
+            TreeNode lastNode = topNode.children.get(i);
+            childSt.push(lastNode);
+          }
+        }
+      }
+
+      level++;
+      mainSt = childSt;
+      System.out.println();
+    }
+  }
 
   public static void main(String[] args) {
     // int[] dataArray1 = {
@@ -226,11 +266,13 @@ public class Main {
     };
 
     TreeNode node = constructTree(dataArray2);
-    //display(node);
     // traverse(node);
-    //levelOrderTraversal(node);
-    // levelOrderTraverselLineWise(node);
-    // levelOrderTraverselLineWise2(node);
-    levelOrderTraverselUsingMarker(node);
+    //  levelOrderTraversal(node);
+
+    // levelOrderTraversalUsingTwoQue(node);
+    // levelOrderTraversalUsingSingleQue(node);
+    // levelOrderTraversalUsingSize(node);
+
+    printZicZac(node);
   }
 }
