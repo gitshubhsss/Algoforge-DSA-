@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Stack;
-
+import java.util.Collections;
 class TreeNode {
 
   int data;
@@ -346,6 +347,81 @@ class Main {
     return lastChildTail;
   }
 
+  public static boolean find(TreeNode root, int tar) {
+    if (root.data == tar) {
+      return true;
+    }
+
+    for (TreeNode child : root.children) {
+      boolean isExists = find(child, tar);
+
+      if (isExists) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public static ArrayList<TreeNode> nodeToRootPath(TreeNode root, int tar) {
+    if (root.data == tar) {
+      ArrayList<TreeNode> baseAns = new ArrayList<>();
+      baseAns.add(root);
+      return baseAns;
+    }
+
+    for (TreeNode child : root.children) {
+      ArrayList<TreeNode> subPath = nodeToRootPath(child, tar);
+      if (subPath.size() > 0) {
+        subPath.add(root);
+        return subPath;
+      }
+    }
+    return new ArrayList<>();
+  }
+
+  public static TreeNode findLCA(TreeNode root, int tar1, int tar2) {
+    ArrayList<TreeNode> ntrPath1 = nodeToRootPath(root, tar1);
+    ArrayList<TreeNode> ntrPath2 = nodeToRootPath(root, tar2);
+
+    int i = ntrPath1.size() - 1;
+    int j = ntrPath2.size() - 1;
+
+    while (i >= 0 && j >= 0 && ntrPath1.get(i).data == ntrPath2.get(j).data) {
+      i--;
+      j--;
+    }
+    return ntrPath1.get(i + 1); //ntrPath2.get(j);
+  }
+
+  public static boolean isMirror(TreeNode n1, TreeNode n2) {
+    if (n1.data != n2.data || n1.children.size() != n2.children.size()) {
+      return false;
+    }
+
+    for (int i = 0, j = n2.children.size() - 1; j >= 0; i++, j--) {
+      boolean isChildMirror = isMirror(n1.children.get(i), n2.children.get(j));
+
+      if (isChildMirror == false) {
+        return false; //no more child checked
+      }
+    }
+
+    return true;
+  }
+
+  public static boolean isTreeSymmetric(TreeNode root) {
+    return isMirror(root, root);
+  }
+
+  public static void sortArray(int arr[]) {
+    Arrays.sort(arr);
+
+    for (int i = 0; i < arr.length; i++) {
+      System.out.println(arr[i]);
+    }
+  }
+
   public static void main(String[] args) {
     System.out.println("Everything is fine");
     // int[] dataArray1 = {10,20,50,-1,60,-1,-1,30,-1,40,80,-1,90,-1,100,-1,-1,-1};
@@ -376,14 +452,46 @@ class Main {
       -1,
     };
 
-    TreeNode root2 = constructTree(dataArray2);
+    int[] symArra = {
+      10,
+      20,
+      50,
+      -1,
+      60,
+      -1,
+      -1,
+      30,
+      70,
+      -1,
+      70,
+      -1,
+      -1,
+      20,
+      60,
+      70,
+      -1,
+      -1,
+      -1,
+    };
+    // TreeNode root2 = constructTree(symArra);
 
-    display(root2);
+    // System.out.println(isTreeSymmetric(root2));
 
-    System.out.println("After removing the  leaf nodes");
+    sortArray(symArra);
+    // TreeNode lca = findLCA(root2, 80, 90);
 
-    removeLeafNode(root2);
+    //    System.out.println(lca.data);
 
-    display(root2);
+    //   display(root2);
+
+    // System.out.println("After removing the  leaf nodes");
+
+    // removeLeafNode(root2);
+
+    // display(root2);
+
+    // System.out.println(find(root2, 120));
+
+    //System.out.println(nodeToRootPath(root2, 120));
   }
 }
