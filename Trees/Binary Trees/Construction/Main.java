@@ -254,7 +254,6 @@ class Main {
     int k,
     int tar
   ) {
-
     TreeNode targetNode = findTargetNode(root, tar);
 
     ArrayList<TreeNode> ans = new ArrayList<>();
@@ -263,6 +262,254 @@ class Main {
 
     return ans;
   }
+
+  //Node to root path for the binary tree
+  public static ArrayList<TreeNode> nodeToRootPath(
+    TreeNode root,
+    TreeNode target
+  ) {
+    if (root == null) {
+      return new ArrayList<>();
+    }
+
+    if (root.equals(target)) {
+      ArrayList<TreeNode> baseAns = new ArrayList<>();
+      baseAns.add(root);
+      return baseAns;
+    }
+
+    ArrayList<TreeNode> leftPath = nodeToRootPath(root.left, target);
+
+    if (leftPath.size() > 0) {
+      leftPath.add(root);
+      return leftPath;
+    }
+
+    ArrayList<TreeNode> rightPath = nodeToRootPath(root.right, target);
+
+    if (rightPath.size() > 0) {
+      rightPath.add(root);
+      return rightPath;
+    }
+
+    return new ArrayList<>();
+  }
+
+  public void getKLevelDown(
+    TreeNode root,
+    TreeNode blocker,
+    int k,
+    ArrayList<Integer> ans
+  ) {
+    if (root == null || root.equals(blocker) || k < 0) {
+      return;
+    }
+
+    if (k == 0) {
+      ans.add(root);
+      return;
+    }
+
+    getKLevelDown(root.left, blocker, k - 1, ans);
+    getKLevelDown(root.right, blocker, k - 1, ans);
+  }
+
+  // Leetcode 863. All Nodes Distance K in Binary Tree ==> https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/submissions/1906467213/
+
+  public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+    ArrayList<TreeNode> ntr = nodeToRootPath(root, target);
+
+    List<Integer> ans = new ArrayList<>();
+
+    TreeNode blocker = null;
+
+    for (int i = 0; i < ntr.size(); i++) {
+      TreeNode node = ntr.get(i);
+      getKLevelDown(node, blocker, k, ans);
+      blocker = node;
+    }
+
+    return ans;
+  }
+
+  TreeNode LCA=null;
+
+  public boolean LCA_better(TreeNode root, TreeNode p, TreeNode q,TreeNode[] LCA) {
+    if (root == null) {
+      return false;
+    }
+
+    boolean self=false;
+    if(root.equals.(p)|| root.equals.(q)){
+      self=true;
+    }
+
+    boolean left=LCA_better(root.left,p,q,LCA);
+    boolean right=LCA_better(root.right,p,q,LCA);
+    
+    if( (left && right) || (self && left) || (self && right) ){
+      LCA[0]=root;    
+    }
+
+    return self || left || right;
+  }
+
+
+
+  ///Leetocde ===> 236. Lowest Common Ancestor of a Binary Tree
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    ArrayList<TreeNode> pRootNodePath = getNodeToRootPath(root, p);
+    ArrayList<TreeNode> qRootToNodePath = getNodeToRootPath(root, q);
+
+    //initialize the pointers
+
+    int i = pRootNodePath.size() - 1;
+    int j = qRootToNodePath.size() - 1;
+
+    while (
+      i >= 0 && j >= 0 && pRootNodePath.get(i).equals(qRootToNodePath.get(j))
+    ) {
+      i--;
+      j--;
+    }
+
+    return pRootNodePath.get(i + 1);
+  }
+
+
+  //1325. Delete Leaves With a Given Value
+
+    public TreeNode removeLeafNodes(TreeNode root, int target) {
+        if (root == null) {
+            return null;
+        }
+
+        root.left = removeLeafNodes(root.left, target);
+        root.right = removeLeafNodes(root.right, target);
+
+        if (root.left == null && root.right == null && root.val == target) {
+            return null;
+        }
+
+        return root;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    ///=========================================Binary Tree Construction Questions==============================
+
+    /// https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+    //Make tree from preorder and inorder
+     public TreeNode buildTree(int[] preorder, int preSi, int preEi, int[] inorder, int inSi, int inEi) {
+
+        if (preSi > preEi) {
+            return null;
+        }
+
+        if (preSi == preEi) {
+            return new TreeNode(preorder[preSi]);
+        }
+
+        TreeNode root = new TreeNode(preorder[preSi]);
+        int rootIdx = inSi;
+        int leftTreeElements = 0;
+
+        while (rootIdx <= inEi && inorder[rootIdx] != root.val) {
+            rootIdx++;
+            leftTreeElements++;//3
+        }
+        
+        root.left = buildTree(preorder, preSi + 1, preSi + leftTreeElements, inorder, inSi, rootIdx - 1);
+        root.right = buildTree(preorder, preSi + leftTreeElements + 1, preEi, inorder, rootIdx + 1, inEi);
+
+        return root;
+
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int size = preorder.length;
+        return buildTree(preorder, 0, size - 1, inorder, 0, size - 1);
+    }
+
+
+    //https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+    ///Make tree from inorder and postorder
+    ///Need to do the dryrun changa wala 
+       public TreeNode buildTree(int[] postorder, int poSi, int poEi, int[] inorder, int inSi, int inEi) {
+
+        if (inSi > inEi) {
+            return null;
+        }
+
+        if (poSi == poEi) {
+            return new TreeNode(postorder[poEi]);
+        }
+
+        TreeNode root = new TreeNode(postorder[poEi]);
+        int rootIdx = inSi;
+        int leftTreeElements = 0;
+
+        while (rootIdx <= inEi && inorder[rootIdx] != root.val) {
+            rootIdx++;
+            leftTreeElements++;
+        }
+
+        root.left = buildTree(postorder, poSi, poSi + leftTreeElements - 1, inorder, inSi, rootIdx - 1);
+        root.right = buildTree(postorder, poSi + leftTreeElements, poEi - 1, inorder, rootIdx + 1, inEi);
+        return root;
+
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int size = inorder.length;
+        return buildTree(postorder, 0, size - 1, inorder, 0, size - 1);
+    }
+
+
+
+    ///https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/description/
+    /////889. Construct Binary Tree from Preorder and Postorder Traversal
+    ///Incomplte code
+
+    
+    public TreeNode buildTree(int[] preorder, int preSi, int preEi, int[] postorder, int poSi, int poEi) {
+
+        if (preSi > preEi) {
+            return null;
+        }
+
+        if (preSi == preEi) {
+            return new TreeNode(preorder[preSi]);
+        }
+
+        TreeNode root = new TreeNode(preorder[preSi]);
+
+        int idx = poSi;
+
+        while (idx <= poEi && postorder[idx] != preorder[preSi + 1]) {
+            idx++;
+        }
+        int leftTreeElements = idx - poSi + 1;
+
+        root.left=buildTree(preorder,preSi+1,preSi+leftTreeElements,postorder,poSi,idx);
+        root.right=buildTree(postorder,preSi)
+
+    }
+
+    public TreeNode constructFromPrePost(int[] preorder, int[] postorder) {
+        int size = preorder.length;
+
+        return buildTree(preorder, 0, size - 1, postorder, 0, size - 1);
+    }
 
   public static void main(String[] args) {
     Integer[] arr = {
@@ -313,14 +560,33 @@ class Main {
       null, //
     };
 
-    TreeNode root = buildTree(arr2);
+    Integer arr3[] = {
+      3,
+      5,
+      6,
+      null,
+      null,
+      2,
+      7,
+      null,
+      null,
+      4,
+      null,
+      null,
+      1,
+      0,
+      null,
+      null,
+      8,
+    };
+
+    TreeNode root = buildTree(arr3);
 
     display(root);
 
-    ArrayList<TreeNode> nodes = getKLevelDownFromTargetNode(root, 2, 17);
-
-    for(TreeNode child:nodes){
-      System.out.println(child.data);
-    }
+    //  ArrayList<TreeNode> nodes = getKLevelDownFromTargetNode(root, 2, 17);
+    // for (TreeNode child : nodes) {
+    //   System.out.println(child.data);
+    // }
   }
 }

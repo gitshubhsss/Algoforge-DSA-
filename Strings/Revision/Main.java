@@ -37,8 +37,12 @@ public class Main {
 
             } else {
                 if (count > 1) {
+
+                    //add the count
                     ans = ans + count;
+                    //set count to 0
                     count = 1;
+                    //add the current
                     ans = ans + curr;
                 }
 
