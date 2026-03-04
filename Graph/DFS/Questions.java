@@ -276,6 +276,51 @@ public class Questions {
     }
   }
 
+  ///Leetcode 695. Max Area of Island without  extra space without boolean array
+
+  class Solution {
+
+    public static int dfs(int row, int col, int n, int m, int[][] grid) {
+      grid[row][col] = 2;
+
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      int totalArea = 0;
+
+      for (int dir[] : dirs) {
+        int nRow = row + dir[0];
+        int nCol = col + dir[1];
+
+        if (
+          nRow >= 0 &&
+          nCol >= 0 &&
+          nRow < n &&
+          nCol < m &&
+          grid[nRow][nCol] == 1
+        ) {
+          totalArea = totalArea + dfs(nRow, nCol, n, m, grid);
+        }
+      }
+      return totalArea + 1;
+    }
+
+    public int maxAreaOfIsland(int[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+      int maxArea = 0;
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (grid[i][j] == 1) {
+            int area = dfs(i, j, n, m, grid);
+            maxArea = Math.max(maxArea, area);
+          }
+        }
+      }
+      return maxArea;
+    }
+  }
+
   public static void main(String[] args) {
     int N = 8;
 
