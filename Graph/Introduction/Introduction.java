@@ -2,18 +2,18 @@ import java.util.*;
 
 class Pair implements Comparable<Pair> {
 
-    int wsf;
-    String psf;
+  int wsf;
+  String psf;
 
-    Pair(int wsf, String psf) {
-        this.wsf = wsf;
-        this.psf = psf;
-    }
+  Pair(int wsf, String psf) {
+    this.wsf = wsf;
+    this.psf = psf;
+  }
 
-    @Override
-    public int compareTo(Pair other) {
-        return this.wsf - other.wsf;   // Min Heap based on weight
-    }
+  @Override
+  public int compareTo(Pair other) {
+    return this.wsf - other.wsf; // Min Heap based on weight
+  }
 }
 
 class Edge {
@@ -35,6 +35,7 @@ class Edge {
 
 public class Introduction {
 
+  ///Lec 1 : problems ======================================================================================================
   static String longestPath = "";
   static int longestPathWt = Integer.MIN_VALUE;
   static String shortestPath = "";
