@@ -158,6 +158,124 @@ public class Questions {
     traverseDFS(src, src, 0, graph, N, vis, "" + src);
   }
 
+  /*
+  
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+
+  */
+  class Solution {
+
+    public static void dfs(
+      int row,
+      int col,
+      int n,
+      int m,
+      boolean vis[][],
+      char[][] grid
+    ) {
+      if (row > grid.length || col > grid[0].length) {
+        return;
+      }
+
+      vis[row][col] = true;
+      //this are the 4 directions we are going to have
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int dir[] : dirs) {
+        int newR = row + dir[0];
+        int newC = col + dir[1];
+        if (
+          newR >= 0 &&
+          newC >= 0 &&
+          newR < n &&
+          newC < m &&
+          grid[newR][newC] == '1' &&
+          vis[newR][newC] == false
+        ) {
+          dfs(newR, newC, n, m, vis, grid);
+        }
+      }
+    }
+
+    public int numIslands(char[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+
+      boolean vis[][] = new boolean[n][m];
+
+      int components = 0;
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (grid[i][j] == '1' && vis[i][j] == false) {
+            dfs(i, j, n, m, vis, grid);
+            components++;
+          }
+        }
+      }
+
+      return components;
+    }
+  }
+
+  ///Leetcode 695. Max Area of Island with extra space
+
+  class Solution {
+
+    public static void dfs(
+      int row,
+      int col,
+      int m,
+      int n,
+      int[][] grid,
+      boolean[][] vis,
+      int max[]
+    ) {
+      vis[row][col] = true;
+      max[0] = max[0] + 1;
+
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int[] dir : dirs) {
+        int nRow = row + dir[0];
+        int nCol = col + dir[1];
+
+        if (
+          nRow >= 0 &&
+          nCol >= 0 &&
+          nRow < n &&
+          nCol < m &&
+          grid[nRow][nCol] == 1 &&
+          vis[nRow][nCol] == false
+        ) {
+          dfs(nRow, nCol, m, n, grid, vis, max);
+        }
+      }
+    }
+
+    public int maxAreaOfIsland(int[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+
+      boolean vis[][] = new boolean[n][m];
+      int max[] = new int[1];
+      int maxArea = 0;
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (grid[i][j] == 1 && vis[i][j] == false) {
+            dfs(i, j, m, n, grid, vis, max);
+            maxArea = Math.max(maxArea, max[0]);
+            max[0] = 0;
+          }
+        }
+      }
+      return maxArea;
+    }
+  }
+
   public static void main(String[] args) {
     int N = 8;
 
