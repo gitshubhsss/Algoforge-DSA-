@@ -1,5 +1,41 @@
 public class Questions {
 
+  // Leetcode : 1582. Special Positions in a Binary Matrix
+  class Solution {
+
+    public int numSpecial(int[][] mat) {
+      int n = mat.length;
+      int m = mat[0].length;
+
+      int spCount = 0;
+
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (mat[row][col] == 1) {
+            int count = 0;
+            for (int i = 0; i < m; i++) {
+              if (mat[row][i] == 1) {
+                count++;
+              }
+            }
+
+            for (int i = 0; i < n; i++) {
+              if (mat[i][col] == 1) {
+                count++;
+              }
+            }
+
+            if (count == 2) {
+              spCount++;
+            }
+          }
+        }
+      }
+
+      return spCount;
+    }
+  }
+
   public static boolean checkPalindrome(String str) {
     int left = 0;
     int right = str.length() - 1;
@@ -16,7 +52,6 @@ public class Questions {
   }
 
   //    String str = "aabccddddeeffzzaaa";
-
   public static String compressString(String str) {
     char prev = str.charAt(0);
 
@@ -77,19 +112,8 @@ public class Questions {
     return l + sl;
   }
 
-  ///Solid principles
-  //clean architeture
-  //mvc
-  //mvvm
-  //method channels
-  //blootooth configuration
   public static void main(String[] args) {
-    //String str = "nayan";
-    //System.out.println(checkPalindrome(str));
-    // String str = "aabccddddeeffzzaaa";
-    //  System.out.println(compressStringWithCount(str));
-
-    int arr[]={3,5,8,1,4};
+    int arr[] = { 3, 5, 8, 1, 4 };
     System.out.println(sumOfLandSl(arr));
   }
 }

@@ -159,12 +159,10 @@ public class Questions {
   }
 
   /*
-  
   ["1","1","1","1","0"],
   ["1","1","0","1","0"],
   ["1","1","0","0","0"],
   ["0","0","0","0","0"]
-
   */
   class Solution {
 
@@ -222,7 +220,6 @@ public class Questions {
   }
 
   ///Leetcode 695. Max Area of Island with extra space
-
   class Solution {
 
     public static void dfs(
@@ -277,7 +274,6 @@ public class Questions {
   }
 
   ///Leetcode 695. Max Area of Island without  extra space without boolean array
-
   class Solution {
 
     public static int dfs(int row, int col, int n, int m, int[][] grid) {
@@ -318,6 +314,100 @@ public class Questions {
         }
       }
       return maxArea;
+    }
+  }
+
+  ///Leetcode :  130. Surrounded Regions
+  class Solution {
+
+    public static void convertResionToHash(
+      int row,
+      int col,
+      int n,
+      int m,
+      char[][] board
+    ) {
+      board[row][col] = '#';
+
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int dir[] : dirs) {
+        int nRow = row + dir[0];
+        int nCol = col + dir[1];
+
+        if (
+          nRow >= 0 &&
+          nRow < n &&
+          nCol >= 0 &&
+          nCol < m &&
+          board[nRow][nCol] == 'O'
+        ) {
+          convertResionToHash(nRow, nCol, n, m, board);
+        }
+      }
+    }
+
+    public void solve(char[][] board) {
+      int n = board.length;
+      int m = board[0].length;
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
+            if (board[i][j] == 'O') {
+              convertResionToHash(i, j, n, m, board);
+            }
+          }
+        }
+      }
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (board[i][j] == 'O') {
+            board[i][j] = 'X';
+          } else if (board[i][j] == '#') {
+            board[i][j] = 'O';
+          }
+        }
+      }
+    }
+  }
+
+  // Leetcode : 463. Island Perimeter
+  class Solution {
+
+    public int islandPerimeter(int[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+
+      int totalPerimeter = 0;
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (grid[row][col] == 1) {
+            //search the surrounding
+            totalPerimeter += 4;
+
+            for (int[] dir : dirs) {
+              int nRow = row + dir[0];
+              int nCol = col + dir[1];
+
+              if (
+                nRow >= 0 &&
+                nCol >= 0 &&
+                nRow < n &&
+                nCol < m &&
+                grid[nRow][nCol] == 1
+              ) {
+                totalPerimeter--;
+              }
+            }
+          }
+        }
+      }
+
+      return totalPerimeter;
     }
   }
 

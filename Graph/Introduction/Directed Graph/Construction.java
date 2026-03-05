@@ -21,7 +21,6 @@ public class Construction {
 
   public static void addEdge(int u, int v, int w, ArrayList<Edge>[] graph) {
     graph[u].add(new Edge(u, v, w));
-    graph[v].add(new Edge(v, u, w));
   }
 
   public static void displayGraph(ArrayList<Edge>[] graph) {
