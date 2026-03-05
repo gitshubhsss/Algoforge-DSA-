@@ -116,6 +116,161 @@ class TopologicalSort {
     return topologicalOrder;
   }
 
+  ///Problems on topological sort ===================================================================================
+
+  // Leetcode : 207. Course Schedule
+  class Solution {
+
+    public static boolean topo_dfs_isCycle(
+      int src,
+      ArrayList<Edge>[] graph,
+      int vis[]
+    ) {
+      vis[src] = 1;
+
+      for (Edge e : graph[src]) {
+        int nbr = e.v;
+
+        if (vis[nbr] == 1) {
+          return true;
+        } else if (vis[nbr] == 2) {
+          continue;
+        } else {
+          if (topo_dfs_isCycle(nbr, graph, vis)) {
+            return true;
+          }
+        }
+      }
+
+      vis[src] = 2;
+
+      return false;
+    }
+
+    public static void addEdge(int u, int v, ArrayList<Edge>[] graph) {
+      graph[u].add(new Edge(u, v));
+    }
+
+    public static void makeGraph(
+      ArrayList<Edge>[] graph,
+      int[][] prerequisites
+    ) {
+      for (int[] prerequisit : prerequisites) {
+        int u = prerequisit[0];
+        int v = prerequisit[1];
+        addEdge(u, v, graph);
+      }
+    }
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+      int N = numCourses;
+
+      ArrayList<Edge>[] graph = new ArrayList[N];
+
+      //initialize the graph
+      for (int i = 0; i < N; i++) {
+        graph[i] = new ArrayList<>();
+      }
+
+      makeGraph(graph, prerequisites);
+
+      int vis[] = new int[N];
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 0) {
+          if (topo_dfs_isCycle(i, graph, vis) == true) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+  }
+
+  //Leetcode : 210 Course schedule ||
+
+  class Solution {
+
+    public static void addEdge(int u, int v, ArrayList<Edge> graph[]) {
+      graph[u].add(new Edge(u, v));
+    }
+
+    public static void makeGraph(
+      ArrayList<Edge> graph[],
+      int[][] prerequisites
+    ) {
+      for (int[] prerequisit : prerequisites) {
+        int u = prerequisit[0];
+        int v = prerequisit[1];
+
+        addEdge(u, v, graph);
+      }
+    }
+
+    public static boolean topo_dfs(
+      int src,
+      ArrayList<Edge> graph[],
+      int vis[],
+      ArrayList<Integer> topoOrder
+    ) {
+      vis[src] = 1;
+
+      for (Edge e : graph[src]) {
+        int nbr = e.v;
+
+        if (vis[nbr] == 1) {
+          return true;
+        } else if (vis[nbr] == 2) {
+          continue;
+        } else {
+          if (topo_dfs(nbr, graph, vis, topoOrder)) {
+            return true;
+          }
+        }
+      }
+
+      topoOrder.add(src);
+      vis[src] = 2;
+
+      return false;
+    }
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+      int N = numCourses;
+
+      ArrayList<Edge>[] graph = new ArrayList[N];
+
+      //Initialize the graph
+
+      for (int i = 0; i < N; i++) {
+        graph[i] = new ArrayList<>();
+      }
+
+      ArrayList<Integer> topologicalOrder = new ArrayList<>();
+
+      int vis[] = new int[N];
+
+      makeGraph(graph, prerequisites);
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 0) {
+          if (topo_dfs(i, graph, vis, topologicalOrder)) {
+            return new int[] {};
+          }
+        }
+      }
+
+      int ans[] = new int[topologicalOrder.size()];
+
+      for (int i = 0; i < topologicalOrder.size(); i++) {
+        ans[i] = topologicalOrder.get(i);
+      }
+
+      return ans;
+    }
+  }
+
   public static void main(String[] args) {
     int N = 12;
 
