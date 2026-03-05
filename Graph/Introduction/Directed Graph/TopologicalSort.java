@@ -72,6 +72,50 @@ class TopologicalSort {
     return topologicalOrder;
   }
 
+  public static boolean topo_dfs_isCycle(
+    int src,
+    ArrayList<Edge>[] graph,
+    ArrayList<Integer> topologicalOrder,
+    int[] vis
+  ) {
+    vis[src] = 1;
+
+    for (Edge e : graph[src]) {
+      int nbr = e.v;
+      if (vis[nbr] == 1) {
+        //means their is cycle
+        System.out.println("Cycle found");
+        return true;
+      } else if (vis[nbr] == 2) {
+        continue;
+      } else {
+        topo_dfs_isCycle(nbr, graph, topologicalOrder, vis);
+      }
+    }
+    vis[src] = 2;
+    topologicalOrder.add(src);
+
+    return false;
+  }
+
+  public static ArrayList<Integer> findTopologicalOrder_generic(
+    ArrayList<Edge>[] graph,
+    int N
+  ) {
+    int vis[] = new int[N];
+
+    ArrayList<Integer> topologicalOrder = new ArrayList<>();
+
+    for (int i = 0; i < N; i++) {
+      if (vis[i] == 0) {
+        if (topo_dfs_isCycle(i, graph, topologicalOrder, vis)) {
+          return new ArrayList<>();
+        }
+      }
+    }
+    return topologicalOrder;
+  }
+
   public static void main(String[] args) {
     int N = 12;
 
@@ -87,7 +131,9 @@ class TopologicalSort {
 
     addEdge(5, 11, graph); // 0---2w----1
     addEdge(11, 2, graph);
+    addEdge(2, 9, graph); //cycle edge
     addEdge(11, 9, graph);
+    addEdge(9, 11, graph); //cycle edge
     addEdge(11, 10, graph);
     addEdge(7, 11, graph);
     addEdge(7, 8, graph);
@@ -95,7 +141,9 @@ class TopologicalSort {
     addEdge(3, 8, graph);
     addEdge(3, 10, graph);
 
-    System.out.println(findTopologicalOrder(graph, N));
+    // System.out.println(findTopologicalOrder(graph, N));
+
+    System.out.println(findTopologicalOrder_generic(graph, N));
 
     //displayGraph(graph);
   }
