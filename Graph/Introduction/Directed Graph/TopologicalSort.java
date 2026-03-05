@@ -271,6 +271,51 @@ class TopologicalSort {
     }
   }
 
+  //Leetcode 802: Find eventual safe nodes
+
+  class Solution {
+
+    public static boolean checkIfCycle(int src, int[][] graph, int vis[]) {
+      vis[src] = 1;
+
+      for (int nbr : graph[src]) {
+        if (vis[nbr] == 1) {
+          return true;
+        } else if (vis[nbr] == 2) {
+          continue;
+        } else {
+          if (checkIfCycle(nbr, graph, vis)) {
+            return true;
+          }
+        }
+      }
+
+      vis[src] = 2;
+      return false;
+    }
+
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+      int N = graph.length;
+
+      int vis[] = new int[N];
+
+      for (int i = 0; i < N; i++) {
+        checkIfCycle(i, graph, vis);
+      }
+
+      ArrayList<Integer> safeStates = new ArrayList<Integer>();
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 2) {
+          safeStates.add(i);
+        }
+      }
+
+      return safeStates;
+    }
+  }
+
+  
   public static void main(String[] args) {
     int N = 12;
 
