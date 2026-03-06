@@ -61,6 +61,36 @@ public class Introduction {
     }
   }
 
+  public static void BFS_2(int src, ArrayList<Edge>[] graph, int N) {
+    boolean vis[] = new boolean[N];
+    LinkedList<Integer> que = new LinkedList<Integer>();
+    que.add(src);
+    vis[src] = true;
+
+    int level = 0;
+
+    while (que.size() > 0) {
+      System.out.print("Nodes at distance" + level + "-> ");
+
+      int size = que.size();
+
+      while (size-- > 0) {
+        int vtx = que.removeFirst();
+        System.out.print(vtx + ", ");
+
+        for (Edge e : graph[vtx]) {
+          int nbr = e.v;
+          if (vis[nbr] == false) {
+            que.add(nbr);
+            vis[nbr] = true;
+          }
+        }
+      }
+      System.out.println();
+      level++;
+    }
+  }
+
   // Construction utils
   public static void addEdge(int u, int v, int w, ArrayList<Edge>[] graph) {
     graph[u].add(new Edge(u, v, w));
@@ -80,7 +110,7 @@ public class Introduction {
   }
 
   public static void main(String[] args) {
-    int N = 7;
+    int N = 8;
 
     int arr[] = new int[N];
 
@@ -94,12 +124,16 @@ public class Introduction {
 
     addEdge(0, 1, 2, graph); // 0---2w----1
     addEdge(1, 2, 5, graph);
-    addEdge(1, 4, 3, graph);
-    addEdge(3, 4, 4, graph);
-    addEdge(3, 5, 7, graph);
-    addEdge(3, 6, 9, graph);
-    addEdge(5, 6, 8, graph);
-    BFS_1(0, graph, N);
+    addEdge(1, 3, 5, graph);
+    addEdge(3, 4, 3, graph);
+
+    addEdge(4, 5, 7, graph);
+    addEdge(5, 6, 9, graph);
+    addEdge(5, 7, 8, graph);
+    addEdge(6, 7, 5, graph);
+
+     BFS_1(0, graph, N);
     // displayGraph(graph);
+   // BFS_2(0, graph, N);
   }
 }
