@@ -132,8 +132,8 @@ public class Introduction {
     addEdge(5, 7, 8, graph);
     addEdge(6, 7, 5, graph);
 
-     BFS_1(0, graph, N);
+    BFS_1(0, graph, N);
     // displayGraph(graph);
-   // BFS_2(0, graph, N);
+    // BFS_2(0, graph, N);
   }
 }

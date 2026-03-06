@@ -1,5 +1,61 @@
 public class Questions {
 
+  // Leetcode : 994. Rotting Oranges
+  class Solution {
+
+    public int orangesRotting(int[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+
+      LinkedList<Integer> que = new LinkedList<>();
+
+      int freshOranges = 0;
+
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (grid[row][col] == 1) {
+            freshOranges++;
+          } else if (grid[row][col] == 2) {
+            que.add(row * m + col); //converted to 1d array
+          }
+        }
+      }
+
+      if (freshOranges == 0) {
+        return 0;
+      }
+
+      int time = 0;
+
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+      while (que.size() > 0) {
+        int size = que.size();
+        while (size-- > 0) {
+          int cell = que.removeFirst();
+
+          int row = cell / m;
+          int col = cell % m;
+
+          //move in all 4 directions
+
+          for (int[] dir : dirs) {
+            int x = row + dir[0];
+            int y = col + dir[1];
+
+            if (x >= 0 && x < n && y >= 0 && y < m && grid[x][y] == 1) {
+              que.addLast(x * m + y); //converting to one d
+              grid[x][y] = 2;
+              freshOranges--;
+            }
+          }
+        }
+
+        time++;
+      }
+      return freshOranges == 0 ? time - 1 : -1;
+    }
+  }
+
   // Leetcode 1162 : https://leetcode.com/problems/as-far-from-land-as-possible/description/
   class Solution {
 
@@ -7,21 +63,22 @@ public class Questions {
       int n = grid.length;
       int m = grid[0].length;
 
-      int[][] dirs = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
-
       LinkedList<Integer> que = new LinkedList<>();
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (grid[i][j] == 1) {
-            que.addLast(i * m + j); // converted to 1d
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (grid[row][col] == 1) {
+            //convert to 1 d array and insert in the que
+            que.add(row * m + col);
           }
         }
       }
 
-      if (que.size() == n * m || que.size() == 0) {
+      if ((que.size() == 0) || (que.size() == m * n)) {
         return -1;
       }
+
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
       int dis = 0;
 
@@ -31,19 +88,20 @@ public class Questions {
         while (size-- > 0) {
           int cell = que.removeFirst();
 
-          int i = cell / m;
-          int j = cell % m;
+          int row = cell / m;
+          int col = cell % m;
 
           for (int[] dir : dirs) {
-            int x = i + dir[0];
-            int y = j + dir[1];
+            int x = row + dir[0];
+            int y = col + dir[1];
 
-            if (x >= 0 && y >= 0 && x < n && y < m && grid[x][y] == 0) {
-              que.addLast(x * m + y);
+            if (x >= 0 && x < n && y >= 0 && y < m && grid[x][y] == 0) {
+              que.add(x * m + y);
               grid[x][y] = 2;
             }
           }
         }
+
         dis++;
       }
 
