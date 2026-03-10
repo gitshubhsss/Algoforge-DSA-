@@ -3,6 +3,7 @@ import java.util.Collections;
 
 class Edge {
 
+
   int u;
   int v;
 
@@ -44,7 +45,7 @@ class TopologicalSort {
 
     for (Edge e : graph[u]) {
       int nbr = e.v;
-
+    
       if (vis[nbr] == false) {
         topo_dfs(nbr, graph, topologicalOrder, vis);
       }
@@ -71,6 +72,57 @@ class TopologicalSort {
 
     return topologicalOrder;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   public static boolean topo_dfs_isCycle(
     int src,
@@ -315,7 +367,6 @@ class TopologicalSort {
     }
   }
 
-  
   public static void main(String[] args) {
     int N = 12;
 

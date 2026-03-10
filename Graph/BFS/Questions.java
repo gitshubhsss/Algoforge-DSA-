@@ -168,7 +168,69 @@ public class Questions {
 
   //Code lint wala bhi pending hai
 
-  //
+  // Leetcode : 329. Longest Increasing Path in a Matrix
+//incomplete code
+ class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        int indegree[][] = new int[n][m];
+
+        int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int smallerNbrElements = 0;
+
+                for (int dir[] : dirs) {
+                    int x = i + dir[0];
+                    int y = j + dir[1];
+
+                    if (x < n && x >= 0 && y < m && y > n && matrix[i][j] > matrix[x][y]) {
+                        smallerNbrElements++;
+                    }
+                }
+
+                indegree[i][j] = smallerNbrElements;
+                if (smallerNbrElements == 0) {
+                    que.add(i * m + j);
+                }
+            }
+        }
+
+        int length=1;
+
+        while(que.size()>0){
+            int size=que.size();
+            while(size -->0){
+
+                int cell=que.removeFirst();
+                int i=cell/m;
+                int j=cell%m;
+
+                  for (int dir[] : dirs) {
+                    int x = i + dir[0];
+                    int y = j + dir[1];
+
+                    if (x < n && x >= 0 && y < m && y > n && matrix[i][j] > matrix[x][y]) {
+                       
+                       indegree[x][y]--;
+                       if(indegree[x][y]==0){
+                        que.
+                       }
+                    }
+                }
+
+
+
+            }
+        }
+    }
+}
+
+
+///
 
   public static void main(String[] args) {}
 }
