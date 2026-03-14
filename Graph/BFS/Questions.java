@@ -135,6 +135,7 @@ public class Questions {
       int dis = 0;
 
       while (que.size() > 0) {
+        
         int size = que.size();
 
         while (size-- > 0) {
