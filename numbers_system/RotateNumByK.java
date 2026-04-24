@@ -20,10 +20,10 @@ public class RotateNumByK {
         }
 
         // find the remder
-        // 12345
+        // 12345 % 1000
         int rem = num % (int) Math.pow(10, k);// last digits 1000
         System.out.println(rem + "rem");
-        int div = num / (int) Math.pow(10, k);// first digit 
+        int div = num / (int) Math.pow(10, k);// first digit
         System.out.println(div + "div");
         int ans = rem * (int) Math.pow(10, n - k) + div;
         System.out.println(ans);

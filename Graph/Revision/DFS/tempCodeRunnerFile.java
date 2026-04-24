@@ -1,1 +1,0 @@
-   displayGraph(graph);

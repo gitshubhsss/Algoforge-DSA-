@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.ArrayList;
 
 class Edge {
 
@@ -12,51 +12,51 @@ class Edge {
     this.w = w;
   }
 
+  @Override
   public String toString() {
-    return "(" + this.u + " --> " + this.v + " : " + this.w + ")";
+    return "(" + u + "->" + v + " :" + w + ")";
   }
 }
 
 public class Construction {
 
-  public static void addEdge(int u, int v, int w, ArrayList<Edge>[] graph) {
+  public static void addEdge(ArrayList<Edge> graph[], int u, int v, int w) {
     graph[u].add(new Edge(u, v, w));
     graph[v].add(new Edge(v, u, w));
   }
 
-  public static void displayGraph(ArrayList<Edge>[] graph) {
-    for (int i = 0; i < graph.length; i++) {
-      System.out.print(i + " ");
-      ArrayList<Edge> edges = graph[i];
-
-      for (Edge edge : edges) {
-        System.out.print(edge + ",");
+  public static void displayGraph(ArrayList<Edge> graph[], int N) {
+    for (int i = 0; i < N; i++) {
+      System.out.print("Edges coming out from " + i + " : ");
+      for (Edge e : graph[i]) {
+        System.out.print(e + ",");
       }
       System.out.println();
     }
   }
 
   public static void main(String[] args) {
-    int N = 7;
-
-    int arr[] = new int[N];
+    int N = 8;
 
     @SuppressWarnings("unchecked")
-    ArrayList<Edge> graph[] = new ArrayList[N]; //where  ArrayList<Edge> is a data type ,graph is variable name,
+    ArrayList<Edge>[] graph = new ArrayList[N];
 
-    //initailize the arrayList
-    for (int i = 0; i < graph.length; i++) {
+    // initialize the arraylist
+
+    for (int i = 0; i < N; i++) {
       graph[i] = new ArrayList<>();
+      System.out.println(graph[i]);
     }
 
-    addEdge(0, 1, 2, graph); // 0---2w----1
-    addEdge(1, 2, 5, graph);
-    addEdge(1, 4, 3, graph);
-    addEdge(3, 4, 4, graph);
-    addEdge(3, 5, 7, graph);
-    addEdge(3, 6, 9, graph);
-    addEdge(5, 6, 8, graph);
+    addEdge(graph, 0, 1, 1);
+    addEdge(graph, 1, 2, 2);
+    addEdge(graph, 1, 3, 3);
+    addEdge(graph, 2, 4, 25);
+    addEdge(graph, 4, 5, 13);
+    addEdge(graph, 4, 6, 15);
+    addEdge(graph, 5, 7, 4);
+    addEdge(graph, 6, 7, 3);
 
-    displayGraph(graph);
+    displayGraph(graph, N);
   }
 }

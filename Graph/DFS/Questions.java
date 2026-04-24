@@ -19,197 +19,51 @@ class Edge {
 
 public class Questions {
 
-  // Connected Components in an Undirected Graph  https://www.geeksforgeeks.org/problems/connected-components-in-an-undirected-graph/1
-  class Solution {
-
-    public static void addEdge(int u, int v, ArrayList<Integer>[] graph) {
-      graph[u].add(v);
-      graph[v].add(u);
-    }
-
-    public static ArrayList<Integer>[] makeGraph(int V, int[][] edges) {
-      @SuppressWarnings("unchecked")
-      ArrayList<Integer> graph[] = new ArrayList[V];
-
-      //initialize the graph
-      for (int i = 0; i < V; i++) {
-        graph[i] = new ArrayList<>();
-      }
-
-      for (int[] edge : edges) {
-        int u = edge[0];
-        int v = edge[1];
-
-        addEdge(u, v, graph);
-      }
-      return graph;
-    }
-
-    public static void dfs(
-      int src,
-      ArrayList<Integer>[] graph,
-      boolean[] vis,
-      ArrayList<Integer> currComponents
-    ) {
-      vis[src] = true;
-
-      currComponents.add(src);
-
-      for (int nbr : graph[src]) {
-        if (vis[nbr] == false) {
-          dfs(nbr, graph, vis, currComponents);
-        }
-      }
-    }
-
-    public ArrayList<ArrayList<Integer>> getComponents(int V, int[][] edges) {
-      ArrayList<Integer> graph[] = makeGraph(V, edges);
-
-      boolean vis[] = new boolean[V];
-
-      ArrayList<ArrayList<Integer>> allComponents = new ArrayList<>();
-
-      for (int i = 0; i < V; i++) {
-        if (vis[i] == false) {
-          ArrayList<Integer> currComponent = new ArrayList<>();
-          dfs(i, graph, vis, currComponent);
-          allComponents.add(currComponent);
-        }
-      }
-
-      return allComponents;
-    }
-  }
-
-  public static void addEdge(int u, int v, int w, ArrayList<Edge>[] graph) {
+  public static void addEdge(int u, int v, int w, ArrayList<Edge> graph[]) {
     graph[u].add(new Edge(u, v, w));
     graph[v].add(new Edge(v, u, w));
   }
 
-  public static void displayGraph(ArrayList<Edge>[] graph) {
-    for (int i = 0; i < graph.length; i++) {
-      System.out.print(i + " ");
-      ArrayList<Edge> edges = graph[i];
-
-      for (Edge edge : edges) {
-        System.out.print(edge + ",");
+  public static void displayGraph(ArrayList<Edge> graph[], int N) {
+    for (int i = 0; i < N; i++) {
+      System.out.print("Edges coming out from " + i + " : ");
+      for (Edge e : graph[i]) {
+        System.out.print(e + ",");
       }
       System.out.println();
     }
   }
 
-  public static boolean checkIfEdge(int src, int des, ArrayList<Edge>[] graph) {
-    for (Edge e : graph[src]) {
-      int nbr = e.v;
-      if (nbr == des) {
-        return true;
-      }
-    }
+  /// 200. Number of Islands
+  class Solution200 {
 
-    return false;
-  }
+    public static void dfs_wooh(int row, int col, int n, int m, char[][] grid) {
+      grid[row][col] = '2';
 
-  public static void traverseDFS(
-    int src,
-    int osrc,
-    int edgesVisited,
-    ArrayList<Edge>[] graph,
-    int N,
-    boolean vis[],
-    String psf
-  ) {
-    if (edgesVisited == N - 1) {
-      //we have visited all the nodes
-      if (checkIfEdge(osrc, src, graph)) {
-        System.out.println("Hamiltonian cycle is " + psf);
-      } else {
-        System.out.println("Hamiltonian path is " + psf);
-      }
-    }
+      int[][] dirs = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
-    vis[src] = true;
+      for (int[] dir : dirs) {
+        int nRow = row + dir[0];
+        int nCol = col + dir[1];
 
-    for (Edge e : graph[src]) {
-      int nbr = e.v;
-      if (vis[nbr] == false) {
-        traverseDFS(
-          nbr,
-          osrc,
-          edgesVisited + 1,
-          graph,
-          N,
-          vis,
-          psf + "->" + nbr
-        );
-      }
-    }
-
-    vis[src] = false;
-  }
-
-  public static void printAllHamiltonianPathAndCycle(
-    int src,
-    ArrayList<Edge>[] graph,
-    int N
-  ) {
-    boolean vis[] = new boolean[N];
-
-    //passing the original sourch also,edgesVisited=0
-    traverseDFS(src, src, 0, graph, N, vis, "" + src);
-  }
-
-  /*
-  ["1","1","1","1","0"],
-  ["1","1","0","1","0"],
-  ["1","1","0","0","0"],
-  ["0","0","0","0","0"]
-  */
-  class Solution {
-
-    public static void dfs(
-      int row,
-      int col,
-      int n,
-      int m,
-      boolean vis[][],
-      char[][] grid
-    ) {
-      if (row > grid.length || col > grid[0].length) {
-        return;
-      }
-
-      vis[row][col] = true;
-      //this are the 4 directions we are going to have
-      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-
-      for (int dir[] : dirs) {
-        int newR = row + dir[0];
-        int newC = col + dir[1];
-        if (
-          newR >= 0 &&
-          newC >= 0 &&
-          newR < n &&
-          newC < m &&
-          grid[newR][newC] == '1' &&
-          vis[newR][newC] == false
-        ) {
-          dfs(newR, newC, n, m, vis, grid);
+        if (nRow >= 0 && nRow < n && nCol < m && nCol >= 0 && grid[nRow][nCol] == '1') {
+          dfs_wooh(nRow, nCol, n, m, grid);
         }
       }
     }
 
     public int numIslands(char[][] grid) {
-      int n = grid.length;
-      int m = grid[0].length;
 
-      boolean vis[][] = new boolean[n][m];
+      int n = grid.length;
+
+      int m = grid[0].length;
 
       int components = 0;
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (grid[i][j] == '1' && vis[i][j] == false) {
-            dfs(i, j, n, m, vis, grid);
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (grid[row][col] == '1') {
+            dfs_wooh(row, col, n, m, grid);
             components++;
           }
         }
@@ -219,130 +73,66 @@ public class Questions {
     }
   }
 
-  ///Leetcode 695. Max Area of Island with extra space
-  class Solution {
+  // 695. Max Area of Island
+  class Solution695 {
 
-    public static void dfs(
-      int row,
-      int col,
-      int m,
-      int n,
-      int[][] grid,
-      boolean[][] vis,
-      int max[]
-    ) {
-      vis[row][col] = true;
-      max[0] = max[0] + 1;
-
-      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-
-      for (int[] dir : dirs) {
-        int nRow = row + dir[0];
-        int nCol = col + dir[1];
-
-        if (
-          nRow >= 0 &&
-          nCol >= 0 &&
-          nRow < n &&
-          nCol < m &&
-          grid[nRow][nCol] == 1 &&
-          vis[nRow][nCol] == false
-        ) {
-          dfs(nRow, nCol, m, n, grid, vis, max);
-        }
-      }
-    }
-
-    public int maxAreaOfIsland(int[][] grid) {
-      int n = grid.length;
-      int m = grid[0].length;
-
-      boolean vis[][] = new boolean[n][m];
-      int max[] = new int[1];
-      int maxArea = 0;
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (grid[i][j] == 1 && vis[i][j] == false) {
-            dfs(i, j, m, n, grid, vis, max);
-            maxArea = Math.max(maxArea, max[0]);
-            max[0] = 0;
-          }
-        }
-      }
-      return maxArea;
-    }
-  }
-
-  ///Leetcode 695. Max Area of Island without  extra space without boolean array
-  class Solution {
-
-    public static int dfs(int row, int col, int n, int m, int[][] grid) {
+    // function to return no of ones
+    public static int dfs_wooh(int row, int col, int n, int m, int[][] grid) {
       grid[row][col] = 2;
 
-      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+      int totalArea = 1;
 
-      int totalArea = 0;
+      int[][] dirs = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
-      for (int dir[] : dirs) {
+      for (int[] dir : dirs) {
+
         int nRow = row + dir[0];
         int nCol = col + dir[1];
 
-        if (
-          nRow >= 0 &&
-          nCol >= 0 &&
-          nRow < n &&
-          nCol < m &&
-          grid[nRow][nCol] == 1
-        ) {
-          totalArea = totalArea + dfs(nRow, nCol, n, m, grid);
+        if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && grid[nRow][nCol] == 1) {
+          totalArea = totalArea + dfs_wooh(nRow, nCol, n, m, grid);
         }
       }
-      return totalArea + 1;
+
+      return totalArea;
+
     }
 
     public int maxAreaOfIsland(int[][] grid) {
+
       int n = grid.length;
       int m = grid[0].length;
+
       int maxArea = 0;
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (grid[i][j] == 1) {
-            int area = dfs(i, j, n, m, grid);
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (grid[row][col] == 1) {
+            int area = dfs_wooh(row, col, n, m, grid);
             maxArea = Math.max(maxArea, area);
           }
         }
       }
+
       return maxArea;
     }
   }
 
-  ///Leetcode :  130. Surrounded Regions
-  class Solution {
+  // 130. Surrounded Regions
+  class Solution130 {
 
-    public static void convertResionToHash(
-      int row,
-      int col,
-      int n,
-      int m,
-      char[][] board
-    ) {
+    public static void convertToHash(int row, int col, int n, int m, char[][] board) {
       board[row][col] = '#';
 
-      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+      int[][] dirs = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
-      for (int dir[] : dirs) {
+      for (int[] dir : dirs) {
+
         int nRow = row + dir[0];
         int nCol = col + dir[1];
 
-        if (
-          nRow >= 0 &&
-          nRow < n &&
-          nCol >= 0 &&
-          nCol < m &&
-          board[nRow][nCol] == 'O'
-        ) {
-          convertResionToHash(nRow, nCol, n, m, board);
+        if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && board[nRow][nCol] == 'O') {
+          convertToHash(nRow, nCol, n, m, board);
         }
       }
     }
@@ -351,63 +141,390 @@ public class Questions {
       int n = board.length;
       int m = board[0].length;
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (i == 0 || j == 0 || i == n - 1 || j == m - 1) {
-            if (board[i][j] == 'O') {
-              convertResionToHash(i, j, n, m, board);
+      // convert the sider boundaries to #
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          // skip the boundaries
+          if (row == 0 || row == n - 1 || col == 0 || col == m - 1) {
+            if (board[row][col] == 'O') {
+              convertToHash(row, col, n, m, board);
             }
           }
         }
       }
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          if (board[i][j] == 'O') {
-            board[i][j] = 'X';
-          } else if (board[i][j] == '#') {
-            board[i][j] = 'O';
+      for (int row = 0; row < n; row++) {
+        for (int col = 0; col < m; col++) {
+          if (board[row][col] == 'O') {
+            board[row][col] = 'X';
+          } else if (board[row][col] == '#') {
+            board[row][col] = 'O';
           }
         }
       }
+
     }
   }
 
-  // Leetcode : 463. Island Perimeter
-  class Solution {
-
+  // 463. Island Perimeter
+  class Solution463 {
     public int islandPerimeter(int[][] grid) {
+
       int n = grid.length;
       int m = grid[0].length;
 
       int totalPerimeter = 0;
-      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
-      for (int row = 0; row < n; row++) {
-        for (int col = 0; col < m; col++) {
-          if (grid[row][col] == 1) {
-            //search the surrounding
-            totalPerimeter += 4;
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+
+          if (grid[i][j] == 1) {
+            int initialPerimeter = 4;
+
+            int[][] dirs = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 
             for (int[] dir : dirs) {
-              int nRow = row + dir[0];
-              int nCol = col + dir[1];
-
-              if (
-                nRow >= 0 &&
-                nCol >= 0 &&
-                nRow < n &&
-                nCol < m &&
-                grid[nRow][nCol] == 1
-              ) {
-                totalPerimeter--;
+              int nRow = i + dir[0];
+              int nCol = j + dir[1];
+              if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && grid[nRow][nCol] == 1) {
+                initialPerimeter--;
               }
             }
+
+            totalPerimeter += initialPerimeter;
+          }
+
+        }
+
+      }
+
+      return totalPerimeter;
+    }
+  }
+
+  // 547. Number of Provinces
+  class Solution547 {
+
+    public static void dfs_wooh(int src, ArrayList<Integer>[] graph, boolean[] vis) {
+
+      vis[src] = true;
+
+      for (int nbr : graph[src]) {
+        if (vis[nbr] == false) {
+          dfs_wooh(nbr, graph, vis);
+        }
+      }
+    }
+
+    public static void addEdge(int u, int v, ArrayList<Integer>[] graph) {
+      graph[u].add(v);
+      graph[v].add(u);
+    }
+
+    public int findCircleNum(int[][] isConnected) {
+
+      int n = isConnected.length;
+      int m = isConnected[0].length;
+
+      int provience = 0;
+
+      @SuppressWarnings("unchecked")
+      ArrayList<Integer>[] graph = new ArrayList[n];
+
+      for (int i = 0; i < n; i++) {
+        graph[i] = new ArrayList<>();
+      }
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (isConnected[i][j] == 1 && i != j) {
+            addEdge(i, j, graph);
           }
         }
       }
 
-      return totalPerimeter;
+      boolean[] vis = new boolean[n];
+
+      for (int i = 0; i < n; i++) {
+        if (vis[i] == false) {
+          dfs_wooh(i, graph, vis);
+          provience++;
+        }
+      }
+
+      return provience;
+
+    }
+  }
+
+  // 207. Course Schedule topological sort
+
+  class Solution207 {
+
+    public static void addEdge(int u, int v, ArrayList<Integer>[] graph) {
+      graph[u].add(v);
+    }
+
+    public static boolean topo_dfs_isCycle(int src, ArrayList<Integer>[] graph, int[] vis) {
+      vis[src] = 1;
+
+      for (int nbr : graph[src]) {
+        if (vis[nbr] == 1) {
+          return true;// their is a cycle
+        } else if (vis[nbr] == 0) {
+          if (topo_dfs_isCycle(nbr, graph, vis)) {
+            return true;
+          }
+        } else if (vis[nbr] == 2) {
+          continue;
+        }
+      }
+
+      vis[src] = 2;
+      return false;
+    }
+
+    public static boolean topological_traverse(ArrayList<Integer>[] graph, int N) {
+      int[] vis = new int[N];
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 0) {
+          if (topo_dfs_isCycle(i, graph, vis)) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+
+    }
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+
+      int N = numCourses;
+
+      // make the graph
+      ArrayList<Integer>[] graph = new ArrayList[N];
+
+      for (int i = 0; i < N; i++) {
+        graph[i] = new ArrayList<>();
+      }
+
+      for (int[] edge : prerequisites) {
+        int u = edge[0];
+        int v = edge[1];
+        addEdge(u, v, graph);
+      }
+
+      return topological_traverse(graph, N);
+    }
+  }
+
+  // 210. Course Schedule II topological sort
+  class Solution210 {
+
+    public static void addEdge(int u, int v, ArrayList<Integer>[] graph) {
+      graph[u].add(v);
+    }
+
+    public static boolean topo_dfs_isCycle(int src, ArrayList<Integer>[] graph, ArrayList<Integer> topologicalOrder,
+        int[] vis) {
+      vis[src] = 1;
+      for (int nbr : graph[src]) {
+        if (vis[nbr] == 1) {
+          return true;// cycle found
+        } else if (vis[nbr] == 0) {
+          if (topo_dfs_isCycle(nbr, graph, topologicalOrder, vis)) {
+            return true;
+          }
+        } else if (vis[nbr] == 2) {
+          continue;
+        }
+      }
+      vis[src] = 2;
+      topologicalOrder.add(src);
+      return false;
+    }
+
+    public static ArrayList<Integer> topo_traverse(ArrayList<Integer>[] graph, int N) {
+      int[] vis = new int[N];
+
+      ArrayList<Integer> topologicalOrder = new ArrayList<>();
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 0) {
+          if (topo_dfs_isCycle(i, graph, topologicalOrder, vis)) {
+            return new ArrayList<>();
+          }
+        }
+      }
+
+      return topologicalOrder;
+
+    }
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+      int N = numCourses;
+      // base case jaisa bola gaya hai waisa
+      if (prerequisites.length == 0 && N == 1) {
+        return new int[] { 0 };
+      }
+
+      // prepare for the graph
+      ArrayList<Integer>[] graph = new ArrayList[N];
+
+      for (int i = 0; i < N; i++) {
+        graph[i] = new ArrayList<>();
+      }
+
+      for (int[] edge : prerequisites) {
+        int u = edge[0];
+        int v = edge[1];
+        addEdge(u, v, graph);
+      }
+
+      ArrayList<Integer> order = topo_traverse(graph, N);
+
+      if (order.isEmpty()) {
+        return new int[] {};
+      }
+
+      // convert arrayList to array
+      int[] ans = order.stream().mapToInt(Integer::intValue).toArray();
+
+      return ans;
+
+    }
+  }
+
+  // 802. Find Eventual Safe States
+
+  class Solution802 {
+
+    public static boolean topo_dfs(int src, int[][] graph, int[] vis) {
+      vis[src] = 1;
+      for (int nbr : graph[src]) {
+        if (vis[nbr] == 1) {
+          return true; // do not add it as its a cycle
+        }
+        if (vis[nbr] == 0) {
+          if (topo_dfs(nbr, graph, vis)) {
+            return true;
+          }
+        } else if (vis[nbr] == 2) {
+
+          continue;
+        }
+      }
+      vis[src] = 2;
+      return false;
+    }
+
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+
+      int N = graph.length;
+      int[] vis = new int[N];
+
+      ArrayList<Integer> safeNodes = new ArrayList<Integer>();
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 0) {
+          topo_dfs(i, graph, vis);
+        }
+      }
+
+      for (int i = 0; i < N; i++) {
+        if (vis[i] == 2) {
+          safeNodes.add(i);
+        }
+      }
+
+      return safeNodes;
+
+    }
+  }
+
+  // Leetcode : 1905. Count Sub Islands Pending
+  class Solution1905 {
+
+    public static boolean isSubIsland(int i, int j, int[][] A, int[][] B, int n, int m) {
+
+      boolean isSubIsaland = false;
+
+      if (A[i][j] == 0) {
+        isSubIsaland = false;
+      }
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int[] dir : dirs) {
+        int x = i + dir[0];
+        int y = j + dir[1];
+
+        if (x >= 0 && x < n && y >= 0 && y < m && B[x][y] == 1) {
+          isSubIsaland = isSubIsland(x, y, A, B, n, m) && isSubIsaland;
+        }
+      }
+
+      return isSubIsaland;
+    }
+
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+
+      int n = grid1.length;
+      int m = grid1[0].length;
+
+      int count = 0;
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (isSubIsland(i, j, grid1, grid2, n, m)) {
+            count++;
+          }
+        }
+      }
+
+      return count;
+    }
+  }
+
+  // count distict islands
+  // (https://www.geeksforgeeks.org/problems/number-of-distinct-islands/1)
+
+  class Solution {
+
+    public static void dfs_fillshape(int i, int j, int sr, int sc, int n, int m, ArrayList<String> shape,
+        int[][] grid) {
+      grid[i][j] = 0;
+      shape.add("(" + (sr - i) + "," + (sc - j) + ")");
+      int dirs[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+
+      for (int[] dir : dirs) {
+        int x = i + dir[0];
+        int y = j + dir[1];
+        if (x >= 0 && y >= 0 && x < n && y < m && grid[x][y] == 1) {
+          dfs_fillshape(x, y, sr, sc, n, m, shape, grid);
+        }
+      }
+    }
+
+    int countDistinctIslands(int[][] grid) {
+      // Your Code here
+
+      int n = grid.length;
+      int m = grid[0].length;
+      HashSet<ArrayList<String>> set = new HashSet<>();
+
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+          if (grid[i][j] == 1) {
+            ArrayList<String> shape = new ArrayList<>();
+            dfs_fillshape(i, j, i, j, n, m, shape, grid);
+            set.add(shape);
+          }
+        }
+      }
+
+      return set.size();
+
     }
   }
 
@@ -417,9 +534,9 @@ public class Questions {
     int arr[] = new int[N];
 
     @SuppressWarnings("unchecked")
-    ArrayList<Edge> graph[] = new ArrayList[N]; //where  ArrayList<Edge> is a data type ,graph is variable name,
+    ArrayList<Edge> graph[] = new ArrayList[N]; // where ArrayList<Edge> is a data type ,graph is variable name,
 
-    //initailize the arrayList
+    // initailize the arrayList
 
     for (int i = 0; i < graph.length; i++) {
       graph[i] = new ArrayList<>();
@@ -430,15 +547,14 @@ public class Questions {
     addEdge(1, 3, 0, graph);
     addEdge(2, 3, 0, graph);
     addEdge(2, 4, 0, graph);
-    //  addEdge(4, 5, 0, graph);
+    // addEdge(4, 5, 0, graph);
     addEdge(3, 5, 0, graph);
     addEdge(5, 7, 0, graph);
     addEdge(4, 6, 0, graph);
     addEdge(6, 7, 0, graph);
 
-    //displayGraph(graph);
-    printAllHamiltonianPathAndCycle(0, graph, N);
+    displayGraph(graph, N);
+
   }
 
-  
 }

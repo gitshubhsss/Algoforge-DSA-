@@ -1,4 +1,3 @@
-import java.util.*;
 
 //construct the stack usring the static array
 class MyStack {
@@ -9,25 +8,26 @@ class MyStack {
 
   private int maxSize = 8;
 
+  // constructor
   MyStack() {
     data = new int[maxSize];
     tos = -1;
   }
 
   public void resize() {
-    //creating the new array with double the lenght
+    // creating the new array with double the lenght
     int newArray[] = new int[data.length * 2];
     for (int i = 0; i < data.length; i++) {
-      newArray[i] = data[i]; //copy the previous data
+      newArray[i] = data[i]; // copy the previous data
     }
-    data = newArray; //point to the new array
+    data = newArray; // point to the new array
   }
 
   public void push(int val) {
     // static stack
     // if(tos == maxSize - 1){ // data array is completely filled
-    //     System.out.println("Stack Overflow!!");
-    //     return;
+    // System.out.println("Stack Overflow!!");
+    // return;
     // }
     if (tos == data.length - 1) {
       resize();

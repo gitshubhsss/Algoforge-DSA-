@@ -11,7 +11,7 @@ public class Operators {
         // System.out.println("else vali value is " + a);
         // }
 
-        if (++a == 10) {
+        if (++a == 10) {// first increae then compare
             System.out.println("Value of a is " + a);
         } else {
             System.out.println("else part but value of a is " + a);
