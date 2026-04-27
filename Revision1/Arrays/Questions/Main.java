@@ -1,0 +1,94 @@
+
+public class Main {
+
+    public static void addTwoArrays(int[] arr1, int[] arr2) {
+
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+
+        // create the result array
+
+        int[] res = new int[Math.max(n1, n2) + 1];// resultant array will be max length of n1 and n2 +1
+        int n3 = res.length;
+        // initialize the pointers will start it from the last
+
+        int i = n1 - 1;
+        int j = n2 - 1;
+        int k = n3 - 1;
+
+        int carry = 0;
+
+        while (k >= 0) {
+            int cSum = 0;
+            // add the first array element
+            if (i >= 0) {
+                cSum += arr1[i];
+            }
+
+            if (j >= 0) {
+                cSum += arr2[j];
+            }
+
+            cSum += carry;// 12
+
+            if (cSum > 9) {
+                int temp = cSum % 10;
+                carry = cSum / 10;
+                cSum = temp;
+            } else {
+                carry = 0;
+            }
+            res[k] = cSum;
+            k--;
+            j--;
+            i--;
+
+        }
+
+        // prin the answer
+        i = 0;
+        while (i < res.length) {
+            System.out.print(res[i] + " ");
+            i++;
+        }
+    }
+
+    public static void printBuildingHeight(int[] heights) {
+        int maxHeight = 0;
+
+        for (int i = 0; i < heights.length; i++) {
+            maxHeight = Math.max(maxHeight, heights[i]);
+        }
+
+        int currentFloor = maxHeight;
+
+        while (currentFloor > 0) {
+
+            // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
+            for (int i = 0; i < heights.length; i++) {
+
+                int currentHeight = heights[i];
+
+                if (currentFloor <= currentHeight) {
+                    System.out.print("* ");
+                } else {
+                    System.out.print("_ ");
+                }
+            }
+
+            System.out.println();
+
+            currentFloor--;
+        }
+    }
+
+    public static void main(String[] args) {
+        // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
+        // printBuildingHeight(heights);
+
+        int[] arr1 = { 6, 5, 3 };
+        int[] arr2 = { 7, 8, 5, 3 };
+
+        addTwoArrays(arr1, arr2);
+    }
+}
