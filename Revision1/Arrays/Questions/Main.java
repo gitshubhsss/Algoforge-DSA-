@@ -136,6 +136,48 @@ public class Main {
         }
     }
 
+    // helper function to print the array
+    public static void printArray(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+
+    // this is the first way to reverse the array
+    public static void reverseArray1(int[] arr) {
+
+        int n = arr.length;
+        for (int i = 0; i < n / 2; i++) {
+            int temp = arr[i];
+            arr[i] = arr[n - i - 1];
+            arr[n - i - 1] = temp;
+        }
+
+        printArray(arr);
+
+    }
+
+    public static void reverseArray2(int[] arr) {
+        int n = arr.length;
+
+        int start = 0;
+        int end = n - 1;
+
+        while (start <= end) {
+
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+
+            start++;
+            end--;
+        }
+
+        printArray(arr);
+    }
+
     public static void main(String[] args) {
         // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
         // printBuildingHeight(heights);
@@ -145,9 +187,14 @@ public class Main {
 
         // addTwoArrays(arr1, arr2);
 
-        int[] arr1 = { 9, 2, 5, 6 };
-        int[] arr2 = { 4, 5, 8, 9 };
+        // int[] arr1 = { 9, 2, 5, 6 };
+        // int[] arr2 = { 4, 5, 8, 9 };
 
-        subTwoArrays(arr1, arr2);
+        // subTwoArrays(arr1, arr2);
+
+        int[] arr = { 1, 2, 3, 4, 5 };
+
+        // reverseArray1(arr);
+        reverseArray2(arr);
     }
 }
