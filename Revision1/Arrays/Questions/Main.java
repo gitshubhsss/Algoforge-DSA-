@@ -53,6 +53,60 @@ public class Main {
         }
     }
 
+    /// the first array is bigger than last array
+    public static void subTwoArrays(int[] arr1, int[] arr2) {
+
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+
+        // create the result array
+        // 9256
+        // 4589
+        int[] res = new int[n1];
+        int n3 = res.length;
+        // initialize the pointers will start it from the last
+
+        int i = n1 - 1;
+        int j = n2 - 1;
+        int k = n3 - 1;
+
+        int carry = 0;
+
+        while (k >= 0) {
+            int cSum = 0;
+            // add the first array element
+
+            if (i >= 0) {
+                cSum += arr1[i];
+            }
+            // minimizing the carry
+            cSum = cSum - carry;
+
+            if (j >= 0) {
+                if (cSum >= arr2[j]) {
+                    cSum = cSum - arr2[j];
+                    carry = 0;
+                } else {
+                    cSum = (cSum + 10) - arr2[j];
+                    carry = 1;
+                }
+            }
+
+            res[k] = cSum;
+            k--;
+            j--;
+            i--;
+
+        }
+
+        // prin the answer
+        i = 0;
+        while (i < res.length) {
+            System.out.print(res[i] + " ");
+            i++;
+        }
+    }
+
     public static void printBuildingHeight(int[] heights) {
         int maxHeight = 0;
 
@@ -86,9 +140,14 @@ public class Main {
         // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
         // printBuildingHeight(heights);
 
-        int[] arr1 = { 6, 5, 3 };
-        int[] arr2 = { 7, 8, 5, 3 };
+        // int[] arr1 = { 6, 5, 3 };
+        // int[] arr2 = { 7, 8, 5, 3 };
 
-        addTwoArrays(arr1, arr2);
+        // addTwoArrays(arr1, arr2);
+
+        int[] arr1 = { 9, 2, 5, 6 };
+        int[] arr2 = { 4, 5, 8, 9 };
+
+        subTwoArrays(arr1, arr2);
     }
 }
