@@ -178,6 +178,39 @@ public class Main {
         printArray(arr);
     }
 
+    /// Leetcode 26 (Remove
+    /// Duplicates)https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+    public static int removeDuplicates(int[] nums) {
+
+        int n = nums.length;
+        int size = n;
+
+        int prev = nums[0];
+        int uIdx = 0;// unique index element
+
+        for (int i = 1; i < n; i++) {
+            int curr = nums[i];
+
+            if (prev != curr) {
+                // unique elemnt found
+                nums[uIdx] = prev;
+                uIdx++;
+            } else {
+                size--;
+            }
+            prev = curr;
+        }
+
+        // adding the previous element
+        nums[uIdx] = prev;
+
+        printArray(nums);
+        System.out.println();
+
+        return size;
+    }
+
     public static void main(String[] args) {
         // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
         // printBuildingHeight(heights);
@@ -192,9 +225,13 @@ public class Main {
 
         // subTwoArrays(arr1, arr2);
 
-        int[] arr = { 1, 2, 3, 4, 5 };
+        // int[] arr = { 1, 2, 3, 4, 5 };
 
-        // reverseArray1(arr);
-        reverseArray2(arr);
+        // // reverseArray1(arr);
+        // reverseArray2(arr);
+
+        int[] nums = { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
+
+        System.out.println(removeDuplicates(nums));
     }
 }
