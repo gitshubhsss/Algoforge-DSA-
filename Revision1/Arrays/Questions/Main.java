@@ -211,6 +211,42 @@ public class Main {
         return size;
     }
 
+    /// Leetcode 189 (Rotate array)
+    /// https://leetcode.com/problems/rotate-array/description/
+
+    public static void rotate(int[] nums, int k) {
+
+        int n = nums.length;
+
+        // find k which is really important
+        k = k % n;
+        if (k < 0) {
+            k = k + n;
+        }
+
+        // A'
+        swap(nums, 0, n - k - 1);
+
+        // B'
+        swap(nums, n - k, n - 1);
+
+        // AB'
+        swap(nums, 0, n - 1);
+
+        printArray(nums);
+
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        while (i < j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
+    }
+
     public static void main(String[] args) {
         // int[] heights = { 3, 5, 1, 4, 2, 8, 9 };
         // printBuildingHeight(heights);
@@ -230,8 +266,12 @@ public class Main {
         // // reverseArray1(arr);
         // reverseArray2(arr);
 
-        int[] nums = { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
+        // int[] nums = { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
 
-        System.out.println(removeDuplicates(nums));
+        // System.out.println(removeDuplicates(nums));
+
+        int[] nums = { 1, 2, 3, 4, 5, 6, 7 };
+
+        rotate(nums, 3);
     }
 }
