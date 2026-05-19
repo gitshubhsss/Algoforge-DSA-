@@ -227,6 +227,7 @@ class LinkedList {
             System.out.println("cant reverse");
             return;
         }
+        
         int i = 0;// start
 
         int j = size - 1;

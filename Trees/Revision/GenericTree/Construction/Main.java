@@ -27,7 +27,7 @@ public class Main {
           st.pop();
         }
       } else {
-        //create the new TreeNode
+        // create the new TreeNode
         TreeNode newNode = new TreeNode(data);
 
         if (st.size() == 0) {
@@ -88,30 +88,30 @@ public class Main {
 
   public static void main(String[] args) {
     int arr[] = {
-      10,
-      20,
-      50,
-      -1,
-      60,
-      -1,
-      -1,
-      30,
-      70,
-      -1,
-      -1,
-      40,
-      80,
-      -1,
-      90,
-      110,
-      -1,
-      120,
-      -1,
-      -1,
-      100,
-      -1,
-      -1,
-      -1,
+        10,
+        20,
+        50,
+        -1,
+        60,
+        -1,
+        -1,
+        30,
+        70,
+        -1,
+        -1,
+        40,
+        80,
+        -1,
+        90,
+        110,
+        -1,
+        120,
+        -1,
+        -1,
+        100,
+        -1,
+        -1,
+        -1,
     };
 
     TreeNode root = buildTree(arr);

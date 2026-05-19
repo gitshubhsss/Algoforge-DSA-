@@ -15,11 +15,11 @@ class Main {
     if (si >= ei) {
       return null;
     }
-    //find the middle wala element
+    // find the middle wala element
 
     int mid = (si + ei) / 2;
 
-    //make the new TreeNode
+    // make the new TreeNode
     TreeNode root = new TreeNode(arr[mid]);
 
     root.left = buildBST(arr, si, mid - 1);
@@ -33,12 +33,11 @@ class Main {
       return;
     }
 
-    String bstString =
-      (root.left == null ? "." : root.left.data) +
-      " <-- " +
-      root.data +
-      " --> " +
-      (root.right == null ? "." : root.right.data);
+    String bstString = (root.left == null ? "." : root.left.data) +
+        " <-- " +
+        root.data +
+        " --> " +
+        (root.right == null ? "." : root.right.data);
 
     System.out.println(bstString);
 

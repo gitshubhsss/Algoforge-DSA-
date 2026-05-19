@@ -17,6 +17,7 @@ public class Questions {
         if (st.peek() == '(') {
           return true;
         }
+
         while (st.peek() != '(') {
           st.pop();
         }
@@ -520,10 +521,8 @@ public class Questions {
         }
         operators.pop();
       } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-        while (
-          operators.size() > 0 &&
-          checkPrecedence(operators.peek()) >= checkPrecedence(ch)
-        ) {
+        while (operators.size() > 0 &&
+            checkPrecedence(operators.peek()) >= checkPrecedence(ch)) {
           char op = operators.pop();
 
           int ans = evalute(op, operands.pop(), operands.pop());
@@ -550,7 +549,7 @@ public class Questions {
     return operands.peek();
   }
 
-  //https://leetcode.com/problems/merge-intervals/
+  // https://leetcode.com/problems/merge-intervals/
   class Pair {
 
     int startTime;
@@ -563,10 +562,11 @@ public class Questions {
     }
   }
 
-  //{{1,3},{2,5},{4,5},{9,10},{11,15},{4,13}}
+  // {{1,3},{2,5},{4,5},{9,10},{11,15},{4,13}}
   public int[][] merge(int[][] intervals) {
     Arrays.sort(intervals, (int[] a, int[] b) -> {
-      if (a[0] == b[0]) {}
+      if (a[0] == b[0]) {
+      }
 
       return a[0] - b[0]; // increasing order on the basis of 0th index, for decreasing b[0] - a[0];
     });
@@ -575,7 +575,7 @@ public class Questions {
 
     Pair[] timeIntervals = new Pair[n];
 
-    //loop on the sorted array
+    // loop on the sorted array
     for (int i = 0; i < n; i++) {
       timeIntervals[i] = new Pair(intervals[i][0], intervals[i][1]);
     }
@@ -605,7 +605,7 @@ public class Questions {
     return ans;
   }
 
-  ///https://leetcode.com/problems/min-stack/
+  /// https://leetcode.com/problems/min-stack/
   class MinStack {
 
     Stack<Integer> ogStack;
@@ -646,7 +646,7 @@ public class Questions {
     }
   }
 
-  ///Leetcode 503
+  /// Leetcode 503
   public int[] nextGreaterElements(int[] nums) {
     int n = nums.length;
 
@@ -670,7 +670,7 @@ public class Questions {
     return ngr;
   }
 
-  //Leetcode 921
+  // Leetcode 921
   public int minAddToMakeValid(String s) {
     int extra_opening_bracket = 0;
     int opening_bracket_req = 0;
@@ -692,9 +692,9 @@ public class Questions {
     return extra_opening_bracket + opening_bracket_req;
   }
 
-  //letcoe 946,1021,1541===>Homework
+  // letcoe 946,1021,1541===>Homework
 
-  //Leetcode 678
+  // Leetcode 678
   public boolean checkValidString(String s) {
     int min = 0;
     int max = 0;
@@ -709,8 +709,8 @@ public class Questions {
         max--;
         min--;
       } else if (ch == '*') {
-        max++; //consider star as opening
-        min--; //consider star as closing
+        max++; // consider star as opening
+        min--; // consider star as closing
       }
 
       if (max < 0) {
@@ -725,11 +725,12 @@ public class Questions {
     return min == 0;
   }
 
-  //Leetcode 856
+  // Leetcode 856
 
-  public int scoreOfParentheses(String s) {}
+  public int scoreOfParentheses(String s) {
+  }
 
-  //Leetcode 456.
+  // Leetcode 456.
   public boolean find132pattern(int[] nums) {
     int n = nums.length;
 
@@ -744,12 +745,12 @@ public class Questions {
     }
 
     Stack<Integer> possibleValues = new Stack<>();
-    possibleValues.push(nums[n - 1]); //pushing the last eleent
+    possibleValues.push(nums[n - 1]); // pushing the last eleent
 
     for (int j = n - 2; j >= 0; j--) {
       min = minSoFar[j];
 
-      //remove lesser that equal to minimum values
+      // remove lesser that equal to minimum values
 
       while (possibleValues.size() > 0 && min >= possibleValues.peek()) {
         possibleValues.pop();
@@ -765,9 +766,9 @@ public class Questions {
     return false;
   }
 
-  //HomeWork
-  //Leetcode 735
-  //3,5,-6,2,-1,4
+  // HomeWork
+  // Leetcode 735
+  // 3,5,-6,2,-1,4
   public int[] asteroidCollision(int[] asteroids) {
     Stack<Integer> st = new Stack<>();
 
@@ -775,21 +776,21 @@ public class Questions {
       int val = asteroids[i];
 
       if (val > 0) {
-        st.push(val); //3-6,2
+        st.push(val); // 3-6,2
       } else {
         boolean pushNegative = true;
 
         while (st.size() > 0 && st.peek() > 0) {
           if (st.peek() > -(val)) {
-            //push nahi karenge
+            // push nahi karenge
             pushNegative = false;
             break;
           } else if (st.peek() < -(val)) {
-            st.pop(); //3
+            st.pop(); // 3
           } else {
-            //equal case
+            // equal case
             st.pop();
-            pushNegative = false; //push nahi karenge
+            pushNegative = false; // push nahi karenge
             break;
           }
         }
@@ -807,7 +808,7 @@ public class Questions {
     return ans;
   }
 
-  ///Leetcode 402. Remove K Digits
+  /// Leetcode 402. Remove K Digits
   public String removeKdigits(String num, int k) {
     // StringBuilder ans = new StringBuilder();
 
@@ -845,7 +846,7 @@ public class Questions {
     return sb.length() == 0 ? "0" : sb.toString();
   }
 
-  ///Bruit force approch Leetcode 42. Trapping Rain Water
+  /// Bruit force approch Leetcode 42. Trapping Rain Water
   public int trap(int[] height) {
     int n = height.length;
 
@@ -873,7 +874,7 @@ public class Questions {
     return totalWater;
   }
 
-  ///Using stack
+  /// Using stack
   public int trap(int[] height) {
     Stack<Integer> st = new Stack<>();
 
@@ -902,8 +903,7 @@ public class Questions {
     return totalWater;
   }
 
-
-  //O 1 SPACE
+  // O 1 SPACE
   public int trap(int[] height) {
     int n = height.length;
 
@@ -930,9 +930,8 @@ public class Questions {
     return totalWater;
   }
 
-
-//HOMEWORK
-   public int[] maxSlidingWindow(int[] nums, int k) {
+  // HOMEWORK
+  public int[] maxSlidingWindow(int[] nums, int k) {
 
         int n = nums.length;
 

@@ -106,7 +106,6 @@ class DiameterQuestions {
 
     return maximumDiamter[0];
   }
-
   public static TreeNode buildTree(Integer[] arr) {
     Stack<Pair> st = new Stack<>();
 
