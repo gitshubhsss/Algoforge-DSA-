@@ -48,6 +48,34 @@ class Main {
 
     }
 
+    class Solution2657 {
+        class Solution {
+
+            public int[] findThePrefixCommonArray(int[] A, int[] B) {
+                HashSet<Integer> set = new HashSet<>();
+
+                int[] ans = new int[A.length];
+
+                for (int i = 0; i < A.length; i++) {
+                    int count = 0;
+                    set.add(B[i]);
+                    // 3
+                    for (int j = 0; j <= i; j++) {
+                        if (set.contains(A[j])) {
+                            count++;
+                        }
+                    }
+
+                    ans[i] = count;
+
+                }
+
+                return ans;
+
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
     }
