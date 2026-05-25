@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 class Main {
@@ -108,6 +110,118 @@ class Main {
             return -1;
         }
 
+    }
+
+    /// Contest 183
+    class Solution {
+        public int minimumSwaps(int[] nums) {
+
+            int swapCount = 0;
+            int n = nums.length;
+            int j = n - 1;
+
+            for (int i = 0; i < n; i++) {
+                // find the last non zero index;
+                while (nums[j] == 0 && i < j) {
+                    j--;
+                }
+
+                if (nums[i] == 0 && nums[j] != 0 && i < j) {// swap zero with non zero index;
+                    int temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                    swapCount++;
+                    j--;
+                }
+
+            }
+            return swapCount;
+        }
+    }
+
+    class Solution58 {
+        public int lengthOfLastWord(String s) {
+
+            int n = s.length();
+            int length = 0;
+            boolean hasChar = false;
+
+            for (int i = n - 1; i >= 0; i--) {
+
+                if (s.charAt(i) != ' ') {
+                    length++;
+                    hasChar = true;
+                } else if (hasChar) {
+                    return length;
+                }
+
+            }
+            return length;
+
+        }
+    }
+
+    class Solution3941 {
+        public int passwordStrength(String password) {
+
+            HashSet<Character> set = new HashSet<>();
+
+            int n = password.length();
+
+            for (int i = 0; i < n; i++) {
+                set.add(password.charAt(i));
+            }
+
+            int strength = 0;
+
+            for (char c : set) {
+                if (c >= 'a' && c <= 'z') {
+                    strength += 1;
+                } else if (c >= 'A' && c <= 'Z') {
+                    strength += 2;
+                } else if (c >= '0' && c <= '9') {
+                    strength += 3;
+                } else {
+                    strength += 5;
+                }
+
+            }
+
+            return strength;
+        }
+    }
+
+    class Solution3940 {
+        public int[] limitOccurrences(int[] nums, int k) {
+
+            ArrayList<Integer> list = new ArrayList<>();
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+
+            for (int i = 0; i < nums.length; i++) {
+                int ele = nums[i];
+
+                if (map.containsKey(ele) == false) {
+                    map.put(ele, 1);
+                    list.add(ele);
+                } else {
+                    // get older frequency which should be less than k
+                    int olderFreq = map.get(ele);
+                    if (olderFreq < k) {
+                        map.put(ele, olderFreq + 1);
+                        list.add(ele);
+                    }
+                }
+            }
+
+            int[] ans = new int[list.size()];
+
+            for (int i = 0; i < ans.length; i++) {
+                ans[i] = list.get(i);
+            }
+
+            return ans;
+        }
     }
 
     public static void main(String[] args) {

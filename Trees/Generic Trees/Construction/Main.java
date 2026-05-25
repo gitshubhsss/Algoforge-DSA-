@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+///generic tree construction here 
 class TreeNode {
 
   int data;
@@ -13,24 +14,25 @@ class TreeNode {
 }
 
 public class Main {
+  // 10,20,50,-1,60,-1,-1,30,70,-1,-1,40,80,-1,90,110,-1,120,-1,-1,100,-1,-1,-1,
 
   public static TreeNode constructTree(int dataArray[]) {
-    //why we have used the stack
+    // why we have used the stack
     Stack<TreeNode> st = new Stack<>();
-    TreeNode root = null; //root node
+    TreeNode root = null; // root node
 
     for (int i = 0; i < dataArray.length; i++) {
       int data = dataArray[i];
 
-      //-1 agar aaya to pop karo
+      // -1 agar aaya to pop karo
       if (data == -1) {
         st.pop();
       } else {
-        //create a newNode
+        // create a newNode
         TreeNode newNode = new TreeNode(data);
-        //check if size=0
+        // check if size=0
         if (st.isEmpty()) {
-          ///Initialze the root node only first time
+          /// Initialze the root node only first time
           root = newNode;
         } else {
           st.peek().children.add(newNode);
@@ -60,7 +62,7 @@ public class Main {
     int totalSize = 0;
 
     for (TreeNode child : root.children) {
-      ///Recursively calling the funtion
+      /// Recursively calling the funtion
       totalSize = totalSize + getSize(child);
     }
 
@@ -70,7 +72,7 @@ public class Main {
   public static int getMaximum(TreeNode root) {
     int treeMax = root.data;
 
-    //faith it will find the max of childen
+    // faith it will find the max of childen
     for (TreeNode child : root.children) {
       int childMax = getMaximum(child);
       treeMax = Math.max(childMax, treeMax);
@@ -96,41 +98,43 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    //data array
+    // data array
     int dataArray[] = {
-      10,
-      20,
-      50,
-      -1,
-      60,
-      -1,
-      -1,
-      30,
-      70,
-      -1,
-      -1,
-      40,
-      80,
-      -1,
-      90,
-      110,
-      -1,
-      120,
-      -1,
-      -1,
-      100,
-      -1,
-      -1,
-      -1,
+        10,
+        20,
+        50,
+        -1,
+        60,
+        -1,
+        -1,
+        30,
+        70,
+        -1,
+        -1,
+        40,
+        80,
+        -1,
+        90,
+        110,
+        -1,
+        120,
+        -1,
+        -1,
+        100,
+        -1,
+        -1,
+        -1,
     };
 
     TreeNode root = constructTree(dataArray);
 
-    System.out.println(getMaximum(root));
-    System.out.println(getSize(root));
+    display(root);
 
-    System.out.println(getMaxHeight(root));
-    // display(root);
-    System.out.println("Everything is working fine");
+    // System.out.println(getMaximum(root));
+    // System.out.println(getSize(root));
+
+    // System.out.println(getMaxHeight(root));
+    // // display(root);
+    // System.out.println("Everything is working fine");
   }
 }
