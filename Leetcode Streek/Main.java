@@ -224,6 +224,45 @@ class Main {
         }
     }
 
+   // Leetcode 3121 Count the Number of Special Characters II
+   class Solution3121 {
+    public int numberOfSpecialChars(String word) {
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+
+            if (Character.isUpperCase(ch)) {
+                if (map.containsKey(ch) == false) {
+                    map.put(ch, i);
+                } else {
+                    map.put(ch, map.get(ch));
+                }
+            } else {
+                map.put(ch, i);
+            }
+
+        }
+
+        int count = 0;
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+
+            /// converted to uppercase
+            char upper = (char) (ch - 'a' + 'A');
+
+            if (map.containsKey(ch) && map.containsKey(upper)) {//O(1)
+                if (map.get(ch) < map.get(upper)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+ 
+}
+
     public static void main(String[] args) {
 
     }
