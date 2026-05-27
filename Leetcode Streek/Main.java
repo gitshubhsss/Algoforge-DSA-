@@ -224,44 +224,77 @@ class Main {
         }
     }
 
-   // Leetcode 3121 Count the Number of Special Characters II
-   class Solution3121 {
-    public int numberOfSpecialChars(String word) {
-        HashMap<Character, Integer> map = new HashMap<>();
+    // Leetcode 3121 Count the Number of Special Characters II
+    class Solution3121 {
+        public int numberOfSpecialChars(String word) {
+            HashMap<Character, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
 
-            if (Character.isUpperCase(ch)) {
-                if (map.containsKey(ch) == false) {
-                    map.put(ch, i);
+                if (Character.isUpperCase(ch)) {
+                    if (map.containsKey(ch) == false) {
+                        map.put(ch, i);
+                    } else {
+                        map.put(ch, map.get(ch));
+                    }
                 } else {
-                    map.put(ch, map.get(ch));
+                    map.put(ch, i);
                 }
-            } else {
-                map.put(ch, i);
+
             }
 
-        }
+            int count = 0;
+            for (char ch = 'a'; ch <= 'z'; ch++) {
 
-        int count = 0;
-        for (char ch = 'a'; ch <= 'z'; ch++) {
+                /// converted to uppercase
+                char upper = (char) (ch - 'a' + 'A');
 
-            /// converted to uppercase
-            char upper = (char) (ch - 'a' + 'A');
-
-            if (map.containsKey(ch) && map.containsKey(upper)) {//O(1)
-                if (map.get(ch) < map.get(upper)) {
-                    count++;
+                if (map.containsKey(ch) && map.containsKey(upper)) {// O(1)
+                    if (map.get(ch) < map.get(upper)) {
+                        count++;
+                    }
                 }
             }
+
+            return count;
         }
 
-        return count;
     }
 
- 
-}
+    // Leetcode 510 Detect capital
+
+    class Solution510 {
+        public boolean detectCapitalUse(String word) {
+
+            boolean allCaps = true;
+            boolean allSmall = true;
+            boolean onlyFirstCaps = false;
+
+            for (int i = 0; i < word.length(); i++) {
+
+                if (i == 0) {
+                    if (Character.isUpperCase(word.charAt(0))) {
+                        onlyFirstCaps = true;
+                        continue;
+                    }
+                }
+                char ch = word.charAt(i);
+
+                if (Character.isUpperCase(ch)) {
+                    allSmall = false;
+                    onlyFirstCaps = false;
+                }
+                if (Character.isLowerCase(ch)) {
+                    allCaps = false;
+                }
+
+            }
+
+            return onlyFirstCaps ? allSmall : allSmall || allCaps;
+
+        }
+    }
 
     public static void main(String[] args) {
 
